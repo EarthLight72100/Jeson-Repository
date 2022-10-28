@@ -1,13 +1,13 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'pagetwo.dart';
+import 'pagethree.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,6 @@ class MyApp extends StatelessWidget {
 }
 
 class _RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18);
   String _value = " ";
 
@@ -45,15 +43,24 @@ class _RandomWordsState extends State<RandomWords> {
                 child: const Text('Classes'),
                 value: 'Classes'
             ),
+            DropdownMenuItem(
+                child: const Text('Calendar'),
+                value: 'Calendar'
+            ),
           ],
 
           onChanged: (String? value) {
             setState(() => _value = value!);
             if(_value == "Classes"){
-              //TODO - jump to class page; fix the next few lines
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => PageTwo(title: "My Classes")),
+              );
+            }
+            if(_value == "Calendar"){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PageThree(title: "My Calendar")),
               );
             }
           },
@@ -78,38 +85,6 @@ class _RandomWordsState extends State<RandomWords> {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  void _pushSaved() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) {
-          final tiles = _saved.map(
-                (pair) {
-              return ListTile(
-                title: Text(
-                  pair.asPascalCase,
-                  style: _biggerFont,
-                ),
-              );
-            },
-          );
-          final divided = tiles.isNotEmpty
-              ? ListTile.divideTiles(
-            context: context,
-            tiles: tiles,
-          ).toList()
-              : <Widget>[];
-
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Saved Suggestions'),
-            ),
-            body: ListView(children: divided),
-          );
-        },
       ),
     );
   }

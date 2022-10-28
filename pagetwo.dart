@@ -1,10 +1,8 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'pagethree.dart';
 
 class PageTwoState extends State<PageTwo> {
-  final _suggestions = <WordPair>[];
-  final _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18);
   String _value = " ";
 
@@ -23,6 +21,10 @@ class PageTwoState extends State<PageTwo> {
                 child: const Text('Classes'),
                 value: 'Classes'
             ),
+            DropdownMenuItem(
+                child: const Text('Calendar'),
+                value: 'Calendar'
+            ),
           ],
 
           onChanged: (String? value) {
@@ -32,6 +34,12 @@ class PageTwoState extends State<PageTwo> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RandomWords(title: "Home")),
+              );
+            }
+            if(_value == "Calendar"){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PageThree(title: "My Calendar")),
               );
             }
           },
@@ -64,38 +72,6 @@ class PageTwoState extends State<PageTwo> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _pushSaved() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) {
-          final tiles = _saved.map(
-                (pair) {
-              return ListTile(
-                title: Text(
-                  pair.asPascalCase,
-                  style: _biggerFont,
-                ),
-              );
-            },
-          );
-          final divided = tiles.isNotEmpty
-              ? ListTile.divideTiles(
-            context: context,
-            tiles: tiles,
-          ).toList()
-              : <Widget>[];
-
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Saved Suggestions'),
-            ),
-            body: ListView(children: divided),
-          );
-        },
       ),
     );
   }
