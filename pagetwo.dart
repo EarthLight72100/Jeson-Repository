@@ -8,6 +8,13 @@ class PageTwoState extends State<PageTwo> {
 
   @override
   Widget build(BuildContext context) {
+    //the width will be a media query the asks the machine what the dimensions of the screen are, then we'll steal the width
+    MediaQueryData data = MediaQuery.of(context);
+    double deviceWidth = data.size.width;
+    double deviceHeight = data.size.height;
+
+    final double split = 25;
+
     return Scaffold(
       appBar: AppBar(
         title: DropdownButton<String>(
@@ -54,11 +61,14 @@ class PageTwoState extends State<PageTwo> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: 240,
-              width: 240,
+              height: split,
+            ),
+            Container(
+              height: deviceHeight * 0.25,
+              width: deviceWidth,
               color: Colors.pink,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -68,7 +78,41 @@ class PageTwoState extends State<PageTwo> {
                   const Text("Date"),
                   const Text("Informattion:"),
                 ]
-              )
+              ),
+            ),
+            Container(
+              height: split,
+            ),
+            Container(
+              height: deviceHeight * 0.25,
+              width: deviceWidth,
+              color: Colors.pink,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Class 1'),
+                    const Text("Date"),
+                    const Text("Informattion:"),
+                  ]
+              ),
+            ),
+            Container(
+              height: split,
+            ),
+            Container(
+              height: deviceHeight * 0.25,
+              width: deviceWidth,
+              color: Colors.pink,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Class 1'),
+                    const Text("Date"),
+                    const Text("Informattion:"),
+                  ]
+              ),
             ),
           ],
         ),
