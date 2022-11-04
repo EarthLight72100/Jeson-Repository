@@ -13,6 +13,7 @@ class PageTwoState extends State<PageTwo> {
     double deviceWidth = data.size.width;
     double deviceHeight = data.size.height;
 
+    const Key centerKey = ValueKey<String>('bottom-sliver-list');
     final double split = 25;
 
     return Scaffold(
@@ -59,65 +60,28 @@ class PageTwoState extends State<PageTwo> {
           ]
 
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              height: split,
-            ),
-            Container(
-              height: deviceHeight * 0.25,
-              width: deviceWidth,
-              color: Colors.pink,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Class 1'),
-                  const Text("Date"),
-                  const Text("Informattion:"),
-                ]
-              ),
-            ),
-            Container(
-              height: split,
-            ),
-            Container(
-              height: deviceHeight * 0.25,
-              width: deviceWidth,
-              color: Colors.pink,
-              child: Column(
+      body: SingleChildScrollView(
+          child: Column(
+            children :<Widget>[
+              Container(
+                height: deviceHeight * 0.25,
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                width: deviceWidth,
+                color: Colors.pink,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Class 1'),
                     const Text("Date"),
-                    const Text("Informattion:"),
-                  ]
+                    const Text("Information:"),
+                  ],
+                ),
               ),
-            ),
-            Container(
-              height: split,
-            ),
-            Container(
-              height: deviceHeight * 0.25,
-              width: deviceWidth,
-              color: Colors.pink,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Class 1'),
-                    const Text("Date"),
-                    const Text("Informattion:"),
-                  ]
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
   }
 }
 
