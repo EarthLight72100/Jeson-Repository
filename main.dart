@@ -35,6 +35,8 @@ class _RandomWordsState extends State<RandomWords> {
     double deviceWidth = data.size.width;
     double deviceHeight = data.size.height;
 
+    double containerHeightRatio = 0.25;
+
     return Scaffold(
       appBar: AppBar(
         title: DropdownButton<String>(
@@ -89,7 +91,7 @@ class _RandomWordsState extends State<RandomWords> {
                   ),
                   Container(
                     color: Colors.white,
-                    height: deviceHeight * 0.25,
+                    height: deviceHeight * containerHeightRatio,
                     width: deviceWidth * 0.9,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,8 +107,8 @@ class _RandomWordsState extends State<RandomWords> {
                     style: TextStyle(fontSize: 24),
                   ),
                   Container(
-                      color: Colors.white,
-                      height: deviceHeight * 0.25,
+                      color: Color(0xffa80e0e),
+                      height: deviceHeight * containerHeightRatio,
                       width: deviceWidth * 0.9,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -124,7 +126,7 @@ class _RandomWordsState extends State<RandomWords> {
                   ),
                   Container(
                       color: Colors.white,
-                      height: deviceHeight * 0.25,
+                      height: deviceHeight * containerHeightRatio,
                       width: deviceWidth * 0.9,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
