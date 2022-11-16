@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'pagetwo.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 //Event class used from https://github.com/aleksanderwozniak/table_calendar/blob/master/example/lib/utils.dart
 class Event {
@@ -14,25 +15,6 @@ class Event {
 }
 
 class PageThreeState extends State<PageThree>{
-<<<<<<< Updated upstream
-  final _biggerFont = const TextStyle(fontSize: 18);
-  String _value = " ";
-
-  // In this example, the restoration ID for the mixin is passed in through
-  // the [StatefulWidget]'s constructor.
-  final RestorableDateTime _selectedDate =
-  RestorableDateTime(DateTime(2021, 7, 25));
-  late final RestorableRouteFuture<DateTime?> _restorableDatePickerRouteFuture =
-  RestorableRouteFuture<DateTime?>(
-    onComplete: _selectDate,
-    onPresent: (NavigatorState navigator, Object? arguments) {
-      return navigator.restorablePush(
-        _datePickerRoute,
-        arguments: _selectedDate.value.millisecondsSinceEpoch,
-      );
-    },
-  );
-=======
   late final ValueNotifier<List<Event>> _selectedEvents;
   var _value = " ";
   var _calendarFormat = CalendarFormat.month;
@@ -73,39 +55,7 @@ class PageThreeState extends State<PageThree>{
       _selectedEvents.value = GetEventsForDay(selectedDay);
     }
   }
->>>>>>> Stashed changes
-
-  static Route<DateTime> _datePickerRoute(
-    BuildContext context,
-    Object? arguments,)
-  {
-    return DialogRoute<DateTime>(
-      context: context,
-      builder: (BuildContext context) {
-        return DatePickerDialog(
-          restorationId: 'date_picker_dialog',
-          initialEntryMode: DatePickerEntryMode.calendarOnly,
-          initialDate: DateTime.fromMillisecondsSinceEpoch(arguments! as int),
-          firstDate: DateTime(2021),
-          lastDate: DateTime(2022),
-        );
-      },
-    );
-  }
-
-  void _selectDate(DateTime? newSelectedDate) {
-    if (newSelectedDate != null) {
-      setState(() {
-        _selectedDate.value = newSelectedDate;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-          'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
-        ));
-      });
-    }
-  }
-
-    @override
+  @override
     Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(
@@ -144,16 +94,6 @@ class PageThreeState extends State<PageThree>{
               },
             ),
         ),
-<<<<<<< Updated upstream
-        body: Center(
-          child: OutlinedButton(
-          onPressed: () {
-            _restorableDatePickerRouteFuture.present();
-          },
-          child: const Text('Open Date Picker'),
-        ),
-      ),
-=======
         body: TableCalendar(
           firstDay: DateTime.utc(2000, 01, 01),
           lastDay: DateTime.utc(2050, 12, 31),
@@ -183,9 +123,7 @@ class PageThreeState extends State<PageThree>{
           eventLoader: (day){
             return GetEventsForDay(day);
           },
-
         ),
->>>>>>> Stashed changes
     );
   }
 }
