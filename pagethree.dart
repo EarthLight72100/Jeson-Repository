@@ -1,8 +1,20 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'pagetwo.dart';
 
+//Event class used from https://github.com/aleksanderwozniak/table_calendar/blob/master/example/lib/utils.dart
+class Event {
+  final String title;
+
+  const Event(this.title);
+
+  @override
+  String toString() => title;
+}
+
 class PageThreeState extends State<PageThree>{
+<<<<<<< Updated upstream
   final _biggerFont = const TextStyle(fontSize: 18);
   String _value = " ";
 
@@ -20,6 +32,48 @@ class PageThreeState extends State<PageThree>{
       );
     },
   );
+=======
+  late final ValueNotifier<List<Event>> _selectedEvents;
+  var _value = " ";
+  var _calendarFormat = CalendarFormat.month;
+  var _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  DateTime? _rangeStart;
+  DateTime? _rangeEnd;
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
+      .toggledOff;
+  //events = {}
+  var events = new HashMap();
+  //events[key] = value;
+  var testList = [Event("Eat Pizza"), Event("Sneeze")];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedDay = _focusedDay;
+    _selectedEvents = ValueNotifier(GetEventsForDay(_selectedDay!));
+  }
+
+  List<Event> GetEventsForDay(DateTime day) {
+    events[day] = testList;
+    return events[day] ?? [];
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    if (!isSameDay(_selectedDay, selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+        _rangeStart = null; // Important to clean those
+        _rangeEnd = null;
+        _rangeSelectionMode = RangeSelectionMode.toggledOff;
+      });
+
+      _selectedEvents.value = GetEventsForDay(selectedDay);
+    }
+  }
+>>>>>>> Stashed changes
 
   static Route<DateTime> _datePickerRoute(
     BuildContext context,
@@ -90,6 +144,7 @@ class PageThreeState extends State<PageThree>{
               },
             ),
         ),
+<<<<<<< Updated upstream
         body: Center(
           child: OutlinedButton(
           onPressed: () {
@@ -98,6 +153,39 @@ class PageThreeState extends State<PageThree>{
           child: const Text('Open Date Picker'),
         ),
       ),
+=======
+        body: TableCalendar(
+          firstDay: DateTime.utc(2000, 01, 01),
+          lastDay: DateTime.utc(2050, 12, 31),
+          focusedDay: _focusedDay,
+          calendarFormat: _calendarFormat,
+          selectedDayPredicate: (day) {
+            // Use `selectedDayPredicate` to determine which day is currently selected.
+            // If this returns true, then `day` will be marked as selected.
+
+            // Using `isSameDay` is recommended to disregard
+            // the time-part of compared DateTime objects.
+            return isSameDay(_selectedDay, day);
+          },
+          onDaySelected: _onDaySelected,
+          onFormatChanged: (format) {
+            if (_calendarFormat != format) {
+              // Call `setState()` when updating calendar format
+              setState(() {
+                _calendarFormat = format;
+              });
+            }
+          },
+          onPageChanged: (focusedDay) {
+            // No need to call `setState()` here
+            _focusedDay = focusedDay;
+          },
+          eventLoader: (day){
+            return GetEventsForDay(day);
+          },
+
+        ),
+>>>>>>> Stashed changes
     );
   }
 }
