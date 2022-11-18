@@ -1,15 +1,60 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'pagetwo.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+//Event class used from https://github.com/aleksanderwozniak/table_calendar/blob/master/example/lib/utils.dart
+class Event {
+  final String title;
+
+  const Event(this.title);
+
+  @override
+  String toString() => title;
+}
+
 class PageThreeState extends State<PageThree>{
-  String _value = " ";
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
+  late final ValueNotifier<List<Event>> _selectedEvents;
+  var _value = " ";
+  var _calendarFormat = CalendarFormat.month;
+  var _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  DateTime? _rangeStart;
+  DateTime? _rangeEnd;
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
+      .toggledOff;
+  //events = {}
+  var events = new HashMap();
+  //events[key] = value;
+  var testList = [Event("Eat Pizza"), Event("Sneeze")];
 
+  @override
+  void initState() {
+    super.initState();
 
+    _selectedDay = _focusedDay;
+    _selectedEvents = ValueNotifier(GetEventsForDay(_selectedDay!));
+  }
+
+  List<Event> GetEventsForDay(DateTime day) {
+    events[day] = testList;
+    return events[day] ?? [];
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    if (!isSameDay(_selectedDay, selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+        _rangeStart = null; // Important to clean those
+        _rangeEnd = null;
+        _rangeSelectionMode = RangeSelectionMode.toggledOff;
+      });
+
+      _selectedEvents.value = GetEventsForDay(selectedDay);
+    }
+  }
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -62,15 +107,7 @@ class PageThreeState extends State<PageThree>{
             // the time-part of compared DateTime objects.
             return isSameDay(_selectedDay, day);
           },
-          onDaySelected: (selectedDay, focusedDay) {
-            if (!isSameDay(_selectedDay, selectedDay)) {
-              // Call `setState()` when updating the selected day
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
-              });
-            }
-          },
+          onDaySelected: _onDaySelected,
           onFormatChanged: (format) {
             if (_calendarFormat != format) {
               // Call `setState()` when updating calendar format
@@ -83,8 +120,10 @@ class PageThreeState extends State<PageThree>{
             // No need to call `setState()` here
             _focusedDay = focusedDay;
           },
-
-        )
+          eventLoader: (day){
+            return GetEventsForDay(day);
+          },
+        ),
     );
   }
 }

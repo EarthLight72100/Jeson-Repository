@@ -23,40 +23,7 @@ class PageFourState extends State<PageFour>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: DropdownButton<String>(
-          value: "Calendar",
-          items: <DropdownMenuItem<String>>[
-            DropdownMenuItem(
-              child: const Text('Home'),
-              value: 'Home',
-            ),
-            DropdownMenuItem(
-                child: const Text('Classes'),
-                value: 'Classes'
-            ),
-            DropdownMenuItem(
-                child: const Text('Calendar'),
-                value: 'Calendar'
-            ),
-          ],
-
-          onChanged: (String? value) {
-            setState(() => _value = value!);
-            if(_value == "Home"){
-              //TODO - jump to class page; fix the next few lines
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RandomWords(title: "Home")),
-              );
-            }
-            if(_value == "Classes"){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PageTwo(title: "My Classes")),
-              );
-            }
-          },
-        ),
+        title: Text("Enter Course Code"),
       ),
       body: Center(
         child: Column(
