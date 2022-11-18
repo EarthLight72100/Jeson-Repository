@@ -35,7 +35,7 @@ class _RandomWordsState extends State<RandomWords> {
     double deviceWidth = data.size.width;
     double deviceHeight = data.size.height;
 
-    double containerHeightRatio = 0.25;
+    double containerHeightRatio = 0.23;
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +74,7 @@ class _RandomWordsState extends State<RandomWords> {
         ),
 
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
