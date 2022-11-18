@@ -65,7 +65,6 @@ class PageThreeState extends State<PageThree>{
       _selectedEvents.value = GetEventsForDay(selectedDay);
     }
   }
-
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -134,7 +133,6 @@ class PageThreeState extends State<PageThree>{
           eventLoader: (day){
             return GetEventsForDay(day);
           },
-
         ),
     );
   }
