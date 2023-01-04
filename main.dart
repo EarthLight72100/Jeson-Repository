@@ -131,8 +131,8 @@ class _RandomWordsState extends State<RandomWords> {
 }
 
 class RandomWords extends StatefulWidget {
-  const RandomWords({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const RandomWords({Key? key, required this.credential}) : super(key: key);
+  final credential;
 
   @override
   State<RandomWords> createState() => _RandomWordsState();
