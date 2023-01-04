@@ -43,13 +43,13 @@ class _RandomWordsState extends State<RandomWords> {
             if(_value == "Classes"){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PageTwo(title: "My Classes")),
+                MaterialPageRoute(builder: (context) => PageTwo(credential: "98765")),
               );
             }
             if(_value == "Calendar"){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PageThree(title: "My Calendar")),
+                MaterialPageRoute(builder: (context) => PageThree(credential: "98765")),
               );
             }
           },
