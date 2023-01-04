@@ -42,13 +42,13 @@ class PageTwoState extends State<PageTwo> {
               //TODO - jump to class page; fix the next few lines
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RandomWords(title: "Home")),
+                MaterialPageRoute(builder: (context) => RandomWords(credential: "98765")),
               );
             }
             if(_value == "Calendar"){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PageThree(title: "My Calendar")),
+                MaterialPageRoute(builder: (context) => PageThree(credential: "98765")),
               );
             }
           },
