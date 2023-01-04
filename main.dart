@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
 import 'pagetwo.dart';
 import 'pagethree.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Startup Name Generator',
-      theme: ThemeData(          // Add the 5 lines from here...
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFFAB63E7),
-          foregroundColor: Color(0xFFFFFFFF),
-        ),
-      ),                         // ... to here.
-      home: const RandomWords(title: 'Home'),
-    );
-  }
-}
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:math';
+import 'package:firebase_database/firebase_database.dart';
+import 'dart:async';
 
 class _RandomWordsState extends State<RandomWords> {
   final _biggerFont = const TextStyle(fontSize: 18);
@@ -35,7 +17,7 @@ class _RandomWordsState extends State<RandomWords> {
     double deviceWidth = data.size.width;
     double deviceHeight = data.size.height;
 
-    double containerHeightRatio = 0.25;
+    double containerHeightRatio = 0.23;
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +56,7 @@ class _RandomWordsState extends State<RandomWords> {
         ),
 
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

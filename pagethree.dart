@@ -19,27 +19,37 @@ class PageThreeState extends State<PageThree>{
   var _value = " ";
   var _calendarFormat = CalendarFormat.month;
   var _focusedDay = DateTime.now();
+  var _startingDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
-      .toggledOff;
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   //events = {}
-  var events = new HashMap();
+  var _events = new HashMap();
   //events[key] = value;
   var testList = [Event("Eat Pizza"), Event("Sneeze")];
+
+  //the below "getter" allows us to access the private information outside of the class
+  get events{
+    return this._events;
+  }
 
   @override
   void initState() {
     super.initState();
-
     _selectedDay = _focusedDay;
+    int id = GetID(_startingDay);
+    _events[id] = testList;
     _selectedEvents = ValueNotifier(GetEventsForDay(_selectedDay!));
   }
 
+  int GetID(DateTime day) {
+    return day.day * 1000000 + day.month * 10000 + day.year;
+  }
+
   List<Event> GetEventsForDay(DateTime day) {
-    events[day] = testList;
-    return events[day] ?? [];
+    int temp = GetID(day);
+    return _events[temp] ?? [];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
