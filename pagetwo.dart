@@ -92,8 +92,8 @@ class PageTwoState extends State<PageTwo> {
 }
 
 class PageTwo extends StatefulWidget {
-  const PageTwo({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const PageTwo({Key? key, required this.credential}) : super(key: key);
+  final credential;
 
 
   @override
