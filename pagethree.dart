@@ -139,8 +139,8 @@ class PageThreeState extends State<PageThree>{
 }
 
 class PageThree extends StatefulWidget {
-  const PageThree({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const PageThree({Key? key, required this.credential}) : super(key: key);
+  final String credential;
 
 
   @override
