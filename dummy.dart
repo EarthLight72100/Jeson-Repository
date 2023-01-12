@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 
   void setup() async{
     final database = FirebaseDatabase.instance;
-    test = database.ref("test");
+    test = database.ref("Test");
 
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -109,6 +109,7 @@ class LoginPageState extends State<LoginPage> {
   String _value = " ";
 
   void GetCredentials(emailAddress, password) async{
+    print("This one");
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailAddress,
