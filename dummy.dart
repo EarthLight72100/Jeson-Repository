@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
             print("Error: Something happened while initializing Firebase.");
             return Text("Something went wrong");
           } else if (snapshot.hasData){
-            return LoginPage(credential: '98765');
+            return LoginPage(title: '98765');
           }
           else{
             return Center(
@@ -129,7 +129,7 @@ class LoginPageState extends State<LoginPage> {
           final credentials = GetCredentials("john@real.com","cheese");
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RandomWords(credentials: credentials)),
+            MaterialPageRoute(builder: (context) => RandomWords(credential: credentials)),
           );
         }
       ),

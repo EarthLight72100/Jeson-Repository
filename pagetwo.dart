@@ -59,7 +59,7 @@ class PageTwoState extends State<PageTwo> {
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PageFour(title: "My Calendar")),
+                MaterialPageRoute(builder: (context) => PageFour(credential: "My Calendar")),
               );
             },
           )
