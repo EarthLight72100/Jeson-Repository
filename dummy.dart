@@ -9,66 +9,52 @@ import 'dart:async';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  FirebaseDatabase.instance.useDatabaseEmulator('localhost', 9000);
 
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _fireApp = Firebase.initializeApp();
-  final Future<void> _fireAuth = FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  final Future<dynamic> _fireAuth = FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   late DatabaseReference test;
 
   void setup() async{
-    final database = FirebaseDatabase.instance;
-    test = database.ref("test");
+    FirebaseDatabase database = FirebaseDatabase.instance;
+    test = database.ref();
+    final snapshot = await test.child('$test').get();
 
-    try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: "john@real.com",
-          password: "cheese"
-      );
-      print("Logged in!");
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    }
+    print(snapshot.value);
 
-    //listen to user auth changes
-    FirebaseAuth.instance
-        .authStateChanges()
-        .listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-
-    //listen to token changes
-    FirebaseAuth.instance
-        .idTokenChanges()
-        .listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-
-    //listen to user changes
-    FirebaseAuth.instance
-        .userChanges()
-        .listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
+    // try {
+    //   final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    //       email: "john@real.com",
+    //       password: "cheese"
+    //   );
+    // } on FirebaseAuthException catch (e) {
+    //   if (e.code == 'weak-password') {
+    //     print('The password provided is too weak.');
+    //   } else if (e.code == 'email-already-in-use') {
+    //     print('The account already exists for that email.');
+    //   }
+    // } catch (e) {
+    //   print(e);
+    // }
+    //
+    // try {
+    //   final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    //       email: "john@real.com",
+    //       password: "cheese"
+    //   );
+    //   print("Logged in!");
+    // } on FirebaseAuthException catch (e) {
+    //   if (e.code == 'user-not-found') {
+    //     print('No user found for that email.');
+    //   } else if (e.code == 'wrong-password') {
+    //     print('Wrong password provided for that user.');
+    //   }
+    // }
 
 
   }
@@ -108,13 +94,16 @@ class LoginPageState extends State<LoginPage> {
   final _biggerFont = const TextStyle(fontSize: 18);
   String _value = " ";
 
-  void GetCredentials(emailAddress, password) async{
+  Future<dynamic> GetCredentials(emailAddress, password) async{
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailAddress,
-        password: password
-      );
+      final credential = FirebaseAuth.instance.signInAnonymously();
+      // final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //     email: "john@real.com",
+      //     password: "cheese"
+      // );
       print("Logged in!");
+
+      return credential;
       } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -139,7 +128,11 @@ class LoginPageState extends State<LoginPage> {
       ),
       body: FloatingActionButton(
         onPressed:(){
-          GetCredentials("john@real.com","cheese");
+          final credentials = GetCredentials("john@real.com","cheese");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RandomWords(credentials: credentials)),
+          );
         }
       ),
     );
