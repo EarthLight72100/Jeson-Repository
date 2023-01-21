@@ -92,7 +92,7 @@ class PageThreeState extends State<PageThree>{
                   //TODO - jump to class page; fix the next few lines
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RandomWords(title: "Home")),
+                    MaterialPageRoute(builder: (context) => RandomWords(credentials: "Home")),
                   );
                 }
                 if(_value == "Classes"){

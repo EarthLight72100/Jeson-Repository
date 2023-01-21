@@ -17,7 +17,6 @@ Future<void> main() async{
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _fireApp = Firebase.initializeApp();
-  final Future<dynamic> _fireAuth = FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   late DatabaseReference test;
 
   void setup() async{
@@ -96,11 +95,11 @@ class LoginPageState extends State<LoginPage> {
 
   Future<dynamic> GetCredentials(emailAddress, password) async{
     try {
-      final credential = FirebaseAuth.instance.signInAnonymously();
-      // final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      //     email: "john@real.com",
-      //     password: "cheese"
-      // );
+      //final credential = FirebaseAuth.instance.signInAnonymously();
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: "john@real.com",
+          password: "cheese"
+      );
       print("Logged in!");
 
       return credential;
@@ -127,8 +126,8 @@ class LoginPageState extends State<LoginPage> {
         title: Text("Hello!"),
       ),
       body: FloatingActionButton(
-        onPressed:(){
-          final credentials = GetCredentials("john@real.com","cheese");
+        onPressed:()  async{
+          final credentials = await GetCredentials("john@real.com","cheese");
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => RandomWords(credentials: credentials)),
