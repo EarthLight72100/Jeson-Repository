@@ -92,13 +92,13 @@ class PageThreeState extends State<PageThree>{
                   //TODO - jump to class page; fix the next few lines
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RandomWords(title: "Home")),
+                    MaterialPageRoute(builder: (context) => RandomWords(credential: "98765")),
                   );
                 }
                 if(_value == "Classes"){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PageTwo(title: "My Classes")),
+                    MaterialPageRoute(builder: (context) => PageTwo(credential: "98765")),
                   );
                 }
               },
@@ -139,8 +139,8 @@ class PageThreeState extends State<PageThree>{
 }
 
 class PageThree extends StatefulWidget {
-  const PageThree({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const PageThree({Key? key, required this.credential}) : super(key: key);
+  final String credential;
 
 
   @override
