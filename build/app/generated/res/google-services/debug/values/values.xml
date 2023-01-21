@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">898562114472-d1nh40t5inbfgs7ab0h6ea0te62ibma5.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">898562114472</string>
+    <string name="google_api_key" translatable="false">AIzaSyCoyvdFFANLVrYspqmv--uK_XFvYT1xh60</string>
+    <string name="google_app_id" translatable="false">1:898562114472:android:4d6167f2504f55867d939d</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCoyvdFFANLVrYspqmv--uK_XFvYT1xh60</string>
+    <string name="google_storage_bucket" translatable="false">pizza-5e371.appspot.com</string>
+    <string name="project_id" translatable="false">pizza-5e371</string>
+</resources>

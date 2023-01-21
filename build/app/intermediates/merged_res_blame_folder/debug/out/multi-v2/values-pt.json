@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\kiana\\AndroidStudioProjects\\JesonProject\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pt\\values-pt.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\kiana\\.gradle\\caches\\transforms-2\\files-2.1\\a8e19e606fac5584f41439843943b738\\core-1.6.0\\res\\values-pt\\values-pt.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "487",
+                        "endColumns": "100",
+                        "endOffsets": "583"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\kiana\\.gradle\\caches\\transforms-2\\files-2.1\\231c7052ba61e8c4202becc80cab1667\\browser-1.4.0\\res\\values-pt\\values-pt.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,170,269,381",
+                        "endColumns": "114,98,111,105",
+                        "endOffsets": "165,264,376,482"
+                    }
+                }
+            ]
+        }
+    ]
+}
