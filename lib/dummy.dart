@@ -54,8 +54,6 @@ class MyApp extends StatelessWidget {
     //     print('Wrong password provided for that user.');
     //   }
     // }
-
-
   }
 
   @override
@@ -76,7 +74,7 @@ class MyApp extends StatelessWidget {
             print("Error: Something happened while initializing Firebase.");
             return Text("Something went wrong");
           } else if (snapshot.hasData){
-            return LoginPage(title: 'Home');
+            return LoginPage(credential: '98765');
           }
           else{
             return Center(
