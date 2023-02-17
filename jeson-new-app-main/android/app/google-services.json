@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "827106228620",
+    "project_id": "jeson-app",
+    "storage_bucket": "jeson-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827106228620:android:6327da4e2af33ddd4f7ea9",
+        "android_client_info": {
+          "package_name": "com.jeson.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827106228620-3v4kp1vcpvmod4fldo2p9siqqrookvfe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIn_HW9OZpAruKfViRP9ddfwM6x3wA6NA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827106228620-3v4kp1vcpvmod4fldo2p9siqqrookvfe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
