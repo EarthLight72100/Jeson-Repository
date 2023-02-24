@@ -148,7 +148,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-
+import 'firebase_options.dart';
 import 'login.dart';
 
 void main() {
@@ -158,7 +158,9 @@ void main() {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final Future<FirebaseApp> _fpApp = Firebase.initializeApp();
+  final Future<FirebaseApp> _fpApp = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // This widget is the root of your application.
   @override

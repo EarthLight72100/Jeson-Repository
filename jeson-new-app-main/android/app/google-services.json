@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "827106228620",
+    "firebase_url": "https://jeson-app-default-rtdb.firebaseio.com",
     "project_id": "jeson-app",
     "storage_bucket": "jeson-app.appspot.com"
   },
