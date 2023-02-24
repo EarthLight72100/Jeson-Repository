@@ -140,22 +140,22 @@ class _RandomWordsState extends State<RandomWords> {
                                 style: TextStyle(fontSize: 25),
                               ),
                             )),
-                  Text(
-                    "Calendar",
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  Container(
-                      color: Colors.white,
-                      height: deviceHeight * containerHeightRatio,
-                      width: deviceWidth * 0.9,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            //Feel free to customize the look of the font in any way you want
-                            Text("-Event 1: Date"),
-                            Text("-Event 2: Date"),
-                            Text("-Event 3: Date"),
-                          ])),
+                  // Text(
+                  //   "Calendar",
+                  //   style: TextStyle(fontSize: 24),
+                  // ),
+                  // Container(
+                  //     color: Colors.white,
+                  //     height: deviceHeight * containerHeightRatio,
+                  //     width: deviceWidth * 0.9,
+                  //     child: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.stretch,
+                  //         children: [
+                  //           //Feel free to customize the look of the font in any way you want
+                  //           Text("-Event 1: Date"),
+                  //           Text("-Event 2: Date"),
+                  //           Text("-Event 3: Date"),
+                  //         ])),
                 ],
               ),
             ),

@@ -28,15 +28,15 @@ class Signup extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  Text('Already here  ?',
+                  Text('Already here?',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },
                     child: Text(' Get Logged in Now!',
-                        style: TextStyle(fontSize: 20, color: Colors.blue)),
+                        style: TextStyle(fontSize: 16, color: Colors.blue)),
                   )
                 ],
               ),
@@ -46,9 +46,6 @@ class Signup extends StatelessWidget {
       ),
     );
   }
-
-
-
 }
 
 class SignupForm extends StatefulWidget {

@@ -11,34 +11,28 @@ class Login extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.all(8.0),
         children: <Widget>[
-
           Column(
             children: [
-              Image.asset('assets/logo.png',height: 200),
-
+              Image.asset('assets/logo.png', height: 200),
               Text(
                 'Welcome back!',
-                style: TextStyle(fontSize: 24),
+                style: const TextStyle(fontSize: 16),
               ),
             ],
           ),
-
           SizedBox(
             height: 50,
           ),
-
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: LoginForm(),
           ),
-
           SizedBox(height: 20),
-
           Row(
             children: <Widget>[
               SizedBox(width: 30),
               Text('New here ? ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               GestureDetector(
                 onTap: () {
                   // Navigator.pushNamed(context, '/signup');
@@ -46,7 +40,7 @@ class Login extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => Signup()));
                 },
                 child: Text('Get Registered Now!!',
-                    style: TextStyle(fontSize: 20, color: Colors.blue)),
+                    style: TextStyle(fontSize: 16, color: Colors.blue)),
               )
             ],
           ),
@@ -54,8 +48,6 @@ class Login extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 class LoginForm extends StatefulWidget {
@@ -146,7 +138,6 @@ class _LoginFormState extends State<LoginForm> {
             height: 54,
             width: 184,
             child: ElevatedButton(
-
               onPressed: () {
                 // Respond to button press
 
@@ -157,8 +148,12 @@ class _LoginFormState extends State<LoginForm> {
                       .signIn(email: email!, password: password!)
                       .then((result) {
                     if (result == null) {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => RandomWords(credential: null,)));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RandomWords(
+                                    credential: null,
+                                  )));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(

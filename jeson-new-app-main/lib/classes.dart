@@ -91,31 +91,34 @@ class ClassesState extends State<PageTwo> {
                 },
               )
             ]),
+
+        // (expression) ? do thing here is true : do this instead if false
         body: classes != null
             ? ListView.builder(
                 itemCount: classes!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: deviceHeight * 0.25,
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                    width: deviceWidth,
-                    color: Colors.pink,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(classes![index]['name']!),
-                          Text(classes![index]['date']!),
-                          Text("Information: ${classes![index]['info']!}",
-                              maxLines: 5),
-                        ],
-                      ),
-                    ),
-                  );
+                  return Card(
+                      color: Colors.pink,
+                      child: Container(
+                        height: deviceHeight * 0.25,
+                        margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                        width: deviceWidth,
+                        color: Colors.pink,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(classes![index]['name']!),
+                              Text(classes![index]['date']!),
+                              Text("Information: ${classes![index]['info']!}",
+                                  maxLines: 5),
+                            ],
+                          ),
+                        ),
+                      ));
                 },
-
               )
             : Center(
                 child: Column(
