@@ -61,6 +61,9 @@ class _SignupFormState extends State<SignupForm> {
   String? email;
   String? password;
 
+  String? dropdownValue = "Student";
+  var items = ["Student", "Instructor"];
+
   bool _obscureText = false;
 
   bool agree = false;
@@ -147,6 +150,20 @@ class _SignupFormState extends State<SignupForm> {
           ),
           space,
           // name
+          DropdownButton(
+              value: dropdownValue,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              items: items.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+              }),
 
           Row(
             children: <Widget>[
@@ -182,7 +199,10 @@ class _SignupFormState extends State<SignupForm> {
                   _formKey.currentState!.save();
 
                   AuthenticationHelper()
-                      .signUp(email: email!, password: password!)
+                      .signUp(
+                          email: email!,
+                          password: password!,
+                          accountType: dropdownValue!)
                       .then((result) {
                     if (result == null) {
                       Navigator.pushReplacement(

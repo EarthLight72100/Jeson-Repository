@@ -68,6 +68,13 @@ class _RandomWordsState extends State<RandomWords> {
             }
           },
         ),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.settings, color: Colors.white)),
+          IconButton(
+              onPressed: () {}, icon: Icon(Icons.settings, color: Colors.white))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
