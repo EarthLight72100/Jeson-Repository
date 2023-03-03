@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeson_flutter_app/authentication.dart';
 import 'classes.dart';
 import 'calendar.dart';
 import 'database.dart';
@@ -147,6 +148,22 @@ class _RandomWordsState extends State<RandomWords> {
                                 style: TextStyle(fontSize: 25),
                               ),
                             )),
+                  ElevatedButton(
+                    onPressed: () {
+                      AuthenticationHelper().signOut();
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/', (route) => false);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFAB63E7),
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(24.0)))),
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  )
                   // Text(
                   //   "Calendar",
                   //   style: TextStyle(fontSize: 24),
