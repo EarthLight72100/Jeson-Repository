@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/authentication.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'classes.dart';
 import 'calendar.dart';
 import 'database.dart';
@@ -41,40 +42,58 @@ class _RandomWordsState extends State<RandomWords> {
 
     return Scaffold(
       appBar: AppBar(
-        title: DropdownButton<String>(
-          value: "Home",
-          items: <DropdownMenuItem<String>>[
-            DropdownMenuItem(
-              child: const Text('Home'),
-              value: 'Home',
-            ),
-            DropdownMenuItem(child: const Text('Classes'), value: 'Classes'),
-            DropdownMenuItem(child: const Text('Calendar'), value: 'Calendar'),
-          ],
-          onChanged: (String? value) {
-            setState(() => _value = value!);
-            if (_value == "Classes") {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PageTwo(credential: "98765")),
-              ).then((value) => getCourses());
-            }
-            if (_value == "Calendar") {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CalendarPage(credential: "98765")),
-              );
-            }
-          },
-        ),
+        title: Row(children: [
+          DropdownButton<String>(
+            value: "Home",
+            items: <DropdownMenuItem<String>>[
+              DropdownMenuItem(
+                child: const Text('Home'),
+                value: 'Home',
+              ),
+              DropdownMenuItem(child: const Text('Classes'), value: 'Classes'),
+              DropdownMenuItem(
+                  child: const Text('Calendar'), value: 'Calendar'),
+            ],
+            onChanged: (String? value) {
+              setState(() => _value = value!);
+              if (_value == "Classes") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PageTwo(credential: "98765")),
+                ).then((value) => getCourses());
+              }
+              if (_value == "Calendar") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CalendarPage(credential: "98765")),
+                );
+              }
+            },
+          ),
+          SizedBox(
+            height: 45,
+            width: 45,
+            child: TextButton(
+                onPressed: () {
+                  AuthenticationHelper().signOut();
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/', (route) => false);
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(51, 189, 189, 189)),
+                child: const Icon(Icons.logout, color: Colors.white)),
+          )
+        ]),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.settings, color: Colors.white)),
+              onPressed: () {}, icon: Icon(Icons.remove, color: Colors.white)),
           IconButton(
-              onPressed: () {}, icon: Icon(Icons.settings, color: Colors.white))
+              onPressed: () {
+                Navigator.pushNamed(context, '/addcourse');
+              },
+              icon: Icon(Icons.add, color: Colors.white))
         ],
       ),
       body: SingleChildScrollView(
@@ -148,22 +167,6 @@ class _RandomWordsState extends State<RandomWords> {
                                 style: TextStyle(fontSize: 25),
                               ),
                             )),
-                  ElevatedButton(
-                    onPressed: () {
-                      AuthenticationHelper().signOut();
-                      Navigator.of(context)
-                          .pushNamedAndRemoveUntil('/', (route) => false);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFAB63E7),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(24.0)))),
-                    child: Text(
-                      'Logout',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  )
                   // Text(
                   //   "Calendar",
                   //   style: TextStyle(fontSize: 24),

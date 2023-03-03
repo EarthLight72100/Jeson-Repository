@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'routes.dart';
+import 'loading.dart';
 import 'login.dart';
 
 void main() {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: "Jeson App",
             routes: routeHolder,
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
               // Add the 5 lines from here...
               appBarTheme: const AppBarTheme(
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
             ),
           );
         }
-        return Text("Loading");
+        return const LoadingScreen();
       },
     );
 
