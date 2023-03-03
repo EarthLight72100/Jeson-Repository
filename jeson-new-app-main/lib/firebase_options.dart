@@ -47,33 +47,33 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC0yTdgrPKGTdlOk2J8U6rzUEJsI5UYrVk',
-    appId: '1:827106228620:web:73070ed0a5d5aaa64f7ea9',
-    messagingSenderId: '827106228620',
-    projectId: 'jeson-app',
-    authDomain: 'jeson-app.firebaseapp.com',
-    databaseURL: 'https://jeson-app-default-rtdb.firebaseio.com',
-    storageBucket: 'jeson-app.appspot.com',
-    measurementId: 'G-P5RQ751B13',
+    apiKey: 'AIzaSyD5Qv4SVL-Wh5-9_IuaccsHXO2osD5alTw',
+    appId: '1:96096356348:web:2199f9005a44769a379479',
+    messagingSenderId: '96096356348',
+    projectId: 'jeson-project',
+    authDomain: 'jeson-project.firebaseapp.com',
+    databaseURL: 'https://jeson-project-default-rtdb.firebaseio.com',
+    storageBucket: 'jeson-project.appspot.com',
+    measurementId: 'G-V35YV34FZT',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAIn_HW9OZpAruKfViRP9ddfwM6x3wA6NA',
-    appId: '1:827106228620:android:6327da4e2af33ddd4f7ea9',
-    messagingSenderId: '827106228620',
-    projectId: 'jeson-app',
-    databaseURL: 'https://jeson-app-default-rtdb.firebaseio.com',
-    storageBucket: 'jeson-app.appspot.com',
+    apiKey: 'AIzaSyCsBhxHaz0-X6bi3tXVlCdh3oHyolIB3-c',
+    appId: '1:96096356348:android:89d8e5e0a534f469379479',
+    messagingSenderId: '96096356348',
+    projectId: 'jeson-project',
+    databaseURL: 'https://jeson-project-default-rtdb.firebaseio.com',
+    storageBucket: 'jeson-project.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA6O9z2At-7v4SO7lPFd9bJDQbeR8S-IGg',
-    appId: '1:827106228620:ios:0499ff49b1b48c654f7ea9',
-    messagingSenderId: '827106228620',
-    projectId: 'jeson-app',
-    databaseURL: 'https://jeson-app-default-rtdb.firebaseio.com',
-    storageBucket: 'jeson-app.appspot.com',
-    iosClientId: '827106228620-6ct4fe2tdeg2t4nnp1ggaa8651grcliq.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBY2bTOJKRoDp4Y8DQNo9uW1apvasLdirg',
+    appId: '1:96096356348:ios:75d964790d3793fb379479',
+    messagingSenderId: '96096356348',
+    projectId: 'jeson-project',
+    databaseURL: 'https://jeson-project-default-rtdb.firebaseio.com',
+    storageBucket: 'jeson-project.appspot.com',
+    iosClientId: '96096356348-ug5ikbkj4t26g6k1c6jsqtgod1b1b4k0.apps.googleusercontent.com',
     iosBundleId: 'com.jeson.app.jesonFlutterApp',
   );
 }
