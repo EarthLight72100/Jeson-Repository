@@ -27,7 +27,7 @@ class ClassesState extends State<PageTwo> {
     db.getCourses().then((data) {
       if (data != null) {
         setState(() {
-          classes = data!;
+          classes = data;
         });
         print(classes);
       }

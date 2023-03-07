@@ -24,7 +24,7 @@ class _RandomWordsState extends State<RandomWords> {
     db.getCourses().then((data) {
       if (data != null) {
         setState(() {
-          classes = data!;
+          classes = data;
         });
         print(classes);
       }
