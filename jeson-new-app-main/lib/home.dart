@@ -79,11 +79,12 @@ class _RandomWordsState extends State<RandomWords> {
           print(child.key);
           // classes.add(child);
           if (child.key == "classes") {
-            var items = child.value as List<Object?>;
-            for (final item in items) {
-              DataSnapshot info = item as DataSnapshot;
-              classes.add(info);
-            }
+            var items = child.value;
+            print(items);
+            // for (final item in items) {
+            //   DataSnapshot info = item as DataSnapshot;
+            //   classes.add(info);
+            // }
           }
           setState(() {});
         }
