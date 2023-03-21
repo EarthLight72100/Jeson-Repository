@@ -7,6 +7,7 @@ import 'dart:async';
 import 'classes.dart';
 import 'calendar.dart';
 import 'database.dart';
+import 'singleton.dart';
 
 class RandomWords extends StatefulWidget {
   const RandomWords({Key? key, required this.credential}) : super(key: key);
@@ -19,6 +20,8 @@ class RandomWords extends StatefulWidget {
 class _RandomWordsState extends State<RandomWords> {
   final _biggerFont = const TextStyle(fontSize: 18);
   String _value = " ";
+
+  Singleton _singleton = Singleton();
 
   Database db = Database();
   List<Map>? courses;
@@ -79,12 +82,18 @@ class _RandomWordsState extends State<RandomWords> {
           print(child.key);
           // classes.add(child);
           if (child.key == "classes") {
-            var items = child.value;
+            var items = child.children;
             print(items);
-            // for (final item in items) {
-            //   DataSnapshot info = item as DataSnapshot;
-            //   classes.add(info);
-            // }
+            print(items.runtimeType);
+            for (final item in items) {
+              print(item.key);
+              print(item.value);
+              DatabaseReference ref =
+                FirebaseDatabase.instance.ref(item.value.toString());
+              // DataSnapshot info = ref.get("courses/${item.key}");
+              // DataSnapshot info = item as DataSnapshot;
+              // classes.add(info);
+            }
           }
           setState(() {});
         }
@@ -141,9 +150,13 @@ class _RandomWordsState extends State<RandomWords> {
         ]),
         actions: [
           IconButton(
-              onPressed: () {}, icon: Icon(Icons.remove, color: Colors.white)),
+              onPressed: () {
+                _singleton.status = "unsubscribing";
+                Navigator.pushNamed(context, '/addcourse');
+              }, icon: Icon(Icons.remove, color: Colors.white)),
           IconButton(
               onPressed: () {
+                _singleton.status = "subscribing";
                 Navigator.pushNamed(context, '/addcourse');
               },
               icon: Icon(Icons.add, color: Colors.white))
@@ -163,7 +176,7 @@ class _RandomWordsState extends State<RandomWords> {
                   SizedBox(height: SizeConfig.blockSizeVertical! * 3),
                   Text(
                     "Announcements",
-                    style: TextStyle(fontSize: 24),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                       width: SizeConfig.blockSizeHorizontal! * 93,
@@ -186,7 +199,7 @@ class _RandomWordsState extends State<RandomWords> {
                   SizedBox(height: SizeConfig.blockSizeVertical! * 3),
                   Text(
                     "Classes",
-                    style: TextStyle(fontSize: 24),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                       width: SizeConfig.blockSizeHorizontal! * 93,
@@ -274,12 +287,15 @@ class AnnouncementEntry extends StatelessWidget {
         height: 75,
         child: Card(
           color: Color.fromARGB(239, 255, 255, 255),
-          child: InkWell(
-            onTap: () {},
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text("$title, $date"), Text(description)],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {},
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text("$title, $date"), Text(description)],
+              ),
             ),
           ),
         ));
@@ -306,15 +322,18 @@ class ClassEntry extends StatelessWidget {
     }
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
-        height: 100,
+        height: 108,
         child: Card(
           color: Color.fromARGB(239, 255, 255, 255),
-          child: InkWell(
-            onTap: () {},
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text("$name, $date"), Text(description)],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {},
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text("$name, $date"), Text(description, maxLines: 4,)],
+              ),
             ),
           ),
         ));

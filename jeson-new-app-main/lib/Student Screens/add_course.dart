@@ -7,6 +7,7 @@ import 'package:jeson_flutter_app/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:jeson_flutter_app/size_config.dart';
+import 'package:jeson_flutter_app/singleton.dart';
 
 class AddCoursePage extends StatefulWidget {
   const AddCoursePage({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class AddCoursePage extends StatefulWidget {
 }
 
 class AddCourseState extends State<AddCoursePage> {
+  Singleton _singleton = Singleton();
+
   final _biggerFont = const TextStyle(fontSize: 18);
 
   final myController = TextEditingController();
@@ -85,7 +88,7 @@ class AddCourseState extends State<AddCoursePage> {
                           }
                           return null;
                         },
-                        onSaved: (val) {
+                        onChanged: (val) {
                           courseCode = val;
                         },
                       )),
@@ -145,27 +148,30 @@ class AddCourseState extends State<AddCoursePage> {
                     height: 100,
                   ),
 
-                  SizedBox(
+                  (_singleton.status == "subscribing") ? SizedBox(
                     height: 54,
                     width: 184,
                     child: ElevatedButton(
                       onPressed: () {
                         // Respond to button press
-
+                        _singleton.status = "viewing";
+                        print("Subscribing to class $courseCode");
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
                           Database db = Database();
 
-                          db.addCourse(courseCode!, date!, info!).then((value) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text(
-                                'Class added',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ));
-                          });
+                          // db.addCourse(courseCode!, date!, info!).then((value) {
+                          //   ScaffoldMessenger.of(context)
+                          //       .showSnackBar(const SnackBar(
+                          //     content: Text(
+                          //       'Class added',
+                          //       style: TextStyle(fontSize: 16),
+                          //     ),
+                          //   ));
+                          // });
+
+                          Navigator.pop(context);
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -174,7 +180,43 @@ class AddCourseState extends State<AddCoursePage> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(24.0)))),
                       child: Text(
-                        'Add course',
+                        'Subscribe',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ) : SizedBox(
+                    height: 54,
+                    width: 184,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Respond to button press
+                        _singleton.status = "viewing";
+                        print("Unsubscribing from class $courseCode");
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+
+                          Database db = Database();
+
+                          // db.addCourse(courseCode!, date!, info!).then((value) {
+                          //   ScaffoldMessenger.of(context)
+                          //       .showSnackBar(const SnackBar(
+                          //     content: Text(
+                          //       'Class added',
+                          //       style: TextStyle(fontSize: 16),
+                          //     ),
+                          //   ));
+                          // });
+
+                          Navigator.pop(context);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFAB63E7),
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(24.0)))),
+                      child: Text(
+                        'Unsubscribe',
                         style: TextStyle(fontSize: 24),
                       ),
                     ),
