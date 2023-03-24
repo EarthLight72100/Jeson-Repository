@@ -37,10 +37,12 @@ class _RandomWordsState extends State<RandomWords> {
   void getCourses() async {
     db.getCourses().then((data) {
       if (data != null) {
-        setState(() {
-          courses = data;
-        });
-        print(courses);
+        if (mounted) {
+          setState(() {
+            courses = data;
+          });
+        }
+        // print(courses);
       }
     });
   }
@@ -64,10 +66,10 @@ class _RandomWordsState extends State<RandomWords> {
       announcementsListener = ref.onValue.listen((event) async {
         for (final child in event.snapshot.children) {
           // Handle the post.
-          print("TESTING");
-          print(child.key);
+          // print("TESTING");
+          // print(child.key);
           announcements.add(child);
-          setState(() {});
+          if (mounted) setState(() {});
         }
       });
     }
@@ -78,8 +80,8 @@ class _RandomWordsState extends State<RandomWords> {
       userDataListener = ref.onValue.listen((event) async {
         for (final child in event.snapshot.children) {
           // Handle the post.
-          print("TESTING");
-          print(child.key);
+          // print("TESTING");
+          // print(child.key);
           // classes.add(child);
           if (child.key == "classes") {
             var items = child.children;
@@ -89,18 +91,18 @@ class _RandomWordsState extends State<RandomWords> {
               print(item.key);
               print(item.value);
               DatabaseReference ref =
-                FirebaseDatabase.instance.ref(item.value.toString());
+                  FirebaseDatabase.instance.ref(item.value.toString());
               // DataSnapshot info = ref.get("courses/${item.key}");
               // DataSnapshot info = item as DataSnapshot;
               // classes.add(info);
             }
           }
-          setState(() {});
+          if (mounted) setState(() {});
         }
       });
     }
 
-    // print(announcements);
+    print(courses);
 
     return Scaffold(
       appBar: AppBar(
@@ -117,7 +119,7 @@ class _RandomWordsState extends State<RandomWords> {
                   child: const Text('Calendar'), value: 'Calendar'),
             ],
             onChanged: (String? value) {
-              setState(() => _value = value!);
+              if (mounted) setState(() => _value = value!);
               // if (_value == "Classes") {
               //   Navigator.push(
               //     context,
@@ -153,7 +155,8 @@ class _RandomWordsState extends State<RandomWords> {
               onPressed: () {
                 _singleton.status = "unsubscribing";
                 Navigator.pushNamed(context, '/addcourse');
-              }, icon: Icon(Icons.remove, color: Colors.white)),
+              },
+              icon: Icon(Icons.remove, color: Colors.white)),
           IconButton(
               onPressed: () {
                 _singleton.status = "subscribing";
@@ -332,7 +335,13 @@ class ClassEntry extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text("$name, $date"), Text(description, maxLines: 4,)],
+                children: [
+                  Text("$name, $date"),
+                  Text(
+                    description,
+                    maxLines: 4,
+                  )
+                ],
               ),
             ),
           ),

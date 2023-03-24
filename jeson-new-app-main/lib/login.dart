@@ -111,9 +111,11 @@ class _LoginFormState extends State<LoginForm> {
               ),
               suffixIcon: GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _obscureText = !_obscureText;
-                  });
+                  if (mounted) {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  }
                 },
                 child: Icon(
                   _obscureText ? Icons.visibility_off : Icons.visibility,

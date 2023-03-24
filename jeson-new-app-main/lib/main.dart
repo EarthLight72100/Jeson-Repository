@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             ),
           );
         }
-        return const LoadingScreen();
+        return Container();
       },
     );
 
