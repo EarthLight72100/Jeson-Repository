@@ -9,15 +9,15 @@ import 'calendar.dart';
 import 'database.dart';
 import 'singleton.dart';
 
-class RandomWords extends StatefulWidget {
-  const RandomWords({Key? key, required this.credential}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key, required this.credential}) : super(key: key);
   final credential;
 
   @override
-  State<RandomWords> createState() => _RandomWordsState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _RandomWordsState extends State<RandomWords> {
+class _HomeScreenState extends State<HomeScreen> {
   final _biggerFont = const TextStyle(fontSize: 18);
   String _value = " ";
 
@@ -61,6 +61,9 @@ class _RandomWordsState extends State<RandomWords> {
 
     double containerHeightRatio = 0.23;
 
+    print("AAAAAA");
+    print(_singleton.userData?.child("accountType"));
+
     if (announcementsListener == null) {
       DatabaseReference ref = FirebaseDatabase.instance.ref("announcements");
       announcementsListener = ref.onValue.listen((event) async {
@@ -78,6 +81,7 @@ class _RandomWordsState extends State<RandomWords> {
       DatabaseReference ref =
           FirebaseDatabase.instance.ref(AuthenticationHelper().user.uid);
       userDataListener = ref.onValue.listen((event) async {
+        classes.clear();
         for (final child in event.snapshot.children) {
           // Handle the post.
           // print("TESTING");
@@ -92,9 +96,8 @@ class _RandomWordsState extends State<RandomWords> {
               print(item.value);
               DatabaseReference ref =
                   FirebaseDatabase.instance.ref(item.value.toString());
-              // DataSnapshot info = ref.get("courses/${item.key}");
-              // DataSnapshot info = item as DataSnapshot;
-              // classes.add(info);
+              DataSnapshot info = await ref.child("courses/${item.key}").get();
+              classes.add(info);
             }
           }
           if (mounted) setState(() {});

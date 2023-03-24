@@ -6,6 +6,7 @@ import 'package:jeson_flutter_app/database.dart';
 // import 'classes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:jeson_flutter_app/authentication.dart';
 import 'package:jeson_flutter_app/size_config.dart';
 import 'package:jeson_flutter_app/singleton.dart';
 
@@ -152,26 +153,29 @@ class AddCourseState extends State<AddCoursePage> {
                     height: 54,
                     width: 184,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Respond to button press
                         _singleton.status = "viewing";
                         print("Subscribing to class $courseCode");
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          Database db = Database();
+                          DatabaseReference ref =
+                            FirebaseDatabase.instance.ref("courses/${courseCode}");
+                          DataSnapshot info = await ref.get();
+                          print("Here are the contents: ");
+                          print(info.key);
+                          print(info.value);
 
-                          // db.addCourse(courseCode!, date!, info!).then((value) {
-                          //   ScaffoldMessenger.of(context)
-                          //       .showSnackBar(const SnackBar(
-                          //     content: Text(
-                          //       'Class added',
-                          //       style: TextStyle(fontSize: 16),
-                          //     ),
-                          //   ));
-                          // });
+                          if (info.value != null) {
+                            DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
+                            mDatabase.child(AuthenticationHelper().user.uid).update({"classes": {info.key: info.value}});
+                            Navigator.pop(context);
+                          } else {
 
-                          Navigator.pop(context);
+                          }
+
+                          
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -188,26 +192,24 @@ class AddCourseState extends State<AddCoursePage> {
                     height: 54,
                     width: 184,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Respond to button press
                         _singleton.status = "viewing";
                         print("Unsubscribing from class $courseCode");
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          Database db = Database();
+                          DatabaseReference ref =
+                            FirebaseDatabase.instance.ref("${AuthenticationHelper().user.uid}/classes/${courseCode}");
+                          DataSnapshot info = await ref.get();
 
-                          // db.addCourse(courseCode!, date!, info!).then((value) {
-                          //   ScaffoldMessenger.of(context)
-                          //       .showSnackBar(const SnackBar(
-                          //     content: Text(
-                          //       'Class added',
-                          //       style: TextStyle(fontSize: 16),
-                          //     ),
-                          //   ));
-                          // });
+                          if (info.value != null) {
+                            DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
+                            mDatabase.child(AuthenticationHelper().user.uid).update({"classes": {info.key: null}});
+                            Navigator.pop(context);
+                          } else {
 
-                          Navigator.pop(context);
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(

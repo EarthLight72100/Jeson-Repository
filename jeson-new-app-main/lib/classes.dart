@@ -63,7 +63,7 @@ class ClassesState extends State<PageTwo> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RandomWords(credential: "98765")),
+                        builder: (context) => HomeScreen(credential: "98765")),
                   );
                 }
                 if (_value == "Calendar") {

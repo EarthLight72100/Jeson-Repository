@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'authentication.dart';
-import 'home.dart';
+import 'initialization.dart';
 
 class Signup extends StatelessWidget {
   @override
@@ -208,9 +208,7 @@ class _SignupFormState extends State<SignupForm> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RandomWords(
-                                    credential: null,
-                                  )));
+                              builder: (context) => InitializationScreen()));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(

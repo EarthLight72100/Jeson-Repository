@@ -92,7 +92,7 @@ class CalendarState extends State<CalendarPage>{
                   //TODO - jump to class page; fix the next few lines
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RandomWords(credential: "98765")),
+                    MaterialPageRoute(builder: (context) => HomeScreen(credential: "98765")),
                   );
                 }
                 if(_value == "Classes"){

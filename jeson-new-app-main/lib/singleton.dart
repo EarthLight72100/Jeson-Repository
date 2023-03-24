@@ -1,3 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
+
 class Singleton {
   static final Singleton _instance = Singleton._internal();
 
@@ -6,15 +8,9 @@ class Singleton {
 
   // initialize our variables
   Singleton._internal() {
-    _userData = null;
+    // _userData = null;
   }
 
-  Map<String, dynamic>? _userData = null;
+  DataSnapshot? userData;
   String status = "viewing";
-
-  // getter
-  Map<String, dynamic>? get userData => _userData;
-
-  // setter
-  set userData(Map<String, dynamic>? value) => _userData = value;
 }

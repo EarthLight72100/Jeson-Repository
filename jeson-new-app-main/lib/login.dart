@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'authentication.dart';
 import 'home.dart';
+import 'initialization.dart';
 
 import 'signup.dart';
 
@@ -153,9 +154,7 @@ class _LoginFormState extends State<LoginForm> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RandomWords(
-                                    credential: null,
-                                  )));
+                              builder: (context) => InitializationScreen()));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(

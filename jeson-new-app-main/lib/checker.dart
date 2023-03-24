@@ -17,7 +17,7 @@ class Checker extends StatelessWidget {
     if (user == null) {
       return Login();
     } else {
-      return const RandomWords(credential: null);
+      return const HomeScreen(credential: null);
     }
 
 
