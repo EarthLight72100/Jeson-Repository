@@ -12,27 +12,30 @@ class Login extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.all(8.0),
         children: <Widget>[
+          const SizedBox(
+            height: 50,
+          ),
           Column(
             children: [
               Image.asset('assets/logo.png', height: 200),
-              Text(
+              const Text(
                 'Welcome back!',
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: LoginForm(),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             children: <Widget>[
-              SizedBox(width: 30),
-              Text('New here ? ',
+              const SizedBox(width: 30),
+              const Text('New here ? ',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               GestureDetector(
                 onTap: () {
@@ -40,7 +43,7 @@ class Login extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Signup()));
                 },
-                child: Text('Get Registered Now!!',
+                child: const Text('Get Registered Now!!',
                     style: TextStyle(fontSize: 16, color: Colors.blue)),
               )
             ],

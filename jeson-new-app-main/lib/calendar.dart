@@ -14,7 +14,7 @@ class Event {
   String toString() => title;
 }
 
-class CalendarState extends State<CalendarPage>{
+class CalendarState extends State<CalendarPage> {
   late final ValueNotifier<List<Event>> _selectedEvents;
   var _value = " ";
   var _calendarFormat = CalendarFormat.month;
@@ -30,7 +30,7 @@ class CalendarState extends State<CalendarPage>{
   var testList = [Event("Eat Pizza"), Event("Sneeze")];
 
   //the below "getter" allows us to access the private information outside of the class
-  get events{
+  get events {
     return this._events;
   }
 
@@ -65,75 +65,83 @@ class CalendarState extends State<CalendarPage>{
       _selectedEvents.value = GetEventsForDay(selectedDay);
     }
   }
+
   @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-            title: DropdownButton<String>(
-              value: "Calendar",
-              items: <DropdownMenuItem<String>>[
-                DropdownMenuItem(
-                  child: const Text('Home'),
-                  value: 'Home',
-                ),
-                DropdownMenuItem(
-                    child: const Text('Classes'),
-                    value: 'Classes'
-                ),
-                DropdownMenuItem(
-                    child: const Text('Calendar'),
-                    value: 'Calendar'
-                ),
-              ],
-
-              onChanged: (String? value) {
-                setState(() => _value = value!);
-                if(_value == "Home"){
-                  //TODO - jump to class page; fix the next few lines
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen(credential: "98765")),
-                  );
-                }
-                if(_value == "Classes"){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PageTwo(credential: "98765")),
-                  );
-                }
-              },
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: DropdownButton<String>(
+          dropdownColor: const Color(0xFFAB63E7),
+          value: "Calendar",
+          items: const <DropdownMenuItem<String>>[
+            DropdownMenuItem(
+              value: 'Home',
+              child: Text('Home',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
             ),
-        ),
-        body: TableCalendar(
-          firstDay: DateTime.utc(2000, 01, 01),
-          lastDay: DateTime.utc(2050, 12, 31),
-          focusedDay: _focusedDay,
-          calendarFormat: _calendarFormat,
-          selectedDayPredicate: (day) {
-            // Use `selectedDayPredicate` to determine which day is currently selected.
-            // If this returns true, then `day` will be marked as selected.
-
-            // Using `isSameDay` is recommended to disregard
-            // the time-part of compared DateTime objects.
-            return isSameDay(_selectedDay, day);
-          },
-          onDaySelected: _onDaySelected,
-          onFormatChanged: (format) {
-            if (_calendarFormat != format) {
-              // Call `setState()` when updating calendar format
-              setState(() {
-                _calendarFormat = format;
-              });
+            // DropdownMenuItem(
+            //     child: const Text('Classes'),
+            //     value: 'Classes'
+            // ),
+            DropdownMenuItem(
+                value: 'Calendar',
+                child: Text('Calendar',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold))),
+          ],
+          onChanged: (String? value) {
+            setState(() => _value = value!);
+            if (_value == "Home") {
+              //TODO - jump to class page; fix the next few lines
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        const HomeScreen(credential: "98765")),
+              );
             }
-          },
-          onPageChanged: (focusedDay) {
-            // No need to call `setState()` here
-            _focusedDay = focusedDay;
-          },
-          eventLoader: (day){
-            return GetEventsForDay(day);
+            // if (_value == "Classes") {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => const PageTwo(credential: "98765")),
+            //   );
+            // }
           },
         ),
+      ),
+      body: TableCalendar(
+        firstDay: DateTime.utc(2000, 01, 01),
+        lastDay: DateTime.utc(2050, 12, 31),
+        focusedDay: _focusedDay,
+        calendarFormat: _calendarFormat,
+        selectedDayPredicate: (day) {
+          // Use `selectedDayPredicate` to determine which day is currently selected.
+          // If this returns true, then `day` will be marked as selected.
+
+          // Using `isSameDay` is recommended to disregard
+          // the time-part of compared DateTime objects.
+          return isSameDay(_selectedDay, day);
+        },
+        onDaySelected: _onDaySelected,
+        onFormatChanged: (format) {
+          if (_calendarFormat != format) {
+            // Call `setState()` when updating calendar format
+            setState(() {
+              _calendarFormat = format;
+            });
+          }
+        },
+        onPageChanged: (focusedDay) {
+          // No need to call `setState()` here
+          _focusedDay = focusedDay;
+        },
+        eventLoader: (day) {
+          return GetEventsForDay(day);
+        },
+      ),
     );
   }
 }
@@ -141,7 +149,6 @@ class CalendarState extends State<CalendarPage>{
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key, required this.credential}) : super(key: key);
   final String credential;
-
 
   @override
   State<CalendarPage> createState() => CalendarState();

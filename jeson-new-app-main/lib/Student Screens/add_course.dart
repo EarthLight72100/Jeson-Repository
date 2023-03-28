@@ -40,7 +40,7 @@ class AddCourseState extends State<AddCoursePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Enter Course Code"),
+        title: const Text("Enter Course Code"),
       ),
       body: Center(
         child: Column(
@@ -55,13 +55,24 @@ class AddCourseState extends State<AddCoursePage> {
             //     ),
             //   ),
             // ),
-            Card(
-              child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    maxLines: 10,
-                  )),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical! * 50,
+              child: const Card(
+                color: Color(0xFFAB63E7),
+                child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Text(
+                        "Please enter the course code and press the button to confirm your action.",
+                        maxLines: 10,
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    )),
+              ),
             ),
             Form(
               key: _formKey,
@@ -74,12 +85,12 @@ class AddCourseState extends State<AddCoursePage> {
                       height: 75,
                       child: TextFormField(
                         // initialValue: 'Input text',
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.class_),
                           labelText: 'Enter course code',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
-                              const Radius.circular(100.0),
+                              Radius.circular(100.0),
                             ),
                           ),
                         ),
@@ -145,84 +156,90 @@ class AddCourseState extends State<AddCoursePage> {
                   //     },
                   //   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
 
-                  (_singleton.status == "subscribing") ? SizedBox(
-                    height: 54,
-                    width: 184,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        // Respond to button press
-                        _singleton.status = "viewing";
-                        print("Subscribing to class $courseCode");
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
+                  (_singleton.status == "subscribing")
+                      ? SizedBox(
+                          height: 54,
+                          width: 184,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              // Respond to button press
+                              _singleton.status = "viewing";
+                              // print("Subscribing to class $courseCode");
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
 
-                          DatabaseReference ref =
-                            FirebaseDatabase.instance.ref("courses/${courseCode}");
-                          DataSnapshot info = await ref.get();
-                          print("Here are the contents: ");
-                          print(info.key);
-                          print(info.value);
+                                DatabaseReference ref = FirebaseDatabase
+                                    .instance
+                                    .ref("courses/${courseCode}");
+                                DataSnapshot info = await ref.get();
+                                // print("Here are the contents: ");
+                                // print(info.key);
+                                // print(info.value);
 
-                          if (info.value != null) {
-                            DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
-                            mDatabase.child(AuthenticationHelper().user.uid).update({"classes": {info.key: info.value}});
-                            Navigator.pop(context);
-                          } else {
+                                if (info.value != null) {
+                                  DatabaseReference mDatabase =
+                                      FirebaseDatabase.instance.ref();
+                                  mDatabase
+                                      .child(AuthenticationHelper().user.uid)
+                                      .child("classes")
+                                      .update({info.key!: info.value}).then(
+                                          (value) => Navigator.pop(context));
+                                } else {}
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFAB63E7),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(24.0)))),
+                            child: const Text(
+                              'Subscribe',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 54,
+                          width: 184,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              // Respond to button press
+                              _singleton.status = "viewing";
+                              // print("Unsubscribing from class $courseCode");
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
 
-                          }
+                                DatabaseReference ref =
+                                    FirebaseDatabase.instance.ref(
+                                        "${AuthenticationHelper().user.uid}/classes/$courseCode");
+                                DataSnapshot info = await ref.get();
 
-                          
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFAB63E7),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(24.0)))),
-                      child: Text(
-                        'Subscribe',
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                  ) : SizedBox(
-                    height: 54,
-                    width: 184,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        // Respond to button press
-                        _singleton.status = "viewing";
-                        print("Unsubscribing from class $courseCode");
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-
-                          DatabaseReference ref =
-                            FirebaseDatabase.instance.ref("${AuthenticationHelper().user.uid}/classes/${courseCode}");
-                          DataSnapshot info = await ref.get();
-
-                          if (info.value != null) {
-                            DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
-                            mDatabase.child(AuthenticationHelper().user.uid).update({"classes": {info.key: null}});
-                            Navigator.pop(context);
-                          } else {
-
-                          }
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFAB63E7),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(24.0)))),
-                      child: Text(
-                        'Unsubscribe',
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                  ),
+                                if (info.value != null) {
+                                  DatabaseReference mDatabase =
+                                      FirebaseDatabase.instance.ref();
+                                  mDatabase
+                                      .child(AuthenticationHelper().user.uid)
+                                      .child("classes")
+                                      .update({info.key!: null}).then(
+                                          (value) => Navigator.pop(context));
+                                } else {}
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFAB63E7),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(24.0)))),
+                            child: const Text(
+                              'Unsubscribe',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                          ),
+                        ),
                 ],
               ),
             )

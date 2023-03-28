@@ -18,14 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _biggerFont = const TextStyle(fontSize: 18);
+  // final _biggerFont = const TextStyle(fontSize: 18);
   String _value = " ";
 
-  Singleton _singleton = Singleton();
+  final Singleton _singleton = Singleton();
 
   Database db = Database();
   List<Map>? courses;
-  final ScrollController _scrollbarControllerClasses = ScrollController();
+  // final ScrollController _scrollbarControllerClasses = ScrollController();
 
   @override
   void initState() {
@@ -61,12 +61,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     double containerHeightRatio = 0.23;
 
-    print("AAAAAA");
-    print(_singleton.userData?.child("accountType"));
+    // print("AAAAAA");
+    // print(_singleton.userData?.child("accountType"));
 
     if (announcementsListener == null) {
       DatabaseReference ref = FirebaseDatabase.instance.ref("announcements");
       announcementsListener = ref.onValue.listen((event) async {
+        announcements.clear();
         for (final child in event.snapshot.children) {
           // Handle the post.
           // print("TESTING");
@@ -89,11 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
           // classes.add(child);
           if (child.key == "classes") {
             var items = child.children;
-            print(items);
-            print(items.runtimeType);
+            // print(items);
+            // print(items.runtimeType);
             for (final item in items) {
-              print(item.key);
-              print(item.value);
+              // print(item.key);
+              // print(item.value);
               DatabaseReference ref =
                   FirebaseDatabase.instance.ref(item.value.toString());
               DataSnapshot info = await ref.child("courses/${item.key}").get();
@@ -105,21 +106,30 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
 
-    print(courses);
+    // print(courses);
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(children: [
           DropdownButton<String>(
+            dropdownColor: const Color(0xFFAB63E7),
             value: "Home",
-            items: <DropdownMenuItem<String>>[
+            items: const <DropdownMenuItem<String>>[
               DropdownMenuItem(
-                child: const Text('Home'),
                 value: 'Home',
+                child: Text(
+                  'Home',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
               // DropdownMenuItem(child: const Text('Classes'), value: 'Classes'),
               DropdownMenuItem(
-                  child: const Text('Calendar'), value: 'Calendar'),
+                  value: 'Calendar',
+                  child: Text('Calendar',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold))),
             ],
             onChanged: (String? value) {
               if (mounted) setState(() => _value = value!);
@@ -134,7 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CalendarPage(credential: "98765")),
+                      builder: (context) =>
+                          const CalendarPage(credential: "98765")),
                 );
               }
             },
@@ -149,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       .pushNamedAndRemoveUntil('/', (route) => false);
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(51, 189, 189, 189)),
+                    backgroundColor: const Color.fromARGB(51, 189, 189, 189)),
                 child: const Icon(Icons.logout, color: Colors.white)),
           )
         ]),
@@ -159,13 +170,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 _singleton.status = "unsubscribing";
                 Navigator.pushNamed(context, '/addcourse');
               },
-              icon: Icon(Icons.remove, color: Colors.white)),
+              icon: const Icon(Icons.remove, color: Colors.white)),
           IconButton(
               onPressed: () {
                 _singleton.status = "subscribing";
                 Navigator.pushNamed(context, '/addcourse');
               },
-              icon: Icon(Icons.add, color: Colors.white))
+              icon: const Icon(Icons.add, color: Colors.white))
         ],
       ),
       body: SingleChildScrollView(
@@ -180,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: SizeConfig.blockSizeVertical! * 3),
-                  Text(
+                  const Text(
                     "Announcements",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
@@ -194,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               // height: deviceHeight * containerHeightRatio,
                               // width: deviceWidth * 0.9,
                               child: ListView(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 left: 20, right: 20, top: 10, bottom: 10),
                             scrollDirection: Axis.vertical,
                             children: announcements
@@ -203,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .toList(),
                           )))),
                   SizedBox(height: SizeConfig.blockSizeVertical! * 3),
-                  Text(
+                  const Text(
                     "Classes",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
@@ -211,54 +222,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: SizeConfig.blockSizeHorizontal! * 93,
                       height: SizeConfig.blockSizeVertical! * 50,
                       child: Card(
-                          color: Color.fromARGB(205, 255, 255, 255),
-                          child: Container(
-                            child: ListView(
-                              padding: EdgeInsets.only(
-                                  left: 20, right: 20, top: 10, bottom: 10),
-                              scrollDirection: Axis.vertical,
-                              children: classes
-                                  .map((item) => ClassEntry(course: item))
-                                  .toList(),
-                            ),
-                            // child: courses != null
-                            //     ? Scrollbar(
-                            //         controller: _scrollbarControllerClasses,
-                            //         thumbVisibility: false,
-                            //         child: ListView.separated(
-                            //           shrinkWrap: true,
-                            //           physics: ClampingScrollPhysics(),
-                            //           itemCount: courses!.length,
-                            //           itemBuilder:
-                            //               (BuildContext context, int index) {
-                            //             return Padding(
-                            //               padding: const EdgeInsets.all(8.0),
-                            //               child: Column(
-                            //                 mainAxisAlignment:
-                            //                     MainAxisAlignment.start,
-                            //                 crossAxisAlignment:
-                            //                     CrossAxisAlignment.start,
-                            //                 children: [
-                            //                   Text(courses![index]['name']!),
-                            //                   Text(courses![index]['date']!),
-                            //                   Text(
-                            //                       "Information: ${courses![index]['info']!}",
-                            //                       maxLines: 5),
-                            //                 ],
-                            //               ),
-                            //             );
-                            //           },
-                            //           separatorBuilder:
-                            //               (BuildContext context, int index) =>
-                            //                   const Divider(),
-                            //         ),
-                            //       )
-                            //     : Center(
-                            //         child: Text(
-                            //           'No classes',
-                            //           style: TextStyle(fontSize: 25),
-                            //         ),
-                            //       )
+                          color: const Color.fromARGB(205, 255, 255, 255),
+                          child: ListView(
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, top: 10, bottom: 10),
+                            scrollDirection: Axis.vertical,
+                            children: classes
+                                .map((item) => ClassEntry(course: item))
+                                .toList(),
                           ))),
                 ],
               ),
@@ -290,9 +261,9 @@ class AnnouncementEntry extends StatelessWidget {
     }
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
-        height: 75,
+        height: 90,
         child: Card(
-          color: Color.fromARGB(239, 255, 255, 255),
+          color: const Color.fromARGB(239, 255, 255, 255),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
@@ -300,7 +271,13 @@ class AnnouncementEntry extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text("$title, $date"), Text(description)],
+                children: [
+                  Text("$title, $date"),
+                  Text(
+                    description,
+                    maxLines: 3,
+                  )
+                ],
               ),
             ),
           ),
@@ -330,7 +307,7 @@ class ClassEntry extends StatelessWidget {
         width: SizeConfig.blockSizeHorizontal! * 75,
         height: 108,
         child: Card(
-          color: Color.fromARGB(239, 255, 255, 255),
+          color: const Color.fromARGB(239, 255, 255, 255),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: InkWell(

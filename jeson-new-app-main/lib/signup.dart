@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeson_flutter_app/size_config.dart';
 import 'authentication.dart';
 import 'initialization.dart';
 
@@ -68,17 +69,17 @@ class _SignupFormState extends State<SignupForm> {
 
   bool agree = false;
 
-  final pass = new TextEditingController();
+  final pass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    var border = OutlineInputBorder(
+    var border = const OutlineInputBorder(
       borderRadius: BorderRadius.all(
-        const Radius.circular(100.0),
+        Radius.circular(100.0),
       ),
     );
 
-    var space = SizedBox(height: 10);
+    var space = const SizedBox(height: 10);
     return Form(
       key: _formKey,
       child: Column(
@@ -86,7 +87,7 @@ class _SignupFormState extends State<SignupForm> {
           // email
           TextFormField(
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email_outlined),
+                prefixIcon: const Icon(Icons.email_outlined),
                 labelText: 'Email',
                 border: border),
             validator: (value) {
@@ -108,7 +109,7 @@ class _SignupFormState extends State<SignupForm> {
             controller: pass,
             decoration: InputDecoration(
               labelText: 'Password',
-              prefixIcon: Icon(Icons.lock_outline),
+              prefixIcon: const Icon(Icons.lock_outline),
               border: border,
               suffixIcon: GestureDetector(
                 onTap: () {
@@ -137,7 +138,7 @@ class _SignupFormState extends State<SignupForm> {
           TextFormField(
             decoration: InputDecoration(
               labelText: 'Confirm Password',
-              prefixIcon: Icon(Icons.lock_outline),
+              prefixIcon: const Icon(Icons.lock_outline),
               border: border,
             ),
             obscureText: true,
@@ -150,20 +151,29 @@ class _SignupFormState extends State<SignupForm> {
           ),
           space,
           // name
-          DropdownButton(
-              value: dropdownValue,
-              icon: const Icon(Icons.keyboard_arrow_down),
-              items: items.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownValue = newValue;
-                });
-              }),
+          Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: const Color(0xFFAB63E7),
+                  borderRadius: BorderRadius.circular(10)),
+              child: DropdownButton(
+                  value: dropdownValue,
+                  dropdownColor: const Color(0xFFAB63E7),
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  items: items.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  })),
 
           Row(
             children: <Widget>[
@@ -178,14 +188,14 @@ class _SignupFormState extends State<SignupForm> {
                   value: agree,
                 ),
               ),
-              Expanded(
+              const Expanded(
                 flex: 4,
                 child: Text(
                     'By creating account, I agree to Terms & Conditions and Privacy Policy.'),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
 
@@ -213,7 +223,7 @@ class _SignupFormState extends State<SignupForm> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
                           result,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ));
                     }
@@ -221,10 +231,13 @@ class _SignupFormState extends State<SignupForm> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFAB63E7),
-                  shape: RoundedRectangleBorder(
+                  backgroundColor: const Color(0xFFAB63E7),
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(24.0)))),
-              child: Text('Sign Up'),
+              child: const Text(
+                'Sign Up',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],
