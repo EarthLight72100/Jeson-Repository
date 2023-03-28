@@ -17,10 +17,13 @@ class Login extends StatelessWidget {
           ),
           Column(
             children: [
-              Image.asset('assets/logo.png', height: 200),
+              Image.asset('assets/logo.png', height: 150),
+              const SizedBox(
+                height: 20,
+              ),
               const Text(
                 'Welcome back!',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
           ),

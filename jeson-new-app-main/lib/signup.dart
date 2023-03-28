@@ -11,13 +11,13 @@ class Signup extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             // logo
-            Image.asset('assets/logo.png', height: 200),
-            SizedBox(height: 10),
-            Text(
+            Image.asset('assets/logo.png', height: 150),
+            const SizedBox(height: 10),
+            const Text(
               'Welcome!',
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
 
             Padding(
