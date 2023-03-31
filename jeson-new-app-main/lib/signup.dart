@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/size_config.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/gestures.dart';
 import 'authentication.dart';
 import 'initialization.dart';
 
@@ -154,18 +156,19 @@ class _SignupFormState extends State<SignupForm> {
           Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                  color: const Color(0xFFAB63E7),
+                  color: Color.fromARGB(0, 255, 255, 255),
                   borderRadius: BorderRadius.circular(10)),
               child: DropdownButton(
+                  // elevation: 0,
                   value: dropdownValue,
-                  dropdownColor: const Color(0xFFAB63E7),
+                  dropdownColor: Color.fromARGB(255, 255, 255, 255),
                   icon: const Icon(Icons.keyboard_arrow_down),
                   items: items.map((String items) {
                     return DropdownMenuItem(
                       value: items,
                       child: Text(items,
                           style: const TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontWeight: FontWeight.bold)),
                     );
                   }).toList(),
@@ -188,11 +191,97 @@ class _SignupFormState extends State<SignupForm> {
                   value: agree,
                 ),
               ),
-              const Expanded(
+              // const Expanded(
+              //   flex: 4,
+              //   child: Text(
+              //       'By creating account, I agree to Terms & Conditions and Privacy Policy.'),
+              // ),
+              Expanded(
                 flex: 4,
-                child: Text(
-                    'By creating account, I agree to Terms & Conditions and Privacy Policy.'),
-              ),
+                child: Text.rich(
+                  TextSpan(children: [
+                    TextSpan(
+                      text: "By creating account, I agree to "
+                    ),
+                    TextSpan(
+                      // style: TextStyle(fontSize: 27,),
+                      children: [
+                        TextSpan(
+                            style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                            //make link blue and underline
+                            text: "Terms & Conditions",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                  //on tap code here, you can navigate to other page or URL
+                                  // String url = "https://doc-hosting.flycricket.io/amdreo-app-terms-of-use/9f38feb1-b35e-400e-8a6e-a2f052c3f76b/terms";
+                                  final Uri url =
+                                    Uri(scheme: 'https', host: 'doc-hosting.flycricket.io', path: 'amdreo-app-terms-of-use/9f38feb1-b35e-400e-8a6e-a2f052c3f76b/terms');
+                                  var urllaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
+                                  if(urllaunchable){
+                                      await launchUrl(url); //launch is from url_launcher package to launch URL
+                                  }else{
+                                    print("URL can't be launched.");
+                                  }
+                              }
+                        ),
+
+                        //more text paragraph, sentences here.
+                      ]
+                  ),
+                  TextSpan(text: " and "),
+                  TextSpan(
+                      // style: TextStyle(fontSize: 27,),
+                      children: [
+                        TextSpan(
+                            style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                            //make link blue and underline
+                            text: "Privacy Policy",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                  //on tap code here, you can navigate to other page or URL
+                                  // String url = "https://doc-hosting.flycricket.io/amdreo-app-privacy-policy/efc5e30d-864d-431c-85d0-9ceddd927402/privacy";
+                                  final Uri url =
+                                    Uri(scheme: 'https', host: 'doc-hosting.flycricket.io', path: 'amdreo-app-privacy-policy/efc5e30d-864d-431c-85d0-9ceddd927402/privacy');
+                                  var urllaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
+                                  if(urllaunchable){
+                                      await launchUrl(url); //launch is from url_launcher package to launch URL
+                                  }else{
+                                    print("URL can't be launched.");
+                                  }
+                              }
+                        ),
+
+                        //more text paragraph, sentences here.
+                      ]
+                  )
+                  ])
+                  
+              )),
+              // Text.rich(
+              //   TextSpan(
+              //       style: TextStyle(fontSize: 27,),
+              //       children: [
+              //         TextSpan(
+              //             style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+              //             //make link blue and underline
+              //             text: "Hyperlink Text",
+              //             recognizer: TapGestureRecognizer()
+              //               ..onTap = () async {
+              //                   //on tap code here, you can navigate to other page or URL
+              //                   String url = "https://doc-hosting.flycricket.io/amdreo-app-privacy-policy/efc5e30d-864d-431c-85d0-9ceddd927402/privacy";
+              //                   var urllaunchable = await canLaunch(url); //canLaunch is from url_launcher package
+              //                   if(urllaunchable){
+              //                       await launch(url); //launch is from url_launcher package to launch URL
+              //                   }else{
+              //                     print("URL can't be launched.");
+              //                   }
+              //               }
+              //         ),
+
+              //         //more text paragraph, sentences here.
+              //       ]
+              //   )
+              // )
             ],
           ),
           const SizedBox(

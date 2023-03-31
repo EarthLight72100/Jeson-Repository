@@ -5,6 +5,18 @@ import 'routes.dart';
 import 'loading.dart';
 import 'login.dart';
 
+/*
+  AMDREO APP
+
+  juhyung122000@gmail.com: send your icon to this address by end of 3/30
+
+  TITLE: AMDREO APP
+
+  Privacy Policy: https://doc-hosting.flycricket.io/amdreo-app-privacy-policy/efc5e30d-864d-431c-85d0-9ceddd927402/privacy
+
+  Terms and Conditions: https://doc-hosting.flycricket.io/amdreo-app-terms-of-use/9f38feb1-b35e-400e-8a6e-a2f052c3f76b/terms 
+ */
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());

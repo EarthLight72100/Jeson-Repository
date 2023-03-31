@@ -41,6 +41,7 @@ dependencies:
   firebase_database: ^10.0.9
   font_awesome_flutter: ^10.2.1
   table_calendar:
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:
