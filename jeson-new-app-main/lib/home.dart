@@ -261,7 +261,7 @@ class AnnouncementEntry extends StatelessWidget {
     }
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
-        height: 90,
+        height: SizeConfig.blockSizeVertical! * 10,
         child: Card(
           color: const Color.fromARGB(239, 255, 255, 255),
           child: Padding(

@@ -17,7 +17,7 @@ class Login extends StatelessWidget {
           ),
           Column(
             children: [
-              Image.asset('assets/logo.png', height: 150),
+              Image.asset('assets/amdreo_icon.png', height: 150),
               const SizedBox(
                 height: 20,
               ),

@@ -15,7 +15,7 @@ class Signup extends StatelessWidget {
           children: <Widget>[
             const SizedBox(height: 50),
             // logo
-            Image.asset('assets/logo.png', height: 150),
+            Image.asset('assets/amdreo_icon.png', height: 150),
             const SizedBox(height: 10),
             const Text(
               'Welcome!',
@@ -197,66 +197,71 @@ class _SignupFormState extends State<SignupForm> {
               //       'By creating account, I agree to Terms & Conditions and Privacy Policy.'),
               // ),
               Expanded(
-                flex: 4,
-                child: Text.rich(
-                  TextSpan(children: [
+                  flex: 4,
+                  child: Text.rich(TextSpan(children: [
+                    TextSpan(text: "By creating account, I agree to "),
                     TextSpan(
-                      text: "By creating account, I agree to "
-                    ),
-                    TextSpan(
-                      // style: TextStyle(fontSize: 27,),
-                      children: [
-                        TextSpan(
-                            style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-                            //make link blue and underline
-                            text: "Terms & Conditions",
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
+                        // style: TextStyle(fontSize: 27,),
+                        children: [
+                          TextSpan(
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline),
+                              //make link blue and underline
+                              text: "Terms & Conditions",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
                                   //on tap code here, you can navigate to other page or URL
                                   // String url = "https://doc-hosting.flycricket.io/amdreo-app-terms-of-use/9f38feb1-b35e-400e-8a6e-a2f052c3f76b/terms";
-                                  final Uri url =
-                                    Uri(scheme: 'https', host: 'doc-hosting.flycricket.io', path: 'amdreo-app-terms-of-use/9f38feb1-b35e-400e-8a6e-a2f052c3f76b/terms');
-                                  var urllaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
-                                  if(urllaunchable){
-                                      await launchUrl(url); //launch is from url_launcher package to launch URL
-                                  }else{
+                                  final Uri url = Uri(
+                                      scheme: 'https',
+                                      host: 'doc-hosting.flycricket.io',
+                                      path:
+                                          'amdreo-app-terms-of-use/9f38feb1-b35e-400e-8a6e-a2f052c3f76b/terms');
+                                  var urllaunchable = await canLaunchUrl(
+                                      url); //canLaunch is from url_launcher package
+                                  if (urllaunchable) {
+                                    await launchUrl(
+                                        url); //launch is from url_launcher package to launch URL
+                                  } else {
                                     print("URL can't be launched.");
                                   }
-                              }
-                        ),
+                                }),
 
-                        //more text paragraph, sentences here.
-                      ]
-                  ),
-                  TextSpan(text: " and "),
-                  TextSpan(
-                      // style: TextStyle(fontSize: 27,),
-                      children: [
-                        TextSpan(
-                            style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-                            //make link blue and underline
-                            text: "Privacy Policy",
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
+                          //more text paragraph, sentences here.
+                        ]),
+                    TextSpan(text: " and "),
+                    TextSpan(
+                        // style: TextStyle(fontSize: 27,),
+                        children: [
+                          TextSpan(
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline),
+                              //make link blue and underline
+                              text: "Privacy Policy",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
                                   //on tap code here, you can navigate to other page or URL
                                   // String url = "https://doc-hosting.flycricket.io/amdreo-app-privacy-policy/efc5e30d-864d-431c-85d0-9ceddd927402/privacy";
-                                  final Uri url =
-                                    Uri(scheme: 'https', host: 'doc-hosting.flycricket.io', path: 'amdreo-app-privacy-policy/efc5e30d-864d-431c-85d0-9ceddd927402/privacy');
-                                  var urllaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
-                                  if(urllaunchable){
-                                      await launchUrl(url); //launch is from url_launcher package to launch URL
-                                  }else{
+                                  final Uri url = Uri(
+                                      scheme: 'https',
+                                      host: 'doc-hosting.flycricket.io',
+                                      path:
+                                          'amdreo-app-privacy-policy/efc5e30d-864d-431c-85d0-9ceddd927402/privacy');
+                                  var urllaunchable = await canLaunchUrl(
+                                      url); //canLaunch is from url_launcher package
+                                  if (urllaunchable) {
+                                    await launchUrl(
+                                        url); //launch is from url_launcher package to launch URL
+                                  } else {
                                     print("URL can't be launched.");
                                   }
-                              }
-                        ),
+                                }),
 
-                        //more text paragraph, sentences here.
-                      ]
-                  )
-                  ])
-                  
-              )),
+                          //more text paragraph, sentences here.
+                        ])
+                  ]))),
               // Text.rich(
               //   TextSpan(
               //       style: TextStyle(fontSize: 27,),
