@@ -75,7 +75,7 @@ class AddCourseState extends State<AddCoursePage> {
                     )),
               ),
             ),
-            
+
             Form(
               key: _formKey,
               child: Column(
@@ -159,7 +159,7 @@ class AddCourseState extends State<AddCoursePage> {
                   //   ),
 
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical! * 3,
+                    height: SizeConfig.blockSizeVertical,
                   ),
 
                   (_singleton.status == "subscribing")

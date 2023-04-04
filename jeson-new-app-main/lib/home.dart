@@ -120,156 +120,175 @@ class _HomeScreenState extends State<HomeScreen> {
     //   print("Instructor");
     // }
 
-    return (_singleton.accountType == "Student") ? Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(children: [
-          DropdownButton<String>(
-            dropdownColor: const Color(0xFFAB63E7),
-            value: "Home",
-            items: const <DropdownMenuItem<String>>[
-              DropdownMenuItem(
-                value: 'Home',
-                child: Text(
-                  'Home',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+    return (_singleton.accountType == "Student")
+        ? Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              title: Row(children: [
+                DropdownButton<String>(
+                  dropdownColor: const Color(0xFFAB63E7),
+                  value: "Home",
+                  items: const <DropdownMenuItem<String>>[
+                    DropdownMenuItem(
+                      value: 'Home',
+                      child: Text(
+                        'Home',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    // DropdownMenuItem(child: const Text('Classes'), value: 'Classes'),
+                    DropdownMenuItem(
+                        value: 'Calendar',
+                        child: Text('Calendar',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold))),
+                  ],
+                  onChanged: (String? value) {
+                    if (mounted) setState(() => _value = value!);
+                    // if (_value == "Classes") {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => PageTwo(credential: "98765")),
+                    //   ).then((value) => getCourses());
+                    // }
+                    if (_value == "Calendar") {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CalendarPage(credential: "98765")),
+                      );
+                    }
+                  },
                 ),
-              ),
-              // DropdownMenuItem(child: const Text('Classes'), value: 'Classes'),
-              DropdownMenuItem(
-                  value: 'Calendar',
-                  child: Text('Calendar',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold))),
-            ],
-            onChanged: (String? value) {
-              if (mounted) setState(() => _value = value!);
-              // if (_value == "Classes") {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => PageTwo(credential: "98765")),
-              //   ).then((value) => getCourses());
-              // }
-              if (_value == "Calendar") {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const CalendarPage(credential: "98765")),
-                );
-              }
-            },
-          ),
-          SizedBox(
-            height: 45,
-            width: 45,
-            child: TextButton(
-                onPressed: () {
-                  AuthenticationHelper().signOut();
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/', (route) => false);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(51, 189, 189, 189)),
-                child: const Icon(Icons.logout, color: Colors.white)),
-          )
-        ]),
-        actions: [
-          IconButton(
-              onPressed: () {
-                _singleton.status = "unsubscribing";
-                Navigator.pushNamed(context, '/addcourse');
-              },
-              icon: const Icon(Icons.remove, color: Colors.white)),
-          IconButton(
-              onPressed: () {
-                _singleton.status = "subscribing";
-                Navigator.pushNamed(context, '/addcourse');
-              },
-              icon: const Icon(Icons.add, color: Colors.white))
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              color: Colors.black12,
-              height: deviceHeight - 80,
-              width: deviceWidth,
+                SizedBox(
+                  height: 45,
+                  width: 45,
+                  child: TextButton(
+                      onPressed: () {
+                        AuthenticationHelper().signOut();
+                        Navigator.of(context)
+                            .pushNamedAndRemoveUntil('/', (route) => false);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(51, 189, 189, 189)),
+                      child: const Icon(Icons.logout, color: Colors.white)),
+                )
+              ]),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      _singleton.status = "unsubscribing";
+                      Navigator.pushNamed(context, '/addcourse');
+                    },
+                    icon: const Icon(Icons.remove, color: Colors.white)),
+                IconButton(
+                    onPressed: () {
+                      _singleton.status = "subscribing";
+                      Navigator.pushNamed(context, '/addcourse');
+                    },
+                    icon: const Icon(Icons.add, color: Colors.white))
+              ],
+            ),
+            body: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: SizeConfig.blockSizeVertical! * 3),
-                  const Text(
-                    "Announcements",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  Container(
+                    color: Colors.black12,
+                    height: deviceHeight - 80,
+                    width: deviceWidth,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: SizeConfig.blockSizeVertical! * 3),
+                        const Text(
+                          "Announcements",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                            width: SizeConfig.blockSizeHorizontal! * 93,
+                            height: SizeConfig.blockSizeVertical! * 20,
+                            child: Card(
+                                color: Color.fromARGB(205, 255, 255, 255),
+                                child: Container(
+                                    // color: Colors.white,
+                                    // height: deviceHeight * containerHeightRatio,
+                                    // width: deviceWidth * 0.9,
+                                    child: ListView(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, top: 10, bottom: 10),
+                                  scrollDirection: Axis.vertical,
+                                  children: announcements
+                                      .map((item) =>
+                                          AnnouncementEntry(announcement: item))
+                                      .toList(),
+                                )))),
+                        SizedBox(height: SizeConfig.blockSizeVertical! * 3),
+                        const Text(
+                          "Classes",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                            width: SizeConfig.blockSizeHorizontal! * 93,
+                            height: SizeConfig.blockSizeVertical! * 50,
+                            child: Card(
+                                color: const Color.fromARGB(205, 255, 255, 255),
+                                child: ListView(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, top: 10, bottom: 10),
+                                  scrollDirection: Axis.vertical,
+                                  children: classes
+                                      .map((item) => ClassEntry(course: item))
+                                      .toList(),
+                                ))),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                      width: SizeConfig.blockSizeHorizontal! * 93,
-                      height: SizeConfig.blockSizeVertical! * 20,
-                      child: Card(
-                          color: Color.fromARGB(205, 255, 255, 255),
-                          child: Container(
-                              // color: Colors.white,
-                              // height: deviceHeight * containerHeightRatio,
-                              // width: deviceWidth * 0.9,
-                              child: ListView(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 10, bottom: 10),
-                            scrollDirection: Axis.vertical,
-                            children: announcements
-                                .map((item) =>
-                                    AnnouncementEntry(announcement: item))
-                                .toList(),
-                          )))),
-                  SizedBox(height: SizeConfig.blockSizeVertical! * 3),
-                  const Text(
-                    "Classes",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                      width: SizeConfig.blockSizeHorizontal! * 93,
-                      height: SizeConfig.blockSizeVertical! * 50,
-                      child: Card(
-                          color: const Color.fromARGB(205, 255, 255, 255),
-                          child: ListView(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 10, bottom: 10),
-                            scrollDirection: Axis.vertical,
-                            children: classes
-                                .map((item) => ClassEntry(course: item))
-                                .toList(),
-                          ))),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    ) : Scaffold(
-      appBar: AppBar(
-        title: Text("Courses"),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.add, color: Colors.white))
-        ],
-      ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.only(
-              left: 20, right: 20, top: 10, bottom: 10),
-          scrollDirection: Axis.vertical,
-          children: announcements
-              .map((item) =>
-                  AnnouncementEntry(announcement: item))
-              .toList(),
-        ),
-      ),
-    );
+          )
+        : Scaffold(
+            appBar: AppBar(
+              leading: SizedBox(
+                height: 45,
+                width: 45,
+                child: TextButton(
+                    onPressed: () {
+                      AuthenticationHelper().signOut();
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/', (route) => false);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(51, 189, 189, 189)),
+                    child: const Icon(Icons.logout, color: Colors.white)),
+              ),
+              title: const Text("Courses"),
+              actions: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.add, color: Colors.white))
+              ],
+            ),
+            body: SafeArea(
+              child: ListView(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
+                scrollDirection: Axis.vertical,
+                children: announcements
+                    .map((item) => AnnouncementEntry(announcement: item))
+                    .toList(),
+              ),
+            ),
+          );
   }
 }
 
@@ -382,27 +401,27 @@ class CourseEntry extends StatelessWidget {
     }
 
     return SizedBox(
-      width: SizeConfig.blockSizeHorizontal! * 75,
-      height: SizeConfig.blockSizeVertical! * 12,
-      child: Card(
-        color: const Color.fromARGB(239, 255, 255, 255),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            onTap: () {},
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("$name, $date"),
-                Text(
-                  courseCode,
-                  maxLines: 4,
-                )
-              ],
+        width: SizeConfig.blockSizeHorizontal! * 75,
+        height: SizeConfig.blockSizeVertical! * 12,
+        child: Card(
+          color: const Color.fromARGB(239, 255, 255, 255),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {},
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("$name, $date"),
+                  Text(
+                    courseCode,
+                    maxLines: 4,
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      ));
+        ));
   }
 }
