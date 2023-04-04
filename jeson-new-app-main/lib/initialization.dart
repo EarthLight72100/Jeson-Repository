@@ -28,6 +28,8 @@ class InitializationScreen extends StatelessWidget {
             // print("qwer: ${snapshot.data?.value}");
             if (snapshot.data != null) {
                 _singleton.userData = snapshot.data;
+                _singleton.accountType = snapshot.data?.child("accountType").value as String;
+                print("user is a ${_singleton.accountType}");
             }
 
             return const HomeScreen(credential: null);

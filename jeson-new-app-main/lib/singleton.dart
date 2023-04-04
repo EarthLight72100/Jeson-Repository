@@ -12,5 +12,6 @@ class Singleton {
   }
 
   DataSnapshot? userData;
+  String accountType = "Student";
   String status = "viewing";
 }

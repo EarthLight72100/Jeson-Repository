@@ -24,33 +24,34 @@ class _HomeScreenState extends State<HomeScreen> {
   final Singleton _singleton = Singleton();
 
   Database db = Database();
-  List<Map>? courses;
+  // List<Map>? courses;
   // final ScrollController _scrollbarControllerClasses = ScrollController();
 
   @override
   void initState() {
     super.initState();
 
-    getCourses();
+    // getCourses();
   }
 
-  void getCourses() async {
-    db.getCourses().then((data) {
-      if (data != null) {
-        if (mounted) {
-          setState(() {
-            courses = data;
-          });
-        }
-        // print(courses);
-      }
-    });
-  }
+  // void getCourses() async {
+  //   db.getCourses().then((data) {
+  //     if (data != null) {
+  //       if (mounted) {
+  //         setState(() {
+  //           courses = data;
+  //         });
+  //       }
+  //       // print(courses);
+  //     }
+  //   });
+  // }
 
   StreamSubscription<DatabaseEvent>? announcementsListener;
   StreamSubscription<DatabaseEvent>? userDataListener;
   List<DataSnapshot> announcements = [];
   List<DataSnapshot> classes = [];
+  Map<dynamic, dynamic> courses = {};
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
               DataSnapshot info = await ref.child("courses/${item.key}").get();
               classes.add(info);
             }
+          } else if (child.key == "courses") {
+            var items = child.children;
+            for (final item in items) {
+              // courses?.add(item);
+            }
           }
           if (mounted) setState(() {});
         }
@@ -108,7 +114,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // print(courses);
 
-    return Scaffold(
+    // if (_singleton.accountType == "Student") {
+    //   print("Student");
+    // } else {
+    //   print("Instructor");
+    // }
+
+    return (_singleton.accountType == "Student") ? Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(children: [
@@ -237,6 +249,26 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    ) : Scaffold(
+      appBar: AppBar(
+        title: Text("Courses"),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.add, color: Colors.white))
+        ],
+      ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.only(
+              left: 20, right: 20, top: 10, bottom: 10),
+          scrollDirection: Axis.vertical,
+          children: announcements
+              .map((item) =>
+                  AnnouncementEntry(announcement: item))
+              .toList(),
+        ),
+      ),
     );
   }
 }
@@ -261,7 +293,7 @@ class AnnouncementEntry extends StatelessWidget {
     }
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
-        height: SizeConfig.blockSizeVertical! * 10,
+        height: SizeConfig.blockSizeVertical! * 12,
         child: Card(
           color: const Color.fromARGB(239, 255, 255, 255),
           child: Padding(
@@ -305,7 +337,7 @@ class ClassEntry extends StatelessWidget {
     }
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
-        height: 108,
+        height: SizeConfig.blockSizeVertical! * 12,
         child: Card(
           color: const Color.fromARGB(239, 255, 255, 255),
           child: Padding(
@@ -326,5 +358,51 @@ class ClassEntry extends StatelessWidget {
             ),
           ),
         ));
+  }
+}
+
+// Instructor Cards below
+class CourseEntry extends StatelessWidget {
+  final DataSnapshot course;
+  const CourseEntry({super.key, required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    String name = "";
+    String courseCode = "";
+    String date = "";
+
+    courseCode = course.key!;
+    for (final child in course.children) {
+      if (child.key == "name") {
+        name = child.value as String;
+      } else if (child.key == "date") {
+        date = child.value as String;
+      }
+    }
+
+    return SizedBox(
+      width: SizeConfig.blockSizeHorizontal! * 75,
+      height: SizeConfig.blockSizeVertical! * 12,
+      child: Card(
+        color: const Color.fromARGB(239, 255, 255, 255),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: () {},
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("$name, $date"),
+                Text(
+                  courseCode,
+                  maxLines: 4,
+                )
+              ],
+            ),
+          ),
+        ),
+      ));
   }
 }

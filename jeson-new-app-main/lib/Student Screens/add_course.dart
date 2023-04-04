@@ -39,12 +39,13 @@ class AddCourseState extends State<AddCoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Enter Course Code"),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Padding(
             //   padding: const EdgeInsets.all(8.0),
@@ -74,6 +75,7 @@ class AddCourseState extends State<AddCoursePage> {
                     )),
               ),
             ),
+            
             Form(
               key: _formKey,
               child: Column(
@@ -157,7 +159,7 @@ class AddCourseState extends State<AddCoursePage> {
                   //   ),
 
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical! * 5,
+                    height: SizeConfig.blockSizeVertical! * 3,
                   ),
 
                   (_singleton.status == "subscribing")
@@ -174,7 +176,7 @@ class AddCourseState extends State<AddCoursePage> {
 
                                 DatabaseReference ref = FirebaseDatabase
                                     .instance
-                                    .ref("courses/${courseCode}");
+                                    .ref("courses/$courseCode");
                                 DataSnapshot info = await ref.get();
                                 // print("Here are the contents: ");
                                 // print(info.key);
@@ -240,6 +242,7 @@ class AddCourseState extends State<AddCoursePage> {
                             ),
                           ),
                         ),
+                  SizedBox(height: SizeConfig.blockSizeVertical! * 5)
                 ],
               ),
             )
