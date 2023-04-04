@@ -44,7 +44,7 @@ class AddCourseState extends State<AddCoursePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // Padding(
             //   padding: const EdgeInsets.all(8.0),
@@ -56,7 +56,7 @@ class AddCourseState extends State<AddCoursePage> {
             //   ),
             // ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical! * 50,
+              height: SizeConfig.blockSizeVertical! * 30,
               child: const Card(
                 color: Color(0xFFAB63E7),
                 child: Padding(
@@ -81,7 +81,7 @@ class AddCourseState extends State<AddCoursePage> {
                 children: <Widget>[
                   // course code
                   SizedBox(
-                      width: SizeConfig.blockSizeHorizontal! * 80,
+                      width: SizeConfig.blockSizeHorizontal! * 90,
                       height: 75,
                       child: TextFormField(
                         // initialValue: 'Input text',
@@ -156,8 +156,8 @@ class AddCourseState extends State<AddCoursePage> {
                   //     },
                   //   ),
 
-                  const SizedBox(
-                    height: 100,
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical! * 5,
                   ),
 
                   (_singleton.status == "subscribing")
