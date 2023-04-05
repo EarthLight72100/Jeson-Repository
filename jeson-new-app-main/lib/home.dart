@@ -169,14 +169,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 45,
                   child: TextButton(
                       onPressed: () {
-                        AuthenticationHelper().signOut();
-                        Navigator.of(context)
-                            .pushNamedAndRemoveUntil('/', (route) => false);
+                        Navigator.pushNamed(context, '/settings');
+                        // AuthenticationHelper().signOut();
+                        // Navigator.of(context)
+                        //     .pushNamedAndRemoveUntil('/', (route) => false);
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
                               const Color.fromARGB(51, 189, 189, 189)),
-                      child: const Icon(Icons.logout, color: Colors.white)),
+                      child: const Icon(Icons.settings, color: Colors.white)),
                 )
               ]),
               actions: [
