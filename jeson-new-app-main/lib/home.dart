@@ -51,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
   StreamSubscription<DatabaseEvent>? userDataListener;
   List<DataSnapshot> announcements = [];
   List<DataSnapshot> classes = [];
-  Map<dynamic, dynamic> courses = {};
+  // Map<dynamic, dynamic> courses = {};
+  List<DataSnapshot> courses = [];
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
           } else if (child.key == "courses") {
             var items = child.children;
             for (final item in items) {
-              // courses?.add(item);
+              courses.add(item);
+              // print(item);
+              // print(item.runtimeType);
             }
           }
           if (mounted) setState(() {});
@@ -259,23 +262,26 @@ class _HomeScreenState extends State<HomeScreen> {
         : Scaffold(
             appBar: AppBar(
               leading: SizedBox(
-                height: 45,
-                width: 45,
-                child: TextButton(
-                    onPressed: () {
-                      AuthenticationHelper().signOut();
-                      Navigator.of(context)
-                          .pushNamedAndRemoveUntil('/', (route) => false);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(51, 189, 189, 189)),
-                    child: const Icon(Icons.logout, color: Colors.white)),
-              ),
+                  height: 45,
+                  width: 45,
+                  child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/settings');
+                        // AuthenticationHelper().signOut();
+                        // Navigator.of(context)
+                        //     .pushNamedAndRemoveUntil('/', (route) => false);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(51, 189, 189, 189)),
+                      child: const Icon(Icons.settings, color: Colors.white)),
+                ),
               title: const Text("Courses"),
               actions: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/editScreen");
+                    },
                     icon: const Icon(Icons.add, color: Colors.white))
               ],
             ),
@@ -284,8 +290,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(
                     left: 20, right: 20, top: 10, bottom: 10),
                 scrollDirection: Axis.vertical,
-                children: announcements
-                    .map((item) => AnnouncementEntry(announcement: item))
+                children: courses
+                    .map((item) => CourseEntry(course: item))
                     .toList(),
               ),
             ),
@@ -403,24 +409,50 @@ class CourseEntry extends StatelessWidget {
 
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
-        height: SizeConfig.blockSizeVertical! * 12,
+        height: SizeConfig.blockSizeVertical! * 10,
         child: Card(
+          elevation: 3.0,
           color: const Color.fromARGB(239, 255, 255, 255),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {},
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("$name, $date"),
-                  Text(
-                    courseCode,
-                    maxLines: 4,
-                  )
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal! * 50,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(name, style: TextStyle(fontSize: 18),),
+                      Text(date, style: TextStyle(fontSize: 16)),
+                      Text(courseCode, style: TextStyle(fontSize: 16),)
+                    ],
+                  ),
+                ),
+                // SizedBox(width: SizeConfig.blockSizeHorizontal! * 10,),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Icon(Icons.edit, color: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(20),
+                    backgroundColor: Colors.blue, // <-- Button color
+                    // foregroundColor: Colors.red, // <-- Splash color
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Icon(FontAwesomeIcons.trash, color: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(20),
+                    backgroundColor: Color.fromARGB(255, 235, 81, 79), // <-- Button color
+                    // foregroundColor: Colors.blue, // <-- Splash color
+                  ),
+                )
+              ],
             ),
           ),
         ));

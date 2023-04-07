@@ -21,7 +21,7 @@ class AuthenticationHelper {
         password: password,
       );
       DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
-      mDatabase.child(user.uid).update({"accountType": "Student"});
+      mDatabase.child(user.uid).update({"accountType": accountType});
       //  mDatabase.child("users").child(user.uid).set("hello world");
       return null;
     } on FirebaseAuthException catch (e) {
