@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/size_config.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
 
 class EditScreen extends StatefulWidget {
@@ -208,5 +209,82 @@ class _CourseFormState extends State<CourseForm> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
+  }
+}
+
+
+
+class EventEntry extends StatelessWidget {
+  // final DataSnapshot course;
+  const EventEntry({super.key, required this.name, required this.frequency, required this.startDate, required this.startTime, required this.endDate, required this.endTime});
+  final String name;
+  final String frequency;
+  final DateTime startDate;
+  final TimeOfDay startTime;
+  final DateTime endDate;
+  final TimeOfDay endTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: SizeConfig.blockSizeHorizontal! * 75,
+        height: SizeConfig.blockSizeVertical! * 10,
+        child: Card(
+          elevation: 3.0,
+          color: const Color.fromARGB(239, 255, 255, 255),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal! * 50,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(name, style: TextStyle(fontSize: 18),),
+                          Text(frequency, style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(startTime.toString(), style: TextStyle(fontSize: 16),),
+                          Text(" - ", style: TextStyle(fontSize: 16),),
+                          Text(endTime.toString(), style: TextStyle(fontSize: 16),),
+                        ],
+                      )
+                      
+                    ],
+                  ),
+                ),
+                // SizedBox(width: SizeConfig.blockSizeHorizontal! * 10,),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Icon(Icons.edit, color: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(20),
+                    backgroundColor: Colors.blue, // <-- Button color
+                    // foregroundColor: Colors.red, // <-- Splash color
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Icon(FontAwesomeIcons.trash, color: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(20),
+                    backgroundColor: Color.fromARGB(255, 235, 81, 79), // <-- Button color
+                    // foregroundColor: Colors.blue, // <-- Splash color
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

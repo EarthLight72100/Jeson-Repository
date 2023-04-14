@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'Instructor Screens/edit_screen.dart';
 
 class Singleton {
   static final Singleton _instance = Singleton._internal();
@@ -14,4 +15,6 @@ class Singleton {
   DataSnapshot? userData;
   String accountType = "";
   String status = "viewing";
+
+  List<EventEntry> events = [];
 }
