@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/size_config.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jeson_flutter_app/singleton.dart';
 import 'dart:async';
 
 class EditScreen extends StatefulWidget {
@@ -11,11 +12,22 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
+
+  final _singleton = Singleton();
+
   // DateTime selectedDate = DateTime.now();
   DateTime startDate = DateTime.now();
   bool startDirty = false;
   DateTime endDate = DateTime.now();
   bool endDirty = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Singleton().addListener(() {
+      if (mounted) setState(() {});
+    });
+  }
 
   Future<void> _selectDate(BuildContext context, bool pickStart) async {
     final DateTime? picked = await showDatePicker(
@@ -24,12 +36,12 @@ class _EditScreenState extends State<EditScreen> {
         firstDate: DateTime(2022, 8),
         lastDate: DateTime(2101));
     if (pickStart && picked != null && picked != startDate) {
-      setState(() {
+      if (mounted) setState(() {
         startDirty = true;
         startDate = picked;
       });
     } else if (!pickStart && picked != null && picked != endDate) {
-      setState(() {
+      if (mounted) setState(() {
         endDirty = true;
         endDate = picked;
       });
@@ -147,7 +159,7 @@ class _EditScreenState extends State<EditScreen> {
                         padding: const EdgeInsets.only(
                             left: 20, right: 20, top: 10, bottom: 10),
                         scrollDirection: Axis.vertical,
-                        children: [],
+                        children: _singleton.events,
                     ),
                   ),
                   Padding(
@@ -160,7 +172,10 @@ class _EditScreenState extends State<EditScreen> {
                                 height: 54,
                                 width: SizeConfig.blockSizeHorizontal! * 40,
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _singleton.events.clear();
+                                      Navigator.pop(context);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(0xFFAB63E7),
                                         shape: const RoundedRectangleBorder(
@@ -175,7 +190,10 @@ class _EditScreenState extends State<EditScreen> {
                                 height: 54,
                                 width: SizeConfig.blockSizeHorizontal! * 40,
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _singleton.events.clear();
+                                      Navigator.pop(context);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(0xFFAB63E7),
                                         shape: const RoundedRectangleBorder(
@@ -215,8 +233,10 @@ class _CourseFormState extends State<CourseForm> {
 
 
 class EventEntry extends StatelessWidget {
+
+  final _singleton = Singleton();
   // final DataSnapshot course;
-  const EventEntry({super.key, required this.name, required this.frequency, required this.startDate, required this.startTime, required this.endDate, required this.endTime});
+  EventEntry({super.key, required this.name, required this.frequency, required this.startDate, required this.startTime, required this.endDate, required this.endTime});
   final String name;
   final String frequency;
   final DateTime startDate;
@@ -241,20 +261,21 @@ class EventEntry extends StatelessWidget {
                 SizedBox(
                   width: SizeConfig.blockSizeHorizontal! * 50,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           Text(name, style: TextStyle(fontSize: 18),),
+                          SizedBox(width: SizeConfig.blockSizeHorizontal! * 3,),
                           Text(frequency, style: TextStyle(fontSize: 16)),
                         ],
                       ),
                       Row(
                         children: [
-                          Text(startTime.toString(), style: TextStyle(fontSize: 16),),
+                          Text("${startTime.hour}:${(startTime.minute < 10) ? 0 : ''}${startTime.minute}", style: TextStyle(fontSize: 16),),
                           Text(" - ", style: TextStyle(fontSize: 16),),
-                          Text(endTime.toString(), style: TextStyle(fontSize: 16),),
+                          Text("${endTime.hour}:${(endTime.minute < 10) ? 0 : ''}${endTime.minute}", style: TextStyle(fontSize: 16),),
                         ],
                       )
                       
@@ -263,7 +284,24 @@ class EventEntry extends StatelessWidget {
                 ),
                 // SizedBox(width: SizeConfig.blockSizeHorizontal! * 10,),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                    // name: nameController.text,
+                    // frequency: frequency,
+                    // startDate: startDate,
+                    // startTime: startTime,
+                    // endDate: endDate,
+                    // endTime: endTime,
+                    _singleton.status = "eventEdit";
+                    _singleton.frequencyEvent = frequency;
+                    _singleton.nameEvent = name;
+                    _singleton.startDateEvent = startDate;
+                    _singleton.startTimeEvent = startTime;
+                    _singleton.endDateEvent = endDate;
+                    _singleton.endTimeEvent = endTime;
+
+                    Navigator.pushNamed(context, '/eventScreen');
+                  },
                   child: Icon(Icons.edit, color: Colors.white),
                   style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),
@@ -273,7 +311,17 @@ class EventEntry extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _singleton.removeEvent(this);
+                    
+                    // for (int i = 0; i < _singleton.events.length; i++)
+                    // {
+                    //   if (_singleton.events[i] == this)
+                    //   {
+                    //     print("TESTING");
+                    //   }
+                    // }
+                  },
                   child: Icon(FontAwesomeIcons.trash, color: Colors.white),
                   style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),

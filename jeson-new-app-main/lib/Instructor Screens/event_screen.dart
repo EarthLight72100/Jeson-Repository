@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/size_config.dart';
+import 'package:jeson_flutter_app/singleton.dart';
 import 'edit_screen.dart';
 
 class EventScreen extends StatefulWidget {
@@ -10,7 +11,10 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> {
+  final _singleton = Singleton();
+
   TextEditingController nameController = TextEditingController();
+  String frequency = "Once";
 
   DateTime startDate = DateTime.now();
   TimeOfDay startTime = TimeOfDay.now();
@@ -29,12 +33,12 @@ class _EventScreenState extends State<EventScreen> {
         firstDate: DateTime(2022, 8),
         lastDate: DateTime(2101));
     if (pickStart && picked != null && picked != startDate) {
-      setState(() {
+      if (mounted) setState(() {
         startDirty = true;
         startDate = picked;
       });
     } else if (!pickStart && picked != null && picked != endDate) {
-      setState(() {
+      if (mounted) setState(() {
         endDirty = true;
         endDate = picked;
       });
@@ -46,12 +50,12 @@ class _EventScreenState extends State<EventScreen> {
       context: context,
       initialTime: (pickStart) ? startTime : endTime);
       if (pickStart && picked != null && picked != startTime) {
-        setState(() {
+        if (mounted) setState(() {
           startTimeDirty = true;
           startTime = picked;
         });
       } else if (!pickStart && picked != null && picked != endTime) {
-        setState(() {
+        if (mounted) setState(() {
           endTimeDirty = true;
           endTime = picked;
         });
@@ -68,10 +72,11 @@ class _EventScreenState extends State<EventScreen> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                    const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextField(
-                    decoration: InputDecoration(
+                    controller: nameController,
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(24.0))
                       ),
@@ -148,7 +153,7 @@ class _EventScreenState extends State<EventScreen> {
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(Radius.circular(24.0)))),
                               child: Text(
-                              (!startDirty) ? 'Start Time' : "${startTime.hour}:${startTime.minute}",
+                              (!startDirty) ? 'Start Time' : "${startTime.hour}:${(startTime.minute < 10) ? 0 : ''}${startTime.minute}",
                               style: const TextStyle(fontSize: 24),
                               ),
                           ),
@@ -166,7 +171,7 @@ class _EventScreenState extends State<EventScreen> {
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(Radius.circular(24.0)))),
                               child: Text(
-                              (!endDirty) ? 'End Time': "${endTime.hour}:${endTime.minute}",
+                              (!endDirty) ? 'End Time': "${endTime.hour}:${(endTime.minute < 10) ? 0 : ''}${endTime.minute}",
                               style: const TextStyle(fontSize: 24),
                               ),
                           ),
@@ -213,6 +218,7 @@ class _EventScreenState extends State<EventScreen> {
                                     fontWeight: FontWeight.bold))),
                       ],
                       onChanged: (String? value) {
+                        if (value != null) frequency = value;
                         // if (mounted) setState(() => _value = value!);
                         // // if (_value == "Classes") {
                         // //   Navigator.push(
@@ -261,7 +267,15 @@ class _EventScreenState extends State<EventScreen> {
                         child: ElevatedButton(
                             onPressed: () {
                               // Navigator.pushNamed(context, '/eventScreen');
-                              // EventEntry event = new EventEntry();
+                              EventEntry event = EventEntry(
+                                name: nameController.text,
+                                frequency: frequency,
+                                startDate: startDate,
+                                startTime: startTime,
+                                endDate: endDate,
+                                endTime: endTime,
+                                );
+                              _singleton.addEvent(event);
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
