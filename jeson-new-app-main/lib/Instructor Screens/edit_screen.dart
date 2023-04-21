@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/size_config.dart';
+import 'package:jeson_flutter_app/authentication.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:jeson_flutter_app/singleton.dart';
 import 'dart:async';
 
@@ -14,6 +18,9 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
 
   final _singleton = Singleton();
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
 
   // DateTime selectedDate = DateTime.now();
   DateTime startDate = DateTime.now();
@@ -48,6 +55,14 @@ class _EditScreenState extends State<EditScreen> {
     }
   }
 
+  String generateCourseCode() {
+    String code = "";
+    for (int i = 0; i < 6; i++) {
+      code += String.fromCharCode(65 + (Random().nextInt(26)));
+    }
+    return code;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,10 +73,11 @@ class _EditScreenState extends State<EditScreen> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextField(
-                    decoration: InputDecoration(
+                    controller: nameController,
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(24.0))
                       ),
@@ -191,8 +207,22 @@ class _EditScreenState extends State<EditScreen> {
                                 width: SizeConfig.blockSizeHorizontal! * 40,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      _singleton.events.clear();
-                                      Navigator.pop(context);
+
+                                      var data = {
+                                        "name": nameController.text,
+                                        "description": descController.text,
+                                        "date": "$startDate - $endDate"
+                                      };
+
+                                      DatabaseReference mDatabase =
+                                        FirebaseDatabase.instance.ref();
+                                      String courseCode = generateCourseCode();
+                                      mDatabase.child("${AuthenticationHelper().user.uid}/courses/$courseCode").update(data).then((value) {
+                                        mDatabase.child("courses/$courseCode").set(AuthenticationHelper().user.uid);
+                                        _singleton.events.clear();
+                                        Navigator.pop(context);
+                                      });
+                                      
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(0xFFAB63E7),

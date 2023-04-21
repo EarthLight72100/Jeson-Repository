@@ -92,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // classes.add(child);
           if (child.key == "classes") {
             var items = child.children;
+            classes.clear();
             // print(items);
             // print(items.runtimeType);
             for (final item in items) {
@@ -104,8 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           } else if (child.key == "courses") {
             var items = child.children;
+            _singleton.courses.clear();
             for (final item in items) {
-              courses.add(item);
+              _singleton.courses.add(item);
               // print(item);
               // print(item.runtimeType);
             }
@@ -290,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(
                     left: 20, right: 20, top: 10, bottom: 10),
                 scrollDirection: Axis.vertical,
-                children: courses
+                children: _singleton.courses
                     .map((item) => CourseEntry(course: item))
                     .toList(),
               ),
@@ -390,7 +392,9 @@ class ClassEntry extends StatelessWidget {
 // Instructor Cards below
 class CourseEntry extends StatelessWidget {
   final DataSnapshot course;
-  const CourseEntry({super.key, required this.course});
+  CourseEntry({super.key, required this.course});
+
+  final _singleton = Singleton();
 
   @override
   Widget build(BuildContext context) {
@@ -443,7 +447,30 @@ class CourseEntry extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(context: context, builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Delete Course"),
+                        content: Text("Are you sure you want to delete this course?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Cancel")
+                          ),
+                          TextButton(onPressed: () {
+                            DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
+                            mDatabase.child("${AuthenticationHelper().user.uid}/courses/$courseCode").remove();
+                            _singleton.courses.remove(course);
+                            Navigator.pop(context);
+                          }, child: Text("Delete"))
+                        ],
+                      );
+                    });
+
+                    
+                  },
                   child: Icon(FontAwesomeIcons.trash, color: Colors.white),
                   style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),

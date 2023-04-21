@@ -17,6 +17,9 @@ class Singleton extends ChangeNotifier {
   String accountType = "";
   String status = "viewing";
 
+  List<DataSnapshot> classes = [];
+  List<DataSnapshot> courses = [];
+
   String? nameEvent;
   String? frequencyEvent;
   DateTime? startDateEvent;
