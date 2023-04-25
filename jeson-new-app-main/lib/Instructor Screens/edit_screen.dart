@@ -65,9 +65,19 @@ class _EditScreenState extends State<EditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_singleton.courseName != null) {
+      nameController.text = _singleton.courseName as String;
+      descController.text = _singleton.courseDescription as String;
+      startDate = _singleton.courseStart as DateTime;
+      startDirty = true;
+      endDate = _singleton.courseEnd as DateTime;
+      endDirty = true;
+    }
+
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Edit Screen")
+            title: const Text("Edit Screen"),
+            automaticallyImplyLeading: false,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -135,12 +145,13 @@ class _EditScreenState extends State<EditScreen> {
                       // color: Colors.red,
                       height: SizeConfig.blockSizeVertical! * 20,
                       width: SizeConfig.blockSizeHorizontal! * 100,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         child: TextField(
+                          controller: descController,
                           minLines: 5,
                           maxLines: 5,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(24.0))
                             ),
@@ -189,7 +200,13 @@ class _EditScreenState extends State<EditScreen> {
                                 width: SizeConfig.blockSizeHorizontal! * 40,
                                 child: ElevatedButton(
                                     onPressed: () {
+                                      _singleton.courseName = null;
+                                      _singleton.courseDescription = null;
+                                      _singleton.courseStart = null;
+                                      _singleton.courseEnd = null;
                                       _singleton.events.clear();
+                                      _singleton.status = "viewing";
+                                      _singleton.courseCode = null;
                                       Navigator.pop(context);
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -216,7 +233,7 @@ class _EditScreenState extends State<EditScreen> {
 
                                       DatabaseReference mDatabase =
                                         FirebaseDatabase.instance.ref();
-                                      String courseCode = generateCourseCode();
+                                      String courseCode = (_singleton.courseCode != null) ? _singleton.courseCode as String : generateCourseCode();
                                       mDatabase.child("${AuthenticationHelper().user.uid}/courses/$courseCode").update(data).then((value) {
                                         mDatabase.child("courses/$courseCode").set(AuthenticationHelper().user.uid);
                                         _singleton.events.clear();

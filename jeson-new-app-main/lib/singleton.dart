@@ -49,4 +49,16 @@ class Singleton extends ChangeNotifier {
     // notifyListeners();
     print(events);
   }
+
+
+  // EDIT COURSE FIELDS
+  String? courseCode;
+  String? courseName;
+  DateTime? courseStart;
+  DateTime? courseEnd;
+  String? courseDescription;
+  List<EventEntry> courseEvents = [];
+
+  // VIEW COURSE FIELDS
+  DataSnapshot? course;
 }

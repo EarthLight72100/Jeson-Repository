@@ -282,6 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: [
                 IconButton(
                     onPressed: () {
+                      _singleton.status = "creating";
                       Navigator.pushNamed(context, "/editScreen");
                     },
                     icon: const Icon(Icons.add, color: Colors.white))
@@ -398,9 +399,15 @@ class CourseEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _singleton.courseName = null;
+    _singleton.courseDescription = null;
+    _singleton.courseStart = null;
+    _singleton.courseEnd = null;
+
     String name = "";
     String courseCode = "";
     String date = "";
+    String description = "";
 
     courseCode = course.key!;
     for (final child in course.children) {
@@ -408,78 +415,97 @@ class CourseEntry extends StatelessWidget {
         name = child.value as String;
       } else if (child.key == "date") {
         date = child.value as String;
+      } else if (child.key == "description") {
+        description = child.value as String;
       }
     }
+
+    final dateRange = date.split(' - ');
+    print(dateRange);
 
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
         height: SizeConfig.blockSizeVertical! * 10,
-        child: Card(
-          elevation: 3.0,
-          color: const Color.fromARGB(239, 255, 255, 255),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: SizeConfig.blockSizeHorizontal! * 50,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(name, style: TextStyle(fontSize: 18),),
-                      Text(date, style: TextStyle(fontSize: 16)),
-                      Text(courseCode, style: TextStyle(fontSize: 16),)
-                    ],
+        child: InkWell(
+          onTap: () {
+            _singleton.course = course;
+            Navigator.pushNamed(context, "/viewCourseScreen");
+          },
+          child: Card(
+            elevation: 3.0,
+            color: const Color.fromARGB(239, 255, 255, 255),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: SizeConfig.blockSizeHorizontal! * 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(name, style: TextStyle(fontSize: 18),),
+                        Text("${dateRange[0].substring(5, 7)}/${dateRange[0].substring(8, 10)}/${dateRange[0].substring(0, 4)} - ${dateRange[1].substring(5, 7)}/${dateRange[1].substring(8, 10)}/${dateRange[1].substring(0, 4)}", style: TextStyle(fontSize: 16)),
+                        Text(courseCode, style: TextStyle(fontSize: 16),)
+                      ],
+                    ),
                   ),
-                ),
-                // SizedBox(width: SizeConfig.blockSizeHorizontal! * 10,),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Icon(Icons.edit, color: Colors.white),
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Colors.blue, // <-- Button color
-                    // foregroundColor: Colors.red, // <-- Splash color
+                  // SizedBox(width: SizeConfig.blockSizeHorizontal! * 10,),
+                  ElevatedButton(
+                    onPressed: () {
+                      _singleton.courseName = name;
+                      _singleton.courseDescription = description;
+                      _singleton.courseStart = DateTime.parse(dateRange[0]);
+                      _singleton.courseEnd = DateTime.parse(dateRange[1]);
+                      _singleton.status = "editing";
+                      _singleton.courseCode = courseCode;
+                      Navigator.pushNamed(context, "/editScreen");
+                    },
+                    child: Icon(Icons.edit, color: Colors.white),
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(20),
+                      backgroundColor: Colors.blue, // <-- Button color
+                      // foregroundColor: Colors.red, // <-- Splash color
+                    ),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    showDialog(context: context, builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Delete Course"),
-                        content: Text("Are you sure you want to delete this course?"),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(context: context, builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Delete Course"),
+                          content: Text("Are you sure you want to delete this course?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Cancel")
+                            ),
+                            TextButton(onPressed: () {
+                              DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
+                              mDatabase.child("${AuthenticationHelper().user.uid}/courses/$courseCode").remove();
+                              _singleton.courses.remove(course);
                               Navigator.pop(context);
-                            },
-                            child: Text("Cancel")
-                          ),
-                          TextButton(onPressed: () {
-                            DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
-                            mDatabase.child("${AuthenticationHelper().user.uid}/courses/$courseCode").remove();
-                            _singleton.courses.remove(course);
-                            Navigator.pop(context);
-                          }, child: Text("Delete"))
-                        ],
-                      );
-                    });
-
-                    
-                  },
-                  child: Icon(FontAwesomeIcons.trash, color: Colors.white),
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Color.fromARGB(255, 235, 81, 79), // <-- Button color
-                    // foregroundColor: Colors.blue, // <-- Splash color
-                  ),
-                )
-              ],
+                            }, child: Text("Delete"))
+                          ],
+                        );
+                      });
+        
+                      
+                    },
+                    child: Icon(FontAwesomeIcons.trash, color: Colors.white),
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(20),
+                      backgroundColor: Color.fromARGB(255, 235, 81, 79), // <-- Button color
+                      // foregroundColor: Colors.blue, // <-- Splash color
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ));
