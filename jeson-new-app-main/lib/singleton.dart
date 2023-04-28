@@ -39,14 +39,14 @@ class Singleton extends ChangeNotifier {
   void addEvent(EventEntry event) {
     events.add(event);
     print("HELLO");
-    // notifyListeners();
+    notifyListeners();
     print(events);
   }
 
   void removeEvent(EventEntry event) {
     events.remove(event);
     print("BYE");
-    // notifyListeners();
+    notifyListeners();
     print(events);
   }
 

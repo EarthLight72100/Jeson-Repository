@@ -74,6 +74,8 @@ class _EditScreenState extends State<EditScreen> {
       endDirty = true;
     }
 
+    print("TESTING: ${_singleton.events}");
+
     return Scaffold(
         appBar: AppBar(
             title: const Text("Edit Screen"),
@@ -186,7 +188,7 @@ class _EditScreenState extends State<EditScreen> {
                         padding: const EdgeInsets.only(
                             left: 20, right: 20, top: 10, bottom: 10),
                         scrollDirection: Axis.vertical,
-                        children: _singleton.events,
+                        children: _singleton.events.toList(),
                     ),
                   ),
                   Padding(
@@ -224,12 +226,19 @@ class _EditScreenState extends State<EditScreen> {
                                 width: SizeConfig.blockSizeHorizontal! * 40,
                                 child: ElevatedButton(
                                     onPressed: () {
+                                      
+                                      var events = _singleton.events.map((x) => x.toMap()).toList();
+                                      // print(_singleton.events[0].toMap());
 
-                                      var data = {
+                                      Map<String, dynamic> data = {
                                         "name": nameController.text,
                                         "description": descController.text,
                                         "date": "$startDate - $endDate"
                                       };
+
+                                      events.forEach((element) {
+                                        data[element["name"]] = element;
+                                      });
 
                                       DatabaseReference mDatabase =
                                         FirebaseDatabase.instance.ref();
@@ -283,13 +292,26 @@ class EventEntry extends StatelessWidget {
 
   final _singleton = Singleton();
   // final DataSnapshot course;
-  EventEntry({super.key, required this.name, required this.frequency, required this.startDate, required this.startTime, required this.endDate, required this.endTime});
+  EventEntry({super.key, required this.name, required this.frequency, required this.startDate, required this.startTime, required this.endDate, required this.endTime, required this.description});
   final String name;
+  final String description;
   final String frequency;
   final DateTime startDate;
   final TimeOfDay startTime;
   final DateTime endDate;
   final TimeOfDay endTime;
+
+  Map<String,dynamic> toMap() {
+    return {
+      "name": name,
+      "frequency": frequency,
+      "description": description,
+      "startDate": startDate,
+      "startTime": startTime,
+      "endDate": endDate,
+      "endTime": endTime,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -14,6 +14,7 @@ class _EventScreenState extends State<EventScreen> {
   final _singleton = Singleton();
 
   TextEditingController nameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
   String frequency = "Once";
 
   DateTime startDate = DateTime.now();
@@ -239,16 +240,17 @@ class _EventScreenState extends State<EventScreen> {
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                       // color: Colors.red,
                       height: SizeConfig.blockSizeVertical! * 40,
                       width: SizeConfig.blockSizeHorizontal! * 100,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         child: TextField(
+                          controller: descController,
                           minLines: 15,
                           maxLines: 15,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(24.0))
                             ),
@@ -269,6 +271,7 @@ class _EventScreenState extends State<EventScreen> {
                               // Navigator.pushNamed(context, '/eventScreen');
                               EventEntry event = EventEntry(
                                 name: nameController.text,
+                                description: descController.text,
                                 frequency: frequency,
                                 startDate: startDate,
                                 startTime: startTime,

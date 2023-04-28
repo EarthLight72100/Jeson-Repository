@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'size_config.dart';
 import 'singleton.dart';
 
 class ViewCoursePage extends StatelessWidget {
@@ -26,7 +27,28 @@ class ViewCoursePage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-            title: Text("COURSE NAME HERE"),
+            title: Text("$name ($courseCode)"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              color: Color.fromARGB(255, 204, 204, 204),
+              width: SizeConfig.blockSizeHorizontal! * 100,
+              height: SizeConfig.blockSizeVertical! * 15,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(description, maxLines: 7, style: TextStyle(fontSize: 18),),
+              ),
+            ),
+            ListView(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
+                scrollDirection: Axis.vertical,
+                children: [],
+                shrinkWrap: true,
+            ),
+          ],
         ),
     );
   }
