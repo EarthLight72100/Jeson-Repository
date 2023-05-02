@@ -236,9 +236,9 @@ class _EditScreenState extends State<EditScreen> {
                                         "date": "$startDate - $endDate"
                                       };
 
-                                      events.forEach((element) {
+                                      for (var element in events) {
                                         data[element["name"]] = element;
-                                      });
+                                      }
 
                                       DatabaseReference mDatabase =
                                         FirebaseDatabase.instance.ref();
@@ -306,10 +306,10 @@ class EventEntry extends StatelessWidget {
       "name": name,
       "frequency": frequency,
       "description": description,
-      "startDate": startDate,
-      "startTime": startTime,
-      "endDate": endDate,
-      "endTime": endTime,
+      "startDate": startDate.toString(),
+      "startTime": startTime.toString(),
+      "endDate": endDate.toString(),
+      "endTime": endTime.toString(),
     };
   }
 
