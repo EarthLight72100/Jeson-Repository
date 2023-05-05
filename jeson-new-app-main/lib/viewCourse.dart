@@ -68,6 +68,7 @@ class ViewCoursePage extends StatelessWidget {
           endDate: endDateEvent,
           endTime: endTimeEvent,
           description: descriptionEvent,
+          edittable: false,
         );
 
         _singleton.events.add(entry);

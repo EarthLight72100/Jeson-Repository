@@ -8,6 +8,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:jeson_flutter_app/singleton.dart';
 import 'dart:async';
 
+/*
+  CHARACTER LIMITS:
+  -course description: 240 characters
+  -event description: 120 characters
+ */
+
 class EditScreen extends StatefulWidget {
   EditScreen({super.key});
 
@@ -43,15 +49,19 @@ class _EditScreenState extends State<EditScreen> {
         firstDate: DateTime(2022, 8),
         lastDate: DateTime(2101));
     if (pickStart && picked != null && picked != startDate) {
-      if (mounted) setState(() {
+      if (mounted) {
+        setState(() {
         startDirty = true;
         startDate = picked;
       });
+      }
     } else if (!pickStart && picked != null && picked != endDate) {
-      if (mounted) setState(() {
+      if (mounted) {
+        setState(() {
         endDirty = true;
         endDate = picked;
       });
+      }
     }
   }
 
@@ -288,11 +298,13 @@ class _CourseFormState extends State<CourseForm> {
 
 
 
+// ignore: must_be_immutable
 class EventEntry extends StatelessWidget {
 
   final _singleton = Singleton();
   // final DataSnapshot course;
-  EventEntry({super.key, required this.name, required this.frequency, required this.startDate, required this.startTime, required this.endDate, required this.endTime, required this.description});
+  EventEntry({super.key, required this.name, required this.frequency, required this.startDate, required this.startTime, required this.endDate, required this.endTime, required this.description, this.edittable = true});
+  bool edittable;
   final String name;
   final String description;
   final String frequency;
@@ -315,7 +327,7 @@ class EventEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return edittable ? SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
         height: SizeConfig.blockSizeVertical! * 10,
         child: Card(
@@ -335,15 +347,15 @@ class EventEntry extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(name, style: TextStyle(fontSize: 18),),
+                          Text(name, style: const TextStyle(fontSize: 18),),
                           SizedBox(width: SizeConfig.blockSizeHorizontal! * 3,),
-                          Text(frequency, style: TextStyle(fontSize: 16)),
+                          Text(frequency, style: const TextStyle(fontSize: 16)),
                         ],
                       ),
                       Row(
                         children: [
                           Text("${startTime.hour}:${(startTime.minute < 10) ? 0 : ''}${startTime.minute}", style: TextStyle(fontSize: 16),),
-                          Text(" - ", style: TextStyle(fontSize: 16),),
+                          const Text(" - ", style: TextStyle(fontSize: 16),),
                           Text("${endTime.hour}:${(endTime.minute < 10) ? 0 : ''}${endTime.minute}", style: TextStyle(fontSize: 16),),
                         ],
                       )
@@ -363,6 +375,7 @@ class EventEntry extends StatelessWidget {
                     // endTime: endTime,
                     _singleton.status = "eventEdit";
                     _singleton.frequencyEvent = frequency;
+                    _singleton.descriptionEvent = description;
                     _singleton.nameEvent = name;
                     _singleton.startDateEvent = startDate;
                     _singleton.startTimeEvent = startTime;
@@ -371,13 +384,13 @@ class EventEntry extends StatelessWidget {
 
                     Navigator.pushNamed(context, '/eventScreen');
                   },
-                  child: Icon(Icons.edit, color: Colors.white),
                   style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(20),
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(20),
                     backgroundColor: Colors.blue, // <-- Button color
                     // foregroundColor: Colors.red, // <-- Splash color
                   ),
+                  child: const Icon(Icons.edit, color: Colors.white),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -391,17 +404,66 @@ class EventEntry extends StatelessWidget {
                     //   }
                     // }
                   },
-                  child: Icon(FontAwesomeIcons.trash, color: Colors.white),
                   style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Color.fromARGB(255, 235, 81, 79), // <-- Button color
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(20),
+                    backgroundColor: const Color.fromARGB(255, 235, 81, 79), // <-- Button color
                     // foregroundColor: Colors.blue, // <-- Splash color
                   ),
+                  child: const Icon(FontAwesomeIcons.trash, color: Colors.white),
                 )
               ],
             ),
           ),
-        ));
+        )) : 
+        SizedBox(
+          width: SizeConfig.blockSizeHorizontal! * 75,
+          height: SizeConfig.blockSizeVertical! * 20,
+          child: Card(
+            elevation: 3.0,
+          color: const Color.fromARGB(239, 255, 255, 255),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  // width: SizeConfig.blockSizeHorizontal! * 50,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(name, style: const TextStyle(fontSize: 18),),
+                          SizedBox(width: SizeConfig.blockSizeHorizontal! * 3,),
+                          Text(frequency, style: const TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("${startTime.hour}:${(startTime.minute < 10) ? 0 : ''}${startTime.minute}", style: TextStyle(fontSize: 16),),
+                          const Text(" - ", style: TextStyle(fontSize: 16),),
+                          Text("${endTime.hour}:${(endTime.minute < 10) ? 0 : ''}${endTime.minute}", style: TextStyle(fontSize: 16),),
+                        ],
+                      ),
+                      SizedBox(
+                        // color: Colors.red,
+                        width: SizeConfig.blockSizeHorizontal! * 80,
+                        child: Text(description, maxLines: 3, style: const TextStyle(fontSize: 18))
+                      )
+                      
+                      
+                    ],
+                  ),
+                ),
+                // SizedBox(width: SizeConfig.blockSizeHorizontal! * 10,),
+              ],
+            ),
+          ),
+          )
+        );
   }
 }

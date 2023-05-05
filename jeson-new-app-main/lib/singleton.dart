@@ -22,6 +22,7 @@ class Singleton extends ChangeNotifier {
 
   String? nameEvent;
   String? frequencyEvent;
+  String? descriptionEvent;
   DateTime? startDateEvent;
   TimeOfDay? startTimeEvent;
   DateTime? endDateEvent;

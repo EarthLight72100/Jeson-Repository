@@ -34,15 +34,19 @@ class _EventScreenState extends State<EventScreen> {
         firstDate: DateTime(2022, 8),
         lastDate: DateTime(2101));
     if (pickStart && picked != null && picked != startDate) {
-      if (mounted) setState(() {
+      if (mounted) {
+        setState(() {
         startDirty = true;
         startDate = picked;
       });
+      }
     } else if (!pickStart && picked != null && picked != endDate) {
-      if (mounted) setState(() {
+      if (mounted) {
+        setState(() {
         endDirty = true;
         endDate = picked;
       });
+      }
     }
   }
 
@@ -51,20 +55,46 @@ class _EventScreenState extends State<EventScreen> {
       context: context,
       initialTime: (pickStart) ? startTime : endTime);
       if (pickStart && picked != null && picked != startTime) {
-        if (mounted) setState(() {
+        if (mounted) {
+          setState(() {
           startTimeDirty = true;
           startTime = picked;
         });
+        }
       } else if (!pickStart && picked != null && picked != endTime) {
-        if (mounted) setState(() {
+        if (mounted) {
+          setState(() {
           endTimeDirty = true;
           endTime = picked;
         });
+        }
       };
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_singleton.status == "eventEdit") {
+      /*
+      String? nameEvent;
+      String? frequencyEvent;
+      DateTime? startDateEvent;
+      TimeOfDay? startTimeEvent;
+      DateTime? endDateEvent;
+      TimeOfDay? endTimeEvent;
+       */
+      nameController.text = _singleton.nameEvent!;
+      descController.text = _singleton.descriptionEvent!;
+      frequency = _singleton.frequencyEvent!;
+      startDate = _singleton.startDateEvent as DateTime;
+      startDirty = true;
+      startTime = _singleton.startTimeEvent as TimeOfDay;
+      startTimeDirty = true;
+      endDate = _singleton.endDateEvent as DateTime;
+      endDirty = true;
+      endTime = _singleton.endTimeEvent as TimeOfDay;
+      endTimeDirty = true;
+    }
+
     return Scaffold(
         appBar: AppBar(
             title: const Text("Event Screen")
@@ -182,20 +212,20 @@ class _EventScreenState extends State<EventScreen> {
                   SizedBox(
                     height: SizeConfig.blockSizeVertical! * 3,
                   ),
-                  Container(
+                  SizedBox(
                     width: SizeConfig.blockSizeHorizontal! * 100,
                     // color: Colors.red,
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
-                        SizeConfig.blockSizeHorizontal! * 40, 
+                        SizeConfig.blockSizeHorizontal! * 35, 
                         0, 
-                        SizeConfig.blockSizeHorizontal! * 40,
+                        SizeConfig.blockSizeHorizontal! * 35,
                         0),
-                      child: DropdownButton<String>(
+                      child: DropdownButtonFormField<String>(
                         isExpanded: true,
                         alignment: AlignmentDirectional.center,
                       dropdownColor: Color.fromARGB(255, 235, 235, 235),
-                      value: "Once",
+                      value: frequency,
                       items: <DropdownMenuItem<String>>[
                         DropdownMenuItem(
                           value: 'Once',
@@ -220,6 +250,7 @@ class _EventScreenState extends State<EventScreen> {
                       ],
                       onChanged: (String? value) {
                         if (value != null) frequency = value;
+                        // print(frequency);
                         // if (mounted) setState(() => _value = value!);
                         // // if (_value == "Classes") {
                         // //   Navigator.push(
@@ -236,6 +267,11 @@ class _EventScreenState extends State<EventScreen> {
                         //             const CalendarPage(credential: "98765")),
                         //   );
                         // }
+                        if (mounted) {
+                          setState(() {
+                          // frequency;
+                        });
+                        }
                       },
                       ),
                     ),
@@ -279,6 +315,7 @@ class _EventScreenState extends State<EventScreen> {
                                 endTime: endTime,
                                 );
                               _singleton.addEvent(event);
+                              _singleton.status = "editting";
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
