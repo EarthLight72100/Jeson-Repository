@@ -126,6 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
     //   print("Instructor");
     // }
 
+    // print(_singleton.courses);
+
     return (_singleton.accountType == "Student")
         ? Scaffold(
             appBar: AppBar(
@@ -265,20 +267,20 @@ class _HomeScreenState extends State<HomeScreen> {
         : Scaffold(
             appBar: AppBar(
               leading: SizedBox(
-                  height: 45,
-                  width: 45,
-                  child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/settings');
-                        // AuthenticationHelper().signOut();
-                        // Navigator.of(context)
-                        //     .pushNamedAndRemoveUntil('/', (route) => false);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(51, 189, 189, 189)),
-                      child: const Icon(Icons.settings, color: Colors.white)),
-                ),
+                height: 45,
+                width: 45,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                      // AuthenticationHelper().signOut();
+                      // Navigator.of(context)
+                      //     .pushNamedAndRemoveUntil('/', (route) => false);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(51, 189, 189, 189)),
+                    child: const Icon(Icons.settings, color: Colors.white)),
+              ),
               title: const Text("Courses"),
               actions: [
                 IconButton(
@@ -432,7 +434,7 @@ class CourseEntry extends StatelessWidget {
         TimeOfDay endTimeEvent = TimeOfDay.now();
         // TimeOfDay startTime = TimeOfDay(hour: info["startTime"].substring(11, 13), minute: info["startTime"].substring(14, 16));
         // TimeOfDay endTime = TimeOfDay(hour: info["endTime"].substring(11, 13), minute: info["endTime"].substring(14, 16));
-        
+
         for (final element in child.children) {
           if (element.key == "name") {
             nameEvent = element.value as String;
@@ -447,14 +449,18 @@ class CourseEntry extends StatelessWidget {
             String item = element.value as String;
             // print(item.substring(10, 12));
             // print(item.substring(13, 15));
-            startTimeEvent = TimeOfDay(hour: int.parse(item.substring(10, 12)), minute: int.parse(item.substring(13, 15)));
+            startTimeEvent = TimeOfDay(
+                hour: int.parse(item.substring(10, 12)),
+                minute: int.parse(item.substring(13, 15)));
           } else if (element.key == "endDate") {
             String item = element.value as String;
             endDateEvent = DateTime.parse(item);
           } else if (element.key == "endTime") {
             String item = element.value as String;
-            endTimeEvent = TimeOfDay(hour: int.parse(item.substring(10, 12)), minute: int.parse(item.substring(13, 15)));
-          } 
+            endTimeEvent = TimeOfDay(
+                hour: int.parse(item.substring(10, 12)),
+                minute: int.parse(item.substring(13, 15)));
+          }
         }
 
         EventEntry entry = EventEntry(
@@ -468,7 +474,6 @@ class CourseEntry extends StatelessWidget {
         );
 
         _singleton.events.add(entry);
-        
       }
     }
 
@@ -498,9 +503,17 @@ class CourseEntry extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(name, style: TextStyle(fontSize: 18),),
-                        Text("${dateRange[0].substring(5, 7)}/${dateRange[0].substring(8, 10)}/${dateRange[0].substring(0, 4)} - ${dateRange[1].substring(5, 7)}/${dateRange[1].substring(8, 10)}/${dateRange[1].substring(0, 4)}", style: TextStyle(fontSize: 16)),
-                        Text(courseCode, style: TextStyle(fontSize: 16),)
+                        Text(
+                          name,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Text(
+                            "${dateRange[0].substring(5, 7)}/${dateRange[0].substring(8, 10)}/${dateRange[0].substring(0, 4)} - ${dateRange[1].substring(5, 7)}/${dateRange[1].substring(8, 10)}/${dateRange[1].substring(0, 4)}",
+                            style: TextStyle(fontSize: 16)),
+                        Text(
+                          courseCode,
+                          style: TextStyle(fontSize: 16),
+                        )
                       ],
                     ),
                   ),
@@ -525,34 +538,45 @@ class CourseEntry extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      showDialog(context: context, builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Delete Course"),
-                          content: Text("Are you sure you want to delete this course?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text("Cancel")
-                            ),
-                            TextButton(onPressed: () {
-                              DatabaseReference mDatabase = FirebaseDatabase.instance.ref();
-                              mDatabase.child("${AuthenticationHelper().user.uid}/courses/$courseCode").remove();
-                              _singleton.courses.remove(course);
-                              Navigator.pop(context);
-                            }, child: Text("Delete"))
-                          ],
-                        );
-                      });
-        
-                      
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Delete Course"),
+                              content: Text(
+                                  "Are you sure you want to delete this course?"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Cancel")),
+                                TextButton(
+                                    onPressed: () {
+                                      DatabaseReference mDatabase =
+                                          FirebaseDatabase.instance.ref();
+                                      mDatabase
+                                          .child("courses/$courseCode")
+                                          .remove()
+                                          .then((value) => mDatabase
+                                              .child(
+                                                  "${AuthenticationHelper().user.uid}/courses/$courseCode")
+                                              .remove());
+
+                                      _singleton.courses.remove(course);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Delete"))
+                              ],
+                            );
+                          });
                     },
                     child: Icon(FontAwesomeIcons.trash, color: Colors.white),
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       padding: EdgeInsets.all(20),
-                      backgroundColor: Color.fromARGB(255, 235, 81, 79), // <-- Button color
+                      backgroundColor:
+                          Color.fromARGB(255, 235, 81, 79), // <-- Button color
                       // foregroundColor: Colors.blue, // <-- Splash color
                     ),
                   )
