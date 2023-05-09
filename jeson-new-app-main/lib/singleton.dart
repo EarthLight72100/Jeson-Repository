@@ -14,7 +14,7 @@ class Singleton extends ChangeNotifier {
   }
 
   DataSnapshot? userData;
-  String accountType = "";
+  String accountType = "Student";
   String status = "viewing";
 
   List<DataSnapshot> classes = [];

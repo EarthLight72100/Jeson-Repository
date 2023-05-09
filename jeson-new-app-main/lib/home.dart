@@ -102,7 +102,13 @@ class _HomeScreenState extends State<HomeScreen> {
               DatabaseReference ref =
                   FirebaseDatabase.instance.ref(item.value.toString());
               DataSnapshot info = await ref.child("courses/${item.key}").get();
-              classes.add(info);
+              if (info.value != null) {
+                classes.add(info);
+              } else {
+                DatabaseReference ref =
+                  FirebaseDatabase.instance.ref(AuthenticationHelper().user.uid);
+                await ref.child("classes/${item.key}").remove();
+              }
             }
           } else if (child.key == "courses") {
             var items = child.children;
@@ -127,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // }
 
     // print(_singleton.courses);
-
+    print("CLASSES: $classes");
     return (_singleton.accountType == "Student")
         ? Scaffold(
             appBar: AppBar(
@@ -351,7 +357,9 @@ class AnnouncementEntry extends StatelessWidget {
 
 class ClassEntry extends StatelessWidget {
   final DataSnapshot course;
-  const ClassEntry({super.key, required this.course});
+  ClassEntry({super.key, required this.course});
+
+  final _singleton = Singleton();
 
   @override
   Widget build(BuildContext context) {
@@ -363,6 +371,7 @@ class ClassEntry extends StatelessWidget {
         name = child.value as String;
       } else if (child.key == "date") {
         date = child.value as String;
+        date = "${date.substring(5, 7)}/${date.substring(8, 10)}/${date.substring(0, 4)} - ${date.substring(31, 33)}/${date.substring(34, 36)}/${date.substring(26, 30)}";
       } else if (child.key == "description") {
         description = child.value as String;
       }
@@ -376,6 +385,8 @@ class ClassEntry extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
               onTap: () {
+                _singleton.course = course;
+
                 Navigator.pushNamed(context, '/viewCourseScreen');
               },
               child: Column(
