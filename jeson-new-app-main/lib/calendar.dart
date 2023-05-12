@@ -1,8 +1,11 @@
 import 'dart:collection';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'Instructor Screens/edit_screen.dart';
 import 'home.dart';
 import 'classes.dart';
 import 'utils.dart';
+import 'singleton.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 //Event class used from https://github.com/aleksanderwozniak/table_calendar/blob/master/example/lib/utils.dart
@@ -49,8 +52,24 @@ class CalendarState extends State<CalendarPage> {
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
+    final _singleton = Singleton();
+    print("TESTING: ${_singleton.classCache}");
     return kEvents[day] ?? [];
   }
+
+  // List<EventEntry> _getEventsFromClasses() {
+  //   final singleton = Singleton();
+  //   List<EventEntry> result = [];
+  //   for (int i = 0; i < singleton.classCache!.length; i++) {
+  //     DataSnapshot item = singleton.classCache![i];
+  //     for (final child in item.children) {
+  //       if (child.key != "date" && child.key != "description" && child.key != "name") {
+  //         print(child.key);
+  //       }
+  //     }
+  //   }
+  //   return result;
+  // }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
     // Implementation example

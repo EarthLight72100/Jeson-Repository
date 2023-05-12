@@ -18,6 +18,7 @@ class Singleton extends ChangeNotifier {
   String status = "viewing";
 
   List<DataSnapshot> classes = [];
+  List<DataSnapshot>? classCache;
   List<DataSnapshot> courses = [];
 
   String? nameEvent;
@@ -62,4 +63,54 @@ class Singleton extends ChangeNotifier {
 
   // VIEW COURSE FIELDS
   DataSnapshot? course;
+
+
+
+
+
+  List<EventMeta> getEventsFromClasses() {
+    final singleton = Singleton();
+    List<EventMeta> result = [];
+    for (int i = 0; i < singleton.classCache!.length; i++) {
+      // print("AAAAAAA");
+      DataSnapshot item = singleton.classCache![i];
+      
+      for (final child in item.children) {
+        if (child.key != "date" && child.key != "description" && child.key != "name") {
+          print(child.key);
+          EventMeta entry = EventMeta(child.key);
+          for (final eventDetail in child.children) {
+            if (eventDetail.key == "startDate") {
+              entry.startDate = DateTime.parse(eventDetail.value.toString());
+            } else if (eventDetail.key == "startTime") {
+              entry.startTime = TimeOfDay(
+                hour: int.parse(eventDetail.value.toString().substring(10, 12)),
+                minute: int.parse(eventDetail.value.toString().substring(13, 15)));
+            } else if (eventDetail.key == "endDate") {
+              entry.endDate = DateTime.parse(eventDetail.value.toString());
+            } else if (eventDetail.key == "endTime") {
+              entry.endTime = TimeOfDay(
+                hour: int.parse(eventDetail.value.toString().substring(10, 12)),
+                minute: int.parse(eventDetail.value.toString().substring(13, 15)));
+            }
+          }
+          result.add(entry);
+        }
+      }
+    }
+    return result;
+  }
+}
+
+class EventMeta {
+  final String? name;
+  DateTime? startDate;
+  TimeOfDay? startTime;
+  DateTime? endDate;
+  TimeOfDay? endTime;
+
+  EventMeta(this.name, {this.startDate, this.startTime, this.endDate, this.endTime});
+
+  @override
+  String toString() => (name != null) ? name! : "";
 }

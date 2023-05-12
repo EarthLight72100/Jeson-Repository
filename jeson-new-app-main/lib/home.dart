@@ -134,6 +134,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // print(_singleton.courses);
     print("CLASSES: $classes");
+    
+    _singleton.classCache = classes;
+    _singleton.getEventsFromClasses();
     return (_singleton.accountType == "Student")
         ? Scaffold(
             appBar: AppBar(
