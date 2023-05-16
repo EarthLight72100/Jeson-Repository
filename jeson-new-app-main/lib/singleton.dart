@@ -40,17 +40,22 @@ class Singleton extends ChangeNotifier {
 
   void addEvent(EventEntry event) {
     events.add(event);
-    print("HELLO");
+    // print("HELLO");
     notifyListeners();
-    print(events);
+    // print(events);
   }
 
   void removeEvent(EventEntry event) {
     events.remove(event);
-    print("BYE");
+    // print("BYE");
     notifyListeners();
-    print(events);
+    // print(events);
   }
+
+  // CREATE COURSE FIELDS
+  DateTime? newCourseStart;
+  DateTime? newCourseEnd;
+
 
 
   // EDIT COURSE FIELDS

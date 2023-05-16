@@ -6,6 +6,8 @@ import 'dart:collection';
 import 'package:table_calendar/table_calendar.dart';
 import 'singleton.dart';
 
+final _singleton = Singleton();
+
 /// Example event class.
 class Event {
   final String title;
@@ -35,8 +37,8 @@ final _kEventSource = { for (var item in List.generate(50, (index) => index)) Da
   });
 
 
-final _amdreoEvents = { for (var item in List.generate(50, (index) => index)) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
-        item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) };
+// final _amdreoEvents = { for (var item in _singleton.getEventsFromClasses()) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
+//         item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) };
 
 
 int getHashCode(DateTime key) {

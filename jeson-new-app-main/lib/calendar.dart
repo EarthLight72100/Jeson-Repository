@@ -27,7 +27,7 @@ class CalendarPage extends StatefulWidget {
 }
 
 class CalendarState extends State<CalendarPage> {
-  late final ValueNotifier<List<Event>> _selectedEvents;
+  late final ValueNotifier<List<EventMeta>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
@@ -35,11 +35,28 @@ class CalendarState extends State<CalendarPage> {
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
+  LinkedHashMap<DateTime, List<EventMeta>>? entries;
 
   @override
   void initState() {
     super.initState();
-
+    final _singleton = Singleton();
+    // print("TESTING: ${_singleton.classCache}");
+    // final _amdreoEvents = { for (var item in _singleton.getEventsFromClasses()) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
+    //         item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) };
+    List<EventMeta> events = _singleton.getEventsFromClasses();
+    Map<DateTime, List<EventMeta>> eventGroups = {};
+    for (var item in events) {
+      if (eventGroups[item.startDate!] == null) {
+        eventGroups[item.startDate!] = [];
+      }
+      eventGroups[item.startDate!]!.add(item);
+    }
+    // print("EVENTS: $eventGroups");
+    entries = LinkedHashMap<DateTime, List<EventMeta>>(
+      equals: isSameDay,
+      hashCode: getHashCode,
+    )..addAll(eventGroups);
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }
@@ -50,11 +67,11 @@ class CalendarState extends State<CalendarPage> {
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<EventMeta> _getEventsForDay(DateTime day) {
     // Implementation example
-    final _singleton = Singleton();
-    print("TESTING: ${_singleton.classCache}");
-    return kEvents[day] ?? [];
+    
+    
+    return entries![day] ?? [];
   }
 
   // List<EventEntry> _getEventsFromClasses() {
@@ -71,7 +88,7 @@ class CalendarState extends State<CalendarPage> {
   //   return result;
   // }
 
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
+  List<EventMeta> _getEventsForRange(DateTime start, DateTime end) {
     // Implementation example
     final days = daysInRange(start, end);
 
@@ -121,7 +138,7 @@ class CalendarState extends State<CalendarPage> {
       ),
       body: Column(
         children: [
-          TableCalendar<Event>(
+          TableCalendar<EventMeta>(
             firstDay: kFirstDay,
             lastDay: kLastDay,
             focusedDay: _focusedDay,
@@ -151,7 +168,7 @@ class CalendarState extends State<CalendarPage> {
           ),
           const SizedBox(height: 8.0),
           Expanded(
-            child: ValueListenableBuilder<List<Event>>(
+            child: ValueListenableBuilder<List<EventMeta>>(
               valueListenable: _selectedEvents,
               builder: (context, value, _) {
                 return ListView.builder(

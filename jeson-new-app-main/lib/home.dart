@@ -295,6 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 IconButton(
                     onPressed: () {
                       _singleton.status = "creating";
+                      _singleton.events.clear();
                       Navigator.pushNamed(context, "/editScreen");
                     },
                     icon: const Icon(Icons.add, color: Colors.white))

@@ -29,7 +29,7 @@ class ClassesState extends State<PageTwo> {
         setState(() {
           classes = data;
         });
-        print(classes);
+        // print(classes);
       }
     });
   }

@@ -31,8 +31,8 @@ class _EventScreenState extends State<EventScreen> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: (pickStart) ? startDate : endDate,
-        firstDate: DateTime(2022, 8),
-        lastDate: DateTime(2101));
+        firstDate: _singleton.newCourseStart!,
+        lastDate: _singleton.newCourseEnd!);
     if (pickStart && picked != null && picked != startDate) {
       if (mounted) {
         setState(() {

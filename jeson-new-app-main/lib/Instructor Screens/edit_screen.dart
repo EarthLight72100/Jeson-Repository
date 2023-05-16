@@ -37,6 +37,9 @@ class _EditScreenState extends State<EditScreen> {
   @override
   void initState() {
     super.initState();
+    if (_singleton.status == "creating") {
+      _singleton.courseEvents = [];
+    }
     Singleton().addListener(() {
       if (mounted) setState(() {});
     });
@@ -84,7 +87,7 @@ class _EditScreenState extends State<EditScreen> {
       endDirty = true;
     }
 
-    print("TESTING: ${_singleton.events}");
+    print("TESTING: ${_singleton.courseEvents}");
 
     return Scaffold(
         appBar: AppBar(
@@ -177,9 +180,11 @@ class _EditScreenState extends State<EditScreen> {
                         height: 54,
                         width: SizeConfig.blockSizeHorizontal! * 85,
                         child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: (startDirty && endDirty) ? () {
+                              _singleton.newCourseStart = startDate;
+                              _singleton.newCourseEnd = endDate;
                               Navigator.pushNamed(context, '/eventScreen');
-                            },
+                            } : null,
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFAB63E7),
                                 shape: const RoundedRectangleBorder(
@@ -198,7 +203,7 @@ class _EditScreenState extends State<EditScreen> {
                         padding: const EdgeInsets.only(
                             left: 20, right: 20, top: 10, bottom: 10),
                         scrollDirection: Axis.vertical,
-                        children: _singleton.events.toList(),
+                        children: _singleton.courseEvents.toList(),
                     ),
                   ),
                   Padding(
@@ -216,7 +221,7 @@ class _EditScreenState extends State<EditScreen> {
                                       _singleton.courseDescription = null;
                                       _singleton.courseStart = null;
                                       _singleton.courseEnd = null;
-                                      _singleton.events.clear();
+                                      _singleton.courseEvents = [];
                                       _singleton.status = "viewing";
                                       _singleton.courseCode = null;
                                       Navigator.pop(context);
@@ -237,7 +242,8 @@ class _EditScreenState extends State<EditScreen> {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       
-                                      var events = _singleton.events.map((x) => x.toMap()).toList();
+                                      var events = _singleton.courseEvents.map((x) => x.toMap()).toList();
+                                      
                                       // print(_singleton.events[0].toMap());
 
                                       Map<String, dynamic> data = {
@@ -256,6 +262,7 @@ class _EditScreenState extends State<EditScreen> {
                                       mDatabase.child("${AuthenticationHelper().user.uid}/courses/$courseCode").update(data).then((value) {
                                         mDatabase.child("courses/$courseCode").set(AuthenticationHelper().user.uid);
                                         _singleton.events.clear();
+                                        _singleton.courseEvents = [];
                                         Navigator.pop(context);
                                       });
                                       
