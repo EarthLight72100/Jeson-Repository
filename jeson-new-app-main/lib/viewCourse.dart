@@ -14,7 +14,7 @@ class ViewCoursePage extends StatelessWidget {
     String courseCode = "";
     String date = "";
     String description = "";
-    _singleton.events.clear();
+    _singleton.courseEvents!.clear();
 
     courseCode = _singleton.course!.key!;
     for (final child in _singleton.course!.children) {
@@ -35,7 +35,7 @@ class ViewCoursePage extends StatelessWidget {
         TimeOfDay endTimeEvent = TimeOfDay.now();
         // TimeOfDay startTime = TimeOfDay(hour: info["startTime"].substring(11, 13), minute: info["startTime"].substring(14, 16));
         // TimeOfDay endTime = TimeOfDay(hour: info["endTime"].substring(11, 13), minute: info["endTime"].substring(14, 16));
-        
+
         for (final element in child.children) {
           if (element.key == "name") {
             nameEvent = element.value as String;
@@ -50,14 +50,18 @@ class ViewCoursePage extends StatelessWidget {
             String item = element.value as String;
             // print(item.substring(10, 12));
             // print(item.substring(13, 15));
-            startTimeEvent = TimeOfDay(hour: int.parse(item.substring(10, 12)), minute: int.parse(item.substring(13, 15)));
+            startTimeEvent = TimeOfDay(
+                hour: int.parse(item.substring(10, 12)),
+                minute: int.parse(item.substring(13, 15)));
           } else if (element.key == "endDate") {
             String item = element.value as String;
             endDateEvent = DateTime.parse(item);
           } else if (element.key == "endTime") {
             String item = element.value as String;
-            endTimeEvent = TimeOfDay(hour: int.parse(item.substring(10, 12)), minute: int.parse(item.substring(13, 15)));
-          } 
+            endTimeEvent = TimeOfDay(
+                hour: int.parse(item.substring(10, 12)),
+                minute: int.parse(item.substring(13, 15)));
+          }
         }
 
         EventEntry entry = EventEntry(
@@ -71,36 +75,39 @@ class ViewCoursePage extends StatelessWidget {
           edittable: false,
         );
 
-        _singleton.events.add(entry);
-        
+        _singleton.courseEvents!.add(entry);
       }
     }
 
     return Scaffold(
-        appBar: AppBar(
-            title: Text("$name ($courseCode)"),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              color: Color.fromARGB(255, 204, 204, 204),
-              width: SizeConfig.blockSizeHorizontal! * 100,
-              height: SizeConfig.blockSizeVertical! * 15,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(description, maxLines: 7, style: TextStyle(fontSize: 18),),
+      appBar: AppBar(
+        title: Text("$name ($courseCode)"),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            color: Color.fromARGB(255, 204, 204, 204),
+            width: SizeConfig.blockSizeHorizontal! * 100,
+            height: SizeConfig.blockSizeVertical! * 15,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                description,
+                maxLines: 7,
+                style: TextStyle(fontSize: 18),
               ),
             ),
-            ListView(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 10, bottom: 10),
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                children: _singleton.events.toList(),
-            ),
-          ],
-        ),
+          ),
+          ListView(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            children: _singleton.courseEvents!.toList(),
+          ),
+        ],
+      ),
     );
   }
 }

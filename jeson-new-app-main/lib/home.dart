@@ -105,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
               if (info.value != null) {
                 classes.add(info);
               } else {
-                DatabaseReference ref =
-                  FirebaseDatabase.instance.ref(AuthenticationHelper().user.uid);
+                DatabaseReference ref = FirebaseDatabase.instance
+                    .ref(AuthenticationHelper().user.uid);
                 await ref.child("classes/${item.key}").remove();
               }
             }
@@ -133,8 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // }
 
     // print(_singleton.courses);
-    print("CLASSES: $classes");
-    
+    // print("CLASSES: $classes");
+
     _singleton.classCache = classes;
     _singleton.getEventsFromClasses();
     return (_singleton.accountType == "Student")
@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 IconButton(
                     onPressed: () {
                       _singleton.status = "creating";
-                      _singleton.events.clear();
+                      _singleton.courseEvents?.clear();
                       Navigator.pushNamed(context, "/editScreen");
                     },
                     icon: const Icon(Icons.add, color: Colors.white))
@@ -375,7 +375,8 @@ class ClassEntry extends StatelessWidget {
         name = child.value as String;
       } else if (child.key == "date") {
         date = child.value as String;
-        date = "${date.substring(5, 7)}/${date.substring(8, 10)}/${date.substring(0, 4)} - ${date.substring(31, 33)}/${date.substring(34, 36)}/${date.substring(26, 30)}";
+        date =
+            "${date.substring(5, 7)}/${date.substring(8, 10)}/${date.substring(0, 4)} - ${date.substring(31, 33)}/${date.substring(34, 36)}/${date.substring(26, 30)}";
       } else if (child.key == "description") {
         description = child.value as String;
       }
@@ -423,7 +424,7 @@ class CourseEntry extends StatelessWidget {
     _singleton.courseDescription = null;
     _singleton.courseStart = null;
     _singleton.courseEnd = null;
-    _singleton.events.clear();
+    if (_singleton.status != "editting") _singleton.courseEvents?.clear();
 
     String name = "";
     String courseCode = "";
@@ -488,12 +489,12 @@ class CourseEntry extends StatelessWidget {
           description: descriptionEvent,
         );
 
-        _singleton.events.add(entry);
+        _singleton.courseEvents?.add(entry);
       }
     }
 
     final dateRange = date.split(' - ');
-    print(dateRange);
+    // print(dateRange);
 
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,

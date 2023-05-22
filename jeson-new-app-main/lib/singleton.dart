@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:jeson_flutter_app/utils.dart';
 import 'Instructor Screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -36,17 +37,17 @@ class Singleton extends ChangeNotifier {
   // endDate: endDate,
   // endTime: endTime,
 
-  List<EventEntry> events = [];
+  // List<EventEntry> events = [];
 
   void addEvent(EventEntry event) {
-    events.add(event);
-    // print("HELLO");
+    courseEvents?.add(event);
+    print("Adding: $event to $courseEvents");
     notifyListeners();
-    // print(events);
+    print(courseEvents);
   }
 
   void removeEvent(EventEntry event) {
-    events.remove(event);
+    courseEvents?.remove(event);
     // print("BYE");
     notifyListeners();
     // print(events);
@@ -56,22 +57,17 @@ class Singleton extends ChangeNotifier {
   DateTime? newCourseStart;
   DateTime? newCourseEnd;
 
-
-
   // EDIT COURSE FIELDS
   String? courseCode;
   String? courseName;
   DateTime? courseStart;
   DateTime? courseEnd;
   String? courseDescription;
-  List<EventEntry> courseEvents = [];
+  List<EventEntry>? courseEvents;
+  EventEntry? selectedEvent;
 
   // VIEW COURSE FIELDS
   DataSnapshot? course;
-
-
-
-
 
   List<EventMeta> getEventsFromClasses() {
     final singleton = Singleton();
@@ -79,9 +75,11 @@ class Singleton extends ChangeNotifier {
     for (int i = 0; i < singleton.classCache!.length; i++) {
       // print("AAAAAAA");
       DataSnapshot item = singleton.classCache![i];
-      
+
       for (final child in item.children) {
-        if (child.key != "date" && child.key != "description" && child.key != "name") {
+        if (child.key != "date" &&
+            child.key != "description" &&
+            child.key != "name") {
           print(child.key);
           EventMeta entry = EventMeta(child.key);
           for (final eventDetail in child.children) {
@@ -89,14 +87,18 @@ class Singleton extends ChangeNotifier {
               entry.startDate = DateTime.parse(eventDetail.value.toString());
             } else if (eventDetail.key == "startTime") {
               entry.startTime = TimeOfDay(
-                hour: int.parse(eventDetail.value.toString().substring(10, 12)),
-                minute: int.parse(eventDetail.value.toString().substring(13, 15)));
+                  hour:
+                      int.parse(eventDetail.value.toString().substring(10, 12)),
+                  minute: int.parse(
+                      eventDetail.value.toString().substring(13, 15)));
             } else if (eventDetail.key == "endDate") {
               entry.endDate = DateTime.parse(eventDetail.value.toString());
             } else if (eventDetail.key == "endTime") {
               entry.endTime = TimeOfDay(
-                hour: int.parse(eventDetail.value.toString().substring(10, 12)),
-                minute: int.parse(eventDetail.value.toString().substring(13, 15)));
+                  hour:
+                      int.parse(eventDetail.value.toString().substring(10, 12)),
+                  minute: int.parse(
+                      eventDetail.value.toString().substring(13, 15)));
             }
           }
           result.add(entry);
@@ -114,7 +116,8 @@ class EventMeta {
   DateTime? endDate;
   TimeOfDay? endTime;
 
-  EventMeta(this.name, {this.startDate, this.startTime, this.endDate, this.endTime});
+  EventMeta(this.name,
+      {this.startDate, this.startTime, this.endDate, this.endTime});
 
   @override
   String toString() => (name != null) ? name! : "";
