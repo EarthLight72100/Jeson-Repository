@@ -489,7 +489,7 @@ class CourseEntry extends StatelessWidget {
           description: descriptionEvent,
         );
 
-        _singleton.courseEvents?.add(entry);
+        // _singleton.courseEvents?.add(entry);
       }
     }
 

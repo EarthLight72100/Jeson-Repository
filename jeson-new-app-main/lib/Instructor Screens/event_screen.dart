@@ -335,7 +335,7 @@ class _EventScreenState extends State<EventScreen> {
                       border: OutlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(24.0))),
-                      hintText: 'Course Description',
+                      hintText: 'Event Description',
                     ),
                   )),
             ),
@@ -348,7 +348,7 @@ class _EventScreenState extends State<EventScreen> {
                 height: 54,
                 width: SizeConfig.blockSizeHorizontal! * 85,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: (startDate.isBefore(endDate) || (startDate.isAtSameMomentAs(endDate) && startTime.hour < endTime.hour) || (startTime.hour == endTime.hour && startTime.minute < endTime.minute)) ? () {
                     // Navigator.pushNamed(context, '/eventScreen');
                     EventEntry event = EventEntry(
                       name: nameController.text,
@@ -364,7 +364,7 @@ class _EventScreenState extends State<EventScreen> {
                     _singleton.addEvent(event);
                     _singleton.status = "editting";
                     Navigator.pop(context);
-                  },
+                  } : null,
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFAB63E7),
                       shape: const RoundedRectangleBorder(

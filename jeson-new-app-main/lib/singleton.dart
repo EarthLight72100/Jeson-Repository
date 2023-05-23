@@ -81,10 +81,18 @@ class Singleton extends ChangeNotifier {
             child.key != "description" &&
             child.key != "name") {
           print(child.key);
+          // int isMultiDay = 0;
+          bool isWeekly = false;
+          bool isMonthly = false;
+
+          DateTime start = DateTime.now();
+          DateTime end = DateTime.now();
+
           EventMeta entry = EventMeta(child.key);
           for (final eventDetail in child.children) {
             if (eventDetail.key == "startDate") {
               entry.startDate = DateTime.parse(eventDetail.value.toString());
+              start = DateTime.parse(eventDetail.value.toString());
             } else if (eventDetail.key == "startTime") {
               entry.startTime = TimeOfDay(
                   hour:
@@ -93,15 +101,30 @@ class Singleton extends ChangeNotifier {
                       eventDetail.value.toString().substring(13, 15)));
             } else if (eventDetail.key == "endDate") {
               entry.endDate = DateTime.parse(eventDetail.value.toString());
+              end = DateTime.parse(eventDetail.value.toString());
             } else if (eventDetail.key == "endTime") {
               entry.endTime = TimeOfDay(
                   hour:
                       int.parse(eventDetail.value.toString().substring(10, 12)),
                   minute: int.parse(
                       eventDetail.value.toString().substring(13, 15)));
+            } else if (eventDetail.key == "frequency") {
+              if (eventDetail.value == "Weekly") {
+                isWeekly = true;
+              } else if (eventDetail.value == "Monthly") {
+                isMonthly = true;
+              }
             }
+            
           }
           result.add(entry);
+          if (start.isBefore(end)) {
+            while (start.isBefore(end)) {
+              start = start.add(Duration(days: 1));
+              EventMeta additionalEntry = entry.copyWith(startDate: start);
+              result.add(additionalEntry);
+            }
+          }
         }
       }
     }
@@ -118,6 +141,22 @@ class EventMeta {
 
   EventMeta(this.name,
       {this.startDate, this.startTime, this.endDate, this.endTime});
+
+  EventMeta copyWith({
+    String? name,
+    DateTime? startDate,
+    TimeOfDay? startTime,
+    DateTime? endDate,
+    TimeOfDay? endTime,
+  }) {
+    return EventMeta(
+      name ?? this.name,
+      startDate: startDate ?? this.startDate,
+      startTime: startTime ?? this.startTime,
+      endDate: endDate ?? this.endDate,
+      endTime: endTime ?? this.endTime,
+    );
+  }
 
   @override
   String toString() => (name != null) ? name! : "";

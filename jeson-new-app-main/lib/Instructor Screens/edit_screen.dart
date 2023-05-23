@@ -36,6 +36,7 @@ class _EditScreenState extends State<EditScreen> {
   @override
   void initState() {
     super.initState();
+    _singleton.courseEvents = [];
     if (_singleton.status == "creating") {
       // _singleton.courseEvents = [];
     }
@@ -206,13 +207,13 @@ class _EditScreenState extends State<EditScreen> {
               ),
             ),
             Container(
-              color: const Color.fromARGB(255, 180, 180, 180),
+              color: Color.fromARGB(255, 216, 216, 216),
               height: SizeConfig.blockSizeVertical! * 30,
               child: ListView(
                 padding: const EdgeInsets.only(
                     left: 20, right: 20, top: 10, bottom: 10),
                 scrollDirection: Axis.vertical,
-                children: _singleton.courseEvents!.toList(),
+                children: (_singleton.courseEvents != null) ? _singleton.courseEvents!.toList() : [],
               ),
             ),
             Padding(
