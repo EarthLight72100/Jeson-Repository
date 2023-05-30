@@ -430,6 +430,7 @@ class CourseEntry extends StatelessWidget {
     String courseCode = "";
     String date = "";
     String description = "";
+    List<EventEntry> entryEvents = [];
 
     courseCode = course.key!;
     for (final child in course.children) {
@@ -448,6 +449,7 @@ class CourseEntry extends StatelessWidget {
         TimeOfDay startTimeEvent = TimeOfDay.now();
         DateTime endDateEvent = DateTime.now();
         TimeOfDay endTimeEvent = TimeOfDay.now();
+        
         // TimeOfDay startTime = TimeOfDay(hour: info["startTime"].substring(11, 13), minute: info["startTime"].substring(14, 16));
         // TimeOfDay endTime = TimeOfDay(hour: info["endTime"].substring(11, 13), minute: info["endTime"].substring(14, 16));
 
@@ -489,7 +491,13 @@ class CourseEntry extends StatelessWidget {
           description: descriptionEvent,
         );
 
-        // _singleton.courseEvents?.add(entry);
+        if (nameEvent != "") {
+          // _singleton.courseEvents ??= [];
+          // _singleton.courseEvents?.add(entry);
+          print("Adding $entry into entryEvents");
+          entryEvents.add(entry);
+        }
+        
       }
     }
 
@@ -542,6 +550,8 @@ class CourseEntry extends StatelessWidget {
                       _singleton.courseEnd = DateTime.parse(dateRange[1]);
                       _singleton.status = "editing";
                       _singleton.courseCode = courseCode;
+                      _singleton.courseEvents = entryEvents;
+                      print("Getting info for ${_singleton.courseName}, ${_singleton.courseEvents}");
                       Navigator.pushNamed(context, "/editScreen");
                     },
                     child: Icon(Icons.edit, color: Colors.white),

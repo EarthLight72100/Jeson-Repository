@@ -36,9 +36,18 @@ class _EditScreenState extends State<EditScreen> {
   @override
   void initState() {
     super.initState();
-    _singleton.courseEvents = [];
+    // _singleton.courseEvents = [];
     if (_singleton.status == "creating") {
-      // _singleton.courseEvents = [];
+      _singleton.courseEvents = [];
+    } else {
+      if (_singleton.courseName != null) {
+        nameController.text = _singleton.courseName as String;
+        descController.text = _singleton.courseDescription as String;
+        startDate = _singleton.courseStart as DateTime;
+        startDirty = true;
+        endDate = _singleton.courseEnd as DateTime;
+        endDirty = true;
+      }
     }
     Singleton().addListener(() {
       if (mounted) setState(() {});
@@ -63,6 +72,7 @@ class _EditScreenState extends State<EditScreen> {
         setState(() {
           endDirty = true;
           endDate = picked;
+          print("$endDate is having issues");
         });
       }
     }
@@ -78,14 +88,7 @@ class _EditScreenState extends State<EditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_singleton.courseName != null) {
-      nameController.text = _singleton.courseName as String;
-      descController.text = _singleton.courseDescription as String;
-      startDate = _singleton.courseStart as DateTime;
-      startDirty = true;
-      endDate = _singleton.courseEnd as DateTime;
-      endDirty = true;
-    }
+    
 
     print("TESTING: ${_singleton.courseEvents}");
 
@@ -358,6 +361,7 @@ class EventEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print("$edittable, therefore we get this");
     return edittable
         ? SizedBox(
             width: SizeConfig.blockSizeHorizontal! * 75,
