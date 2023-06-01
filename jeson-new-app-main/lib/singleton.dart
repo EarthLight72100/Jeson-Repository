@@ -75,6 +75,9 @@ class Singleton extends ChangeNotifier {
     for (int i = 0; i < singleton.classCache!.length; i++) {
       // print("AAAAAAA");
       DataSnapshot item = singleton.classCache![i];
+      String courseName = "";
+      String courseDate = "";
+      List<EventMeta> temp = [];
 
       for (final child in item.children) {
         if (child.key != "date" &&
@@ -109,6 +112,7 @@ class Singleton extends ChangeNotifier {
                   minute: int.parse(
                       eventDetail.value.toString().substring(13, 15)));
             } else if (eventDetail.key == "frequency") {
+              entry.frequency = eventDetail.value.toString();
               if (eventDetail.value == "Weekly") {
                 isWeekly = true;
               } else if (eventDetail.value == "Monthly") {
@@ -117,16 +121,32 @@ class Singleton extends ChangeNotifier {
             }
             
           }
-          result.add(entry);
+          temp.add(entry);
+
+          // This is where we handle multi-day
           if (start.isBefore(end)) {
             while (start.isBefore(end)) {
-              start = start.add(Duration(days: 1));
+              start = start.add(const Duration(days: 1));
               EventMeta additionalEntry = entry.copyWith(startDate: start);
-              result.add(additionalEntry);
+              temp.add(additionalEntry);
             }
           }
+        } else if (child.key == "date") {
+          courseDate = child.value.toString();
+        } else if (child.key == "name") {
+          courseName = child.value.toString();
         }
       }
+
+      // Add course metadata to each event here
+      for (EventMeta event in temp) {
+        event.courseDate = courseDate;
+        event.courseName = courseName;
+        
+        result.add(event);
+      }
+
+
     }
     return result;
   }
@@ -134,27 +154,38 @@ class Singleton extends ChangeNotifier {
 
 class EventMeta {
   final String? name;
+  String? frequency;
   DateTime? startDate;
   TimeOfDay? startTime;
   DateTime? endDate;
   TimeOfDay? endTime;
 
+  // course metadata
+  String? courseName;
+  String? courseDate;
+
   EventMeta(this.name,
-      {this.startDate, this.startTime, this.endDate, this.endTime});
+      {this.frequency, this.startDate, this.startTime, this.endDate, this.endTime, this.courseName, this.courseDate});
 
   EventMeta copyWith({
     String? name,
+    String? frequency,
     DateTime? startDate,
     TimeOfDay? startTime,
     DateTime? endDate,
     TimeOfDay? endTime,
+    String? courseName,
+    String? courseDate
   }) {
     return EventMeta(
       name ?? this.name,
+      frequency: frequency ?? this.frequency,
       startDate: startDate ?? this.startDate,
       startTime: startTime ?? this.startTime,
       endDate: endDate ?? this.endDate,
       endTime: endTime ?? this.endTime,
+      courseName: courseName ?? this.courseName,
+      courseDate: courseDate ?? this.courseDate,
     );
   }
 

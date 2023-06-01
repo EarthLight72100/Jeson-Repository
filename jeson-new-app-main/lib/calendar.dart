@@ -50,7 +50,30 @@ class CalendarState extends State<CalendarPage> {
       if (eventGroups[item.startDate!] == null) {
         eventGroups[item.startDate!] = [];
       }
+      // print("This day's frequency is: ${item.frequency}");
       eventGroups[item.startDate!]!.add(item);
+      DateTime courseEnd = DateTime(int.parse(item.courseDate!.substring(26, 30)), int.parse(item.courseDate!.substring(31, 33)), int.parse(item.courseDate!.substring(34, 36)));
+      print("Here is the end date for ${item.courseName}: ${courseEnd}");
+
+      if (item.frequency == "Weekly") {
+        DateTime start = item.startDate!.add(const Duration(days: 7));
+        while (start.isBefore(courseEnd) || start.isAtSameMomentAs(courseEnd)) {
+          print("for this weekly event, starting at ${item.startDate}, the next time will occur at $start");
+
+          if (eventGroups[start] == null) {
+            eventGroups[start] = [];
+          }
+
+          eventGroups[start]!.add(item);
+
+          start = start.add(const Duration(days: 7));
+        }
+        
+        
+      } else if (item.frequency == "Monthly") {
+        // DateTime start = item.startDate!.add(const Duration(month: 1));
+        // print("for this monthly event, starting at ${item.startDate}, the next time will occur at $start");
+      }
     }
     // print("EVENTS: $eventGroups");
     entries = LinkedHashMap<DateTime, List<EventMeta>>(
