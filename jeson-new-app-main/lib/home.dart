@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (userDataListener == null) {
       DatabaseReference ref =
-          FirebaseDatabase.instance.ref(AuthenticationHelper().user.uid);
+          FirebaseDatabase.instance.ref("users/${AuthenticationHelper().user.uid}");
       userDataListener = ref.onValue.listen((event) async {
         classes.clear();
         for (final child in event.snapshot.children) {
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 classes.add(info);
               } else {
                 DatabaseReference ref = FirebaseDatabase.instance
-                    .ref(AuthenticationHelper().user.uid);
+                    .ref("users/${AuthenticationHelper().user.uid}");
                 await ref.child("classes/${item.key}").remove();
               }
             }
@@ -586,7 +586,7 @@ class CourseEntry extends StatelessWidget {
                                           .remove()
                                           .then((value) => mDatabase
                                               .child(
-                                                  "${AuthenticationHelper().user.uid}/courses/$courseCode")
+                                                  "users/${AuthenticationHelper().user.uid}/courses/$courseCode")
                                               .remove());
 
                                       _singleton.courses.remove(course);

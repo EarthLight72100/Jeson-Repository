@@ -186,6 +186,7 @@ class AddCourseState extends State<AddCoursePage> {
                                   DatabaseReference mDatabase =
                                       FirebaseDatabase.instance.ref();
                                   mDatabase
+                                      .child("users")
                                       .child(AuthenticationHelper().user.uid)
                                       .child("classes")
                                       .update({info.key!: info.value}).then(
@@ -217,13 +218,14 @@ class AddCourseState extends State<AddCoursePage> {
 
                                 DatabaseReference ref =
                                     FirebaseDatabase.instance.ref(
-                                        "${AuthenticationHelper().user.uid}/classes/$courseCode");
+                                        "users/${AuthenticationHelper().user.uid}/classes/$courseCode");
                                 DataSnapshot info = await ref.get();
 
                                 if (info.value != null) {
                                   DatabaseReference mDatabase =
                                       FirebaseDatabase.instance.ref();
                                   mDatabase
+                                      .child("users")
                                       .child(AuthenticationHelper().user.uid)
                                       .child("classes")
                                       .update({info.key!: null}).then(

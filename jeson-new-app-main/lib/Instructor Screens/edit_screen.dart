@@ -28,7 +28,7 @@ class _EditScreenState extends State<EditScreen> {
   TextEditingController descController = TextEditingController();
 
   // DateTime selectedDate = DateTime.now();
-  DateTime startDate = DateTime.now();
+  DateTime startDate = DateTime(2023, 1, 1);
   bool startDirty = false;
   DateTime endDate = DateTime.now();
   bool endDirty = false;
@@ -278,7 +278,7 @@ class _EditScreenState extends State<EditScreen> {
                             : generateCourseCode();
                         mDatabase
                             .child(
-                                "${AuthenticationHelper().user.uid}/courses/$courseCode")
+                                "users/${AuthenticationHelper().user.uid}/courses/$courseCode")
                             .update(data)
                             .then((value) {
                           mDatabase

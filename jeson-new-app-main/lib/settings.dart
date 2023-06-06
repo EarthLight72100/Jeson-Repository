@@ -96,16 +96,16 @@ class SettingsScreen extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               onPressed: () async {
-                final ref = FirebaseDatabase.instance.reference();
-                ref.child(AuthenticationHelper().user!.uid).remove();
-                await AuthenticationHelper().user!.delete().then((value) {
+                final ref = FirebaseDatabase.instance.ref();
+                ref.child("users/${AuthenticationHelper().user!.uid}").remove().then((value) => AuthenticationHelper().user!.delete().then((value) {
                   AuthenticationHelper().signOut();
                   print('Account Deleted');
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil('/', (route) => false);
                 }).catchError((error) {
                   print('Error: $error');
-                });
+                }));
+                
 
                 // Navigator.of(context).pop();
               },

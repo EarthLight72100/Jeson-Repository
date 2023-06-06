@@ -13,7 +13,7 @@ class InitializationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: FirebaseDatabase.instance.ref(AuthenticationHelper().user.uid).get(),
+        future: FirebaseDatabase.instance.ref("users/${AuthenticationHelper().user.uid}").get(),
         builder: ((context, snapshot) {
             if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
