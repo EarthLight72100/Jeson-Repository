@@ -52,4 +52,16 @@ class AuthenticationHelper {
 
     print('signout');
   }
+
+  Future instructorCheck() async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref.child("instructorPasscode").get();
+    if (snapshot.exists) {
+      print(snapshot.value);
+      return snapshot.value.toString();
+    } else {
+      print("No instructor password exists.");
+      return null;
+    }
+  }
 }

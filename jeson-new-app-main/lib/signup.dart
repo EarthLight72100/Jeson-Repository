@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/size_config.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'authentication.dart';
@@ -67,11 +68,24 @@ class _SignupFormState extends State<SignupForm> {
   String? dropdownValue = "Student";
   var items = ["Student", "Instructor"];
 
+  String instructorPasscode = "";
+  String instructorTruePasscode = "1234asdf";
+
   bool _obscureText = false;
 
   bool agree = false;
 
   final pass = TextEditingController();
+
+  @override
+  void initState() {
+    AuthenticationHelper().instructorCheck().then((value) => {
+      if (value != null) {
+        instructorTruePasscode = value.toString()
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +191,23 @@ class _SignupFormState extends State<SignupForm> {
                       dropdownValue = newValue;
                     });
                   })),
+          (dropdownValue == "Instructor") ? TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Instructor Password',
+              border: border,
+            ),
+            onChanged: (value) {
+              setState(() {
+                instructorPasscode = value;
+              });
+            },
+            validator: (value) {
+              if (instructorPasscode != instructorTruePasscode) {
+                return "Invalid instructor passcode";
+              }
+              return null;
+            },
+          ) : Container(),
 
           Row(
             children: <Widget>[
@@ -299,7 +330,8 @@ class _SignupFormState extends State<SignupForm> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
+                print("Intructor Code: $instructorPasscode");
+                if (_formKey.currentState!.validate() && agree) {
                   _formKey.currentState!.save();
 
                   AuthenticationHelper()
