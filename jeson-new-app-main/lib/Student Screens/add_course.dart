@@ -181,7 +181,8 @@ class AddCourseState extends State<AddCoursePage> {
                                 // print("Here are the contents: ");
                                 // print(info.key);
                                 // print(info.value);
-
+                                print(
+                                    "Subscribing to class $courseCode: ${info.key!} ${info.value!}");
                                 if (info.value != null) {
                                   DatabaseReference mDatabase =
                                       FirebaseDatabase.instance.ref();
@@ -191,7 +192,9 @@ class AddCourseState extends State<AddCoursePage> {
                                       .child("classes")
                                       .update({info.key!: info.value}).then(
                                           (value) => Navigator.pop(context));
-                                } else {}
+                                } else {
+                                  print("Course does not exist");
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -210,6 +213,7 @@ class AddCourseState extends State<AddCoursePage> {
                           width: 184,
                           child: ElevatedButton(
                             onPressed: () async {
+                              print("Deleting class $courseCode");
                               // Respond to button press
                               _singleton.status = "viewing";
                               // print("Unsubscribing from class $courseCode");

@@ -105,12 +105,14 @@ class ViewCoursePage extends StatelessWidget {
                 ),
               ),
             ),
-            ListView(
-              padding:
-                  const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: _singleton.courseEvents!.toList(),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                children: _singleton.courseEvents!.toList(),
+              ),
             ),
           ],
         ),

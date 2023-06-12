@@ -119,12 +119,11 @@ class Singleton extends ChangeNotifier {
                 isMonthly = true;
               }
             }
-            
           }
           temp.add(entry);
 
           // This is where we handle multi-day
-          if (start.isBefore(end)) {
+          if (start.isBefore(end) && !isWeekly && !isMonthly) {
             while (start.isBefore(end)) {
               start = start.add(const Duration(days: 1));
               EventMeta additionalEntry = entry.copyWith(startDate: start);
@@ -142,11 +141,9 @@ class Singleton extends ChangeNotifier {
       for (EventMeta event in temp) {
         event.courseDate = courseDate;
         event.courseName = courseName;
-        
+
         result.add(event);
       }
-
-
     }
     return result;
   }
@@ -165,18 +162,23 @@ class EventMeta {
   String? courseDate;
 
   EventMeta(this.name,
-      {this.frequency, this.startDate, this.startTime, this.endDate, this.endTime, this.courseName, this.courseDate});
+      {this.frequency,
+      this.startDate,
+      this.startTime,
+      this.endDate,
+      this.endTime,
+      this.courseName,
+      this.courseDate});
 
-  EventMeta copyWith({
-    String? name,
-    String? frequency,
-    DateTime? startDate,
-    TimeOfDay? startTime,
-    DateTime? endDate,
-    TimeOfDay? endTime,
-    String? courseName,
-    String? courseDate
-  }) {
+  EventMeta copyWith(
+      {String? name,
+      String? frequency,
+      DateTime? startDate,
+      TimeOfDay? startTime,
+      DateTime? endDate,
+      TimeOfDay? endTime,
+      String? courseName,
+      String? courseDate}) {
     return EventMeta(
       name ?? this.name,
       frequency: frequency ?? this.frequency,
@@ -190,5 +192,6 @@ class EventMeta {
   }
 
   @override
-  String toString() => (name != null) ? name! : "";
+  String toString() =>
+      "${(name != null) ? name! : ''} | ${(courseName != null) ? courseName! : ''}";
 }

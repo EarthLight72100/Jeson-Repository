@@ -40,11 +40,11 @@ class CalendarState extends State<CalendarPage> {
   @override
   void initState() {
     super.initState();
-    final _singleton = Singleton();
+    final singleton = Singleton();
     // print("TESTING: ${_singleton.classCache}");
     // final _amdreoEvents = { for (var item in _singleton.getEventsFromClasses()) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
     //         item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) };
-    List<EventMeta> events = _singleton.getEventsFromClasses();
+    List<EventMeta> events = singleton.getEventsFromClasses();
     Map<DateTime, List<EventMeta>> eventGroups = {};
     for (var item in events) {
       if (eventGroups[item.startDate!] == null) {
@@ -52,13 +52,17 @@ class CalendarState extends State<CalendarPage> {
       }
       // print("This day's frequency is: ${item.frequency}");
       eventGroups[item.startDate!]!.add(item);
-      DateTime courseEnd = DateTime(int.parse(item.courseDate!.substring(26, 30)), int.parse(item.courseDate!.substring(31, 33)), int.parse(item.courseDate!.substring(34, 36)));
+      DateTime courseEnd = DateTime(
+          int.parse(item.courseDate!.substring(26, 30)),
+          int.parse(item.courseDate!.substring(31, 33)),
+          int.parse(item.courseDate!.substring(34, 36)));
       print("Here is the end date for ${item.courseName}: ${courseEnd}");
 
       if (item.frequency == "Weekly") {
         DateTime start = item.startDate!.add(const Duration(days: 7));
         while (start.isBefore(courseEnd) || start.isAtSameMomentAs(courseEnd)) {
-          print("for this weekly event, starting at ${item.startDate}, the next time will occur at $start");
+          print(
+              "for this weekly event, starting at ${item.startDate}, the next time will occur at $start");
 
           if (eventGroups[start] == null) {
             eventGroups[start] = [];
@@ -68,11 +72,32 @@ class CalendarState extends State<CalendarPage> {
 
           start = start.add(const Duration(days: 7));
         }
-        
-        
       } else if (item.frequency == "Monthly") {
         // DateTime start = item.startDate!.add(const Duration(month: 1));
+        DateTime start = DateTime(item.startDate!.year,
+            item.startDate!.month + 1, item.startDate!.day);
+
+        if (start.day != item.startDate!.day) {
+          start = DateTime(item.startDate!.year, item.startDate!.month + 1, 0);
+        }
+
         // print("for this monthly event, starting at ${item.startDate}, the next time will occur at $start");
+        while (start.isBefore(courseEnd) || start.isAtSameMomentAs(courseEnd)) {
+          print(
+              "for this monthly event, starting at ${item.startDate}, the next time will occur at $start");
+          if (eventGroups[start] == null) {
+            eventGroups[start] = [];
+          }
+          eventGroups[start]!.add(item);
+
+          DateTime temp = DateTime(start.year, start.month + 1, start.day);
+          print("Attempted to generate temp date: $temp from $start");
+          // if (temp.day != start.day) {
+          //   temp = DateTime(start.year, start.month + 1, 0);
+          // }
+          // print("Here is the generated temp date: $temp");
+          start = temp;
+        }
       }
     }
     // print("EVENTS: $eventGroups");
@@ -92,8 +117,7 @@ class CalendarState extends State<CalendarPage> {
 
   List<EventMeta> _getEventsForDay(DateTime day) {
     // Implementation example
-    
-    
+
     return entries![day] ?? [];
   }
 

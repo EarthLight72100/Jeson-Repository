@@ -82,8 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (userDataListener == null) {
-      DatabaseReference ref =
-          FirebaseDatabase.instance.ref("users/${AuthenticationHelper().user.uid}");
+      DatabaseReference ref = FirebaseDatabase.instance
+          .ref("users/${AuthenticationHelper().user.uid}");
       userDataListener = ref.onValue.listen((event) async {
         classes.clear();
         for (final child in event.snapshot.children) {
@@ -99,15 +99,20 @@ class _HomeScreenState extends State<HomeScreen> {
             for (final item in items) {
               // print(item.key);
               // print(item.value);
-              DatabaseReference ref =
-                  FirebaseDatabase.instance.ref(item.value.toString());
+              DatabaseReference ref = FirebaseDatabase.instance
+                  .ref("users")
+                  .child(item.value.toString());
+              print(
+                  "Getting class info for ${item.key} from ${item.value.toString()}");
               DataSnapshot info = await ref.child("courses/${item.key}").get();
+              print("Here is the data: ${info.key} ${info.value}");
               if (info.value != null) {
                 classes.add(info);
               } else {
-                DatabaseReference ref = FirebaseDatabase.instance
-                    .ref("users/${AuthenticationHelper().user.uid}");
-                await ref.child("classes/${item.key}").remove();
+                // print("DELETING CLASS");
+                // DatabaseReference ref = FirebaseDatabase.instance
+                //     .ref("users/${AuthenticationHelper().user.uid}");
+                // await ref.child("classes/${item.key}").remove();
               }
             }
           } else if (child.key == "courses") {
@@ -391,6 +396,7 @@ class ClassEntry extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 _singleton.course = course;
+                _singleton.courseEvents = [];
 
                 Navigator.pushNamed(context, '/viewCourseScreen');
               },
@@ -449,7 +455,7 @@ class CourseEntry extends StatelessWidget {
         TimeOfDay startTimeEvent = TimeOfDay.now();
         DateTime endDateEvent = DateTime.now();
         TimeOfDay endTimeEvent = TimeOfDay.now();
-        
+
         // TimeOfDay startTime = TimeOfDay(hour: info["startTime"].substring(11, 13), minute: info["startTime"].substring(14, 16));
         // TimeOfDay endTime = TimeOfDay(hour: info["endTime"].substring(11, 13), minute: info["endTime"].substring(14, 16));
 
@@ -497,7 +503,6 @@ class CourseEntry extends StatelessWidget {
           print("Adding $entry into entryEvents");
           entryEvents.add(entry);
         }
-        
       }
     }
 
@@ -551,7 +556,8 @@ class CourseEntry extends StatelessWidget {
                       _singleton.status = "editing";
                       _singleton.courseCode = courseCode;
                       _singleton.courseEvents = entryEvents;
-                      print("Getting info for ${_singleton.courseName}, ${_singleton.courseEvents}");
+                      print(
+                          "Getting info for ${_singleton.courseName}, ${_singleton.courseEvents}");
                       Navigator.pushNamed(context, "/editScreen");
                     },
                     child: Icon(Icons.edit, color: Colors.white),
