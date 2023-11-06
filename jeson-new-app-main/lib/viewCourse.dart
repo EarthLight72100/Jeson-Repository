@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'size_config.dart';
 import 'singleton.dart';
 import 'Instructor Screens/edit_screen.dart';
+import 'package:jeson_flutter_app/smart_text.dart';
 
 class ViewCoursePage extends StatelessWidget {
   ViewCoursePage({super.key});
@@ -12,9 +13,10 @@ class ViewCoursePage extends StatelessWidget {
   Widget build(BuildContext context) {
     String name = "";
     String courseCode = "";
+    // ignore: unused_local_variable
     String date = "";
     String description = "";
-    _singleton.courseEvents!.clear();
+    _singleton.courseEvents.clear();
 
     courseCode = _singleton.course!.key!;
     for (final child in _singleton.course!.children) {
@@ -76,13 +78,13 @@ class ViewCoursePage extends StatelessWidget {
         );
 
         print("DEBUG: ${_singleton.courseEvents}");
-        _singleton.courseEvents!.add(entry);
+        _singleton.courseEvents.add(entry);
       }
     }
 
     return WillPopScope(
       onWillPop: () async {
-        _singleton.courseEvents!.clear();
+        _singleton.courseEvents.clear();
         return true;
       },
       child: Scaffold(
@@ -93,15 +95,24 @@ class ViewCoursePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              color: Color.fromARGB(255, 204, 204, 204),
+              color: const Color.fromARGB(255, 204, 204, 204),
               width: SizeConfig.blockSizeHorizontal! * 100,
               height: SizeConfig.blockSizeVertical! * 15,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  description,
+                child: SmartText(
+                  text: description,
                   maxLines: 7,
-                  style: TextStyle(fontSize: 18),
+                  textStyle: const TextStyle(fontSize: 18, color: Colors.black),
+                  linkStyle: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                  ),
+                  // child: Text(
+                  //   description,
+                  //   maxLines: 7,
+                  //   style: const TextStyle(fontSize: 18),
                 ),
               ),
             ),
@@ -111,7 +122,7 @@ class ViewCoursePage extends StatelessWidget {
                     left: 20, right: 20, top: 10, bottom: 10),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                children: _singleton.courseEvents!.toList(),
+                children: _singleton.courseEvents.toList(),
               ),
             ),
           ],

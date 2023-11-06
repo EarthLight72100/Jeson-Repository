@@ -1,5 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jeson.app.jeson_flutter_app">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <queries>
+        <!-- If you are launching http or https URLs -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https"/>
+        </intent>
+        <!-- Add any other URL schemes your app needs to handle -->
+    </queries>
    <application
         android:label="jeson_flutter_app"
         android:name="${applicationName}"

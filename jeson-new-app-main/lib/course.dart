@@ -1,18 +1,13 @@
-//TODO - Populate all information needed to make this page work
-//TODO - This page is going to be the course registration page, so it needs TextField for input
-//TODO - Can also use TextFormField if that's more up your alley
-//TODO - Use this link: https://docs.flutter.dev/cookbook/forms/text-input
-
 import 'package:flutter/material.dart';
-import 'authentication.dart';
+// import 'authentication.dart';
 import 'database.dart';
-import 'main.dart';
-import 'classes.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'main.dart';
+// import 'classes.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_database/firebase_database.dart';
 
 class CourseState extends State<CoursePage> {
-  final _biggerFont = const TextStyle(fontSize: 18);
+  // final _biggerFont = const TextStyle(fontSize: 18);
 
   final myController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -32,7 +27,7 @@ class CourseState extends State<CoursePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Enter Course Code"),
+        title: const Text("Enter Course Code"),
       ),
       body: Center(
         child: Column(
@@ -63,12 +58,12 @@ class CourseState extends State<CoursePage> {
                   // course code
                   TextFormField(
                     // initialValue: 'Input text',
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.class_),
                       labelText: 'Enter course code',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
-                          const Radius.circular(100.0),
+                          Radius.circular(100.0),
                         ),
                       ),
                     ),
@@ -82,18 +77,18 @@ class CourseState extends State<CoursePage> {
                       courseCode = val;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   // password
                   TextFormField(
                     // initialValue: 'Input text',
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Date',
                       prefixIcon: Icon(Icons.calendar_month),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
-                          const Radius.circular(100.0),
+                          Radius.circular(100.0),
                         ),
                       ),
                     ),
@@ -109,16 +104,16 @@ class CourseState extends State<CoursePage> {
                     },
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Information
                   TextFormField(
                     // initialValue: 'Input text',
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Information',
                       prefixIcon: Icon(Icons.description),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
-                          const Radius.circular(100.0),
+                          Radius.circular(100.0),
                         ),
                       ),
                     ),
@@ -134,7 +129,7 @@ class CourseState extends State<CoursePage> {
                     },
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -162,11 +157,11 @@ class CourseState extends State<CoursePage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFAB63E7),
-                          shape: RoundedRectangleBorder(
+                          backgroundColor: const Color(0xFFAB63E7),
+                          shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(24.0)))),
-                      child: Text(
+                      child: const Text(
                         'Add course',
                         style: TextStyle(fontSize: 24),
                       ),
@@ -202,6 +197,7 @@ class CourseState extends State<CoursePage> {
 
 class CoursePage extends StatefulWidget {
   const CoursePage({Key? key, required this.credential}) : super(key: key);
+  // ignore: prefer_typing_uninitialized_variables
   final credential;
 
   @override

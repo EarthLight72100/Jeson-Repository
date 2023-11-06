@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'routes.dart';
-import 'loading.dart';
-import 'login.dart';
+// import 'loading.dart';
+// import 'login.dart';
 
 /*
   AMDREO APP
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Color(0xFFAB63E7),
                 foregroundColor: Color(0xFFFFFFFF),
               ),
-              primaryColor: Color(0xFFAB63E7),
+              primaryColor: const Color(0xFFAB63E7),
             ),
           );
         }

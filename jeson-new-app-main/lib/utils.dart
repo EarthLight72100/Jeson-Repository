@@ -4,9 +4,9 @@
 import 'dart:collection';
 
 import 'package:table_calendar/table_calendar.dart';
-import 'singleton.dart';
+// import 'singleton.dart';
 
-final _singleton = Singleton();
+// final _singleton = Singleton();
 
 /// Example event class.
 class Event {
@@ -26,20 +26,19 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
   hashCode: getHashCode,
 )..addAll(_kEventSource);
 
-
-final _kEventSource = { for (var item in List.generate(50, (index) => index)) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
-        item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) }
-  ..addAll({
+final _kEventSource = {
+  for (var item in List.generate(50, (index) => index))
+    DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
+        item % 4 + 1, (index) => Event('Event $item | ${index + 1}'))
+}..addAll({
     kToday: [
-      Event('Today\'s Event 1'),
-      Event('Today\'s Event 2'),
+      const Event('Today\'s Event 1'),
+      const Event('Today\'s Event 2'),
     ],
   });
 
-
 // final _amdreoEvents = { for (var item in _singleton.getEventsFromClasses()) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
 //         item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) };
-
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;

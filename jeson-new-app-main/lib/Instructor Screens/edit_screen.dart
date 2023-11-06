@@ -6,6 +6,7 @@ import 'package:jeson_flutter_app/authentication.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:jeson_flutter_app/singleton.dart';
+import 'package:jeson_flutter_app/smart_text.dart';
 import 'dart:async';
 
 /*
@@ -88,8 +89,6 @@ class _EditScreenState extends State<EditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-
     print("TESTING: ${_singleton.courseEvents}");
 
     return Scaffold(
@@ -216,7 +215,7 @@ class _EditScreenState extends State<EditScreen> {
                 padding: const EdgeInsets.only(
                     left: 20, right: 20, top: 10, bottom: 10),
                 scrollDirection: Axis.vertical,
-                children: (_singleton.courseEvents != null) ? _singleton.courseEvents!.toList() : [],
+                children: _singleton.courseEvents.toList(),
               ),
             ),
             Padding(
@@ -255,7 +254,7 @@ class _EditScreenState extends State<EditScreen> {
                     width: SizeConfig.blockSizeHorizontal! * 40,
                     child: ElevatedButton(
                       onPressed: () {
-                        var events = _singleton.courseEvents!
+                        var events = _singleton.courseEvents
                             .map((x) => x.toMap())
                             .toList();
 
@@ -520,9 +519,18 @@ class EventEntry extends StatelessWidget {
                           SizedBox(
                               // color: Colors.red,
                               width: SizeConfig.blockSizeHorizontal! * 80,
-                              child: Text(description,
-                                  maxLines: 3,
-                                  style: const TextStyle(fontSize: 18)))
+                              child: SmartText(
+                                text: description,
+                                maxLines: 3,
+                                textStyle: const TextStyle(fontSize: 18),
+                                linkStyle: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline),
+                              ))
+                          // child: Text(description,
+                          //     maxLines: 3,
+                          //     style: const TextStyle(fontSize: 18)))
                         ],
                       ),
                     ),

@@ -11,13 +11,13 @@ import 'settings.dart';
 
 var routeHolder = {
   '/': (context) => const Checker(),
-  '/login': (context) => Login(),
-  '/signup': (context) => Signup(),
+  '/login': (context) => const Login(),
+  '/signup': (context) => const Signup(),
   '/addcourse': (context) => const AddCoursePage(),
   '/homescreen': (context) => const HomeScreen(credential: null),
   '/initScreen': (context) => InitializationScreen(),
   '/settings': (context) => const SettingsScreen(),
   '/editScreen': (context) => EditScreen(),
-  '/eventScreen': (context) => EventScreen(),
+  '/eventScreen': (context) => const EventScreen(),
   '/viewCourseScreen': (context) => ViewCoursePage(),
 };

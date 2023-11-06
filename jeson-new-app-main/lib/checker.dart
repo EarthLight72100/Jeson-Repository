@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'authentication.dart';
-import 'loading.dart';
+// import 'loading.dart';
 import 'size_config.dart';
 import 'login.dart';
 import 'home.dart';
@@ -19,7 +19,6 @@ class Checker extends StatelessWidget {
     } else {
       return const HomeScreen(credential: null);
     }
-
 
     // return StreamBuilder(
     //     stream: AuthenticationHelper().userstream,

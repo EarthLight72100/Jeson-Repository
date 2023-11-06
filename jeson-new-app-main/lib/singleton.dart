@@ -1,5 +1,4 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:jeson_flutter_app/utils.dart';
 import 'Instructor Screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -40,14 +39,14 @@ class Singleton extends ChangeNotifier {
   // List<EventEntry> events = [];
 
   void addEvent(EventEntry event) {
-    courseEvents?.add(event);
+    courseEvents.add(event);
     print("Adding: $event to $courseEvents");
     notifyListeners();
     print(courseEvents);
   }
 
   void removeEvent(EventEntry event) {
-    courseEvents?.remove(event);
+    courseEvents.remove(event);
     // print("BYE");
     notifyListeners();
     // print(events);
@@ -63,7 +62,7 @@ class Singleton extends ChangeNotifier {
   DateTime? courseStart;
   DateTime? courseEnd;
   String? courseDescription;
-  List<EventEntry>? courseEvents;
+  List<EventEntry> courseEvents = [];
   EventEntry? selectedEvent;
 
   // VIEW COURSE FIELDS

@@ -1,9 +1,9 @@
 import 'dart:collection';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'Instructor Screens/edit_screen.dart';
-import 'home.dart';
-import 'classes.dart';
+// import 'Instructor Screens/edit_screen.dart';
+// import 'home.dart';
+// import 'classes.dart';
 import 'utils.dart';
 import 'singleton.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -56,7 +56,7 @@ class CalendarState extends State<CalendarPage> {
           int.parse(item.courseDate!.substring(26, 30)),
           int.parse(item.courseDate!.substring(31, 33)),
           int.parse(item.courseDate!.substring(34, 36)));
-      print("Here is the end date for ${item.courseName}: ${courseEnd}");
+      print("Here is the end date for ${item.courseName}: $courseEnd");
 
       if (item.frequency == "Weekly") {
         DateTime start = item.startDate!.add(const Duration(days: 7));
@@ -181,7 +181,7 @@ class CalendarState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TableCalendar - Events'),
+        title: const Text('TableCalendar - Events'),
       ),
       body: Column(
         children: [
@@ -196,7 +196,7 @@ class CalendarState extends State<CalendarPage> {
             rangeSelectionMode: _rangeSelectionMode,
             eventLoader: _getEventsForDay,
             startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: CalendarStyle(
+            calendarStyle: const CalendarStyle(
               // Use `CalendarStyle` to customize the UI
               outsideDaysVisible: false,
             ),
@@ -324,7 +324,6 @@ class CalendarState extends State<CalendarPage> {
   //         onChanged: (String? value) {
   //           setState(() => _value = value!);
   //           if (_value == "Home") {
-  //             //TODO - jump to class page; fix the next few lines
   //             Navigator.push(
   //               context,
   //               MaterialPageRoute(

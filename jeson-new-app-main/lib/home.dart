@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/authentication.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:jeson_flutter_app/smart_text.dart';
 import 'size_config.dart';
 import 'dart:async';
-import 'classes.dart';
+// import 'classes.dart';
 import 'calendar.dart';
 import 'database.dart';
 import 'singleton.dart';
@@ -12,6 +13,7 @@ import 'Instructor Screens/edit_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.credential}) : super(key: key);
+  // ignore: prefer_typing_uninitialized_variables
   final credential;
 
   @override
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
     double deviceWidth = data.size.width;
     double deviceHeight = data.size.height;
 
-    double containerHeightRatio = 0.23;
+    // double containerHeightRatio = 0.23;
 
     // print("AAAAAA");
     // print(_singleton.userData?.child("accountType"));
@@ -238,12 +240,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: SizeConfig.blockSizeHorizontal! * 93,
                             height: SizeConfig.blockSizeVertical! * 20,
                             child: Card(
-                                color: Color.fromARGB(205, 255, 255, 255),
-                                child: Container(
-                                    // color: Colors.white,
-                                    // height: deviceHeight * containerHeightRatio,
-                                    // width: deviceWidth * 0.9,
-                                    child: ListView(
+                                color: const Color.fromARGB(205, 255, 255, 255),
+                                child: ListView(
                                   padding: const EdgeInsets.only(
                                       left: 20, right: 20, top: 10, bottom: 10),
                                   scrollDirection: Axis.vertical,
@@ -251,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .map((item) =>
                                           AnnouncementEntry(announcement: item))
                                       .toList(),
-                                )))),
+                                ))),
                         SizedBox(height: SizeConfig.blockSizeVertical! * 3),
                         const Text(
                           "Classes",
@@ -300,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 IconButton(
                     onPressed: () {
                       _singleton.status = "creating";
-                      _singleton.courseEvents?.clear();
+                      _singleton.courseEvents.clear();
                       Navigator.pushNamed(context, "/editScreen");
                     },
                     icon: const Icon(Icons.add, color: Colors.white))
@@ -352,10 +350,19 @@ class AnnouncementEntry extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("$title, $date"),
-                  Text(
-                    description,
-                    maxLines: 3,
-                  )
+                  SmartText(
+                    text: description,
+                    maxLines: 4,
+                    textStyle: const TextStyle(color: Colors.black),
+                    linkStyle: const TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  // Text(
+                  //   description,
+                  //   maxLines: 3,
+                  // )
                 ],
               ),
             ),
@@ -405,10 +412,15 @@ class ClassEntry extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("$name, $date"),
-                  Text(
-                    description,
+                  SmartText(
+                    text: description,
                     maxLines: 4,
-                  )
+                    textStyle: const TextStyle(color: Colors.black),
+                    linkStyle: const TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -430,7 +442,7 @@ class CourseEntry extends StatelessWidget {
     _singleton.courseDescription = null;
     _singleton.courseStart = null;
     _singleton.courseEnd = null;
-    if (_singleton.status != "editting") _singleton.courseEvents?.clear();
+    if (_singleton.status != "editting") _singleton.courseEvents.clear();
 
     String name = "";
     String courseCode = "";
@@ -534,14 +546,14 @@ class CourseEntry extends StatelessWidget {
                       children: [
                         Text(
                           name,
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
                         Text(
                             "${dateRange[0].substring(5, 7)}/${dateRange[0].substring(8, 10)}/${dateRange[0].substring(0, 4)} - ${dateRange[1].substring(5, 7)}/${dateRange[1].substring(8, 10)}/${dateRange[1].substring(0, 4)}",
-                            style: TextStyle(fontSize: 16)),
+                            style: const TextStyle(fontSize: 16)),
                         Text(
                           courseCode,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         )
                       ],
                     ),
@@ -560,13 +572,13 @@ class CourseEntry extends StatelessWidget {
                           "Getting info for ${_singleton.courseName}, ${_singleton.courseEvents}");
                       Navigator.pushNamed(context, "/editScreen");
                     },
-                    child: Icon(Icons.edit, color: Colors.white),
                     style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(20),
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(20),
                       backgroundColor: Colors.blue, // <-- Button color
                       // foregroundColor: Colors.red, // <-- Splash color
                     ),
+                    child: const Icon(Icons.edit, color: Colors.white),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -574,15 +586,15 @@ class CourseEntry extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("Delete Course"),
-                              content: Text(
+                              title: const Text("Delete Course"),
+                              content: const Text(
                                   "Are you sure you want to delete this course?"),
                               actions: [
                                 TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text("Cancel")),
+                                    child: const Text("Cancel")),
                                 TextButton(
                                     onPressed: () {
                                       DatabaseReference mDatabase =
@@ -598,19 +610,20 @@ class CourseEntry extends StatelessWidget {
                                       _singleton.courses.remove(course);
                                       Navigator.pop(context);
                                     },
-                                    child: Text("Delete"))
+                                    child: const Text("Delete"))
                               ],
                             );
                           });
                     },
-                    child: Icon(FontAwesomeIcons.trash, color: Colors.white),
                     style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(20),
-                      backgroundColor:
-                          Color.fromARGB(255, 235, 81, 79), // <-- Button color
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(20),
+                      backgroundColor: const Color.fromARGB(
+                          255, 235, 81, 79), // <-- Button color
                       // foregroundColor: Colors.blue, // <-- Splash color
                     ),
+                    child:
+                        const Icon(FontAwesomeIcons.trash, color: Colors.white),
                   )
                 ],
               ),

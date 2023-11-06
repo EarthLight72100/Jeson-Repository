@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'authentication.dart';
-import 'home.dart';
+// import 'home.dart';
 import 'initialization.dart';
 
 import 'signup.dart';
 
 class Login extends StatelessWidget {
+  const Login({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         children: <Widget>[
           const SizedBox(
             height: 50,
@@ -30,8 +32,8 @@ class Login extends StatelessWidget {
           const SizedBox(
             height: 50,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
             child: LoginForm(),
           ),
           const SizedBox(height: 20),
@@ -44,7 +46,7 @@ class Login extends StatelessWidget {
                 onTap: () {
                   // Navigator.pushNamed(context, '/signup');
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Signup()));
+                      MaterialPageRoute(builder: (context) => const Signup()));
                 },
                 child: const Text('Get Registered Now!!',
                     style: TextStyle(fontSize: 16, color: Colors.blue)),
@@ -58,9 +60,10 @@ class Login extends StatelessWidget {
 }
 
 class LoginForm extends StatefulWidget {
-  LoginForm({Key? key}) : super(key: key);
+  const LoginForm({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginFormState createState() => _LoginFormState();
 }
 
@@ -82,12 +85,12 @@ class _LoginFormState extends State<LoginForm> {
           // email
           TextFormField(
             // initialValue: 'Input text',
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               prefixIcon: Icon(Icons.email_outlined),
               labelText: 'Email',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(
-                  const Radius.circular(100.0),
+                  Radius.circular(100.0),
                 ),
               ),
             ),
@@ -101,7 +104,7 @@ class _LoginFormState extends State<LoginForm> {
               email = val;
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
 
@@ -110,10 +113,10 @@ class _LoginFormState extends State<LoginForm> {
             // initialValue: 'Input text',
             decoration: InputDecoration(
               labelText: 'Password',
-              prefixIcon: Icon(Icons.lock_outline),
-              border: OutlineInputBorder(
+              prefixIcon: const Icon(Icons.lock_outline),
+              border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(
-                  const Radius.circular(100.0),
+                  Radius.circular(100.0),
                 ),
               ),
               suffixIcon: GestureDetector(
@@ -141,7 +144,7 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
 
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
 
           SizedBox(
             height: 54,
@@ -165,7 +168,7 @@ class _LoginFormState extends State<LoginForm> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
                           result,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ));
                     }
@@ -173,10 +176,10 @@ class _LoginFormState extends State<LoginForm> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFAB63E7),
-                  shape: RoundedRectangleBorder(
+                  backgroundColor: const Color(0xFFAB63E7),
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(24.0)))),
-              child: Text(
+              child: const Text(
                 'Login',
                 style: TextStyle(fontSize: 24),
               ),

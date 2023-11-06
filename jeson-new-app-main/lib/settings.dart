@@ -1,5 +1,5 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+// import 'package:flutter/src/widgets/framework.dart';
+// import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'size_config.dart';
 import 'authentication.dart';
@@ -97,15 +97,18 @@ class SettingsScreen extends StatelessWidget {
               ),
               onPressed: () async {
                 final ref = FirebaseDatabase.instance.ref();
-                ref.child("users/${AuthenticationHelper().user!.uid}").remove().then((value) => AuthenticationHelper().user!.delete().then((value) {
-                  AuthenticationHelper().signOut();
-                  print('Account Deleted');
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/', (route) => false);
-                }).catchError((error) {
-                  print('Error: $error');
-                }));
-                
+                ref
+                    .child("users/${AuthenticationHelper().user!.uid}")
+                    .remove()
+                    .then((value) =>
+                        AuthenticationHelper().user!.delete().then((value) {
+                          AuthenticationHelper().signOut();
+                          print('Account Deleted');
+                          Navigator.of(context)
+                              .pushNamedAndRemoveUntil('/', (route) => false);
+                        }).catchError((error) {
+                          print('Error: $error');
+                        }));
 
                 // Navigator.of(context).pop();
               },

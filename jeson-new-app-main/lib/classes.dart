@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:jeson_flutter_app/database.dart';
@@ -7,7 +7,7 @@ import 'calendar.dart';
 import 'course.dart';
 
 class ClassesState extends State<PageTwo> {
-  final _biggerFont = const TextStyle(fontSize: 18);
+  // final _biggerFont = const TextStyle(fontSize: 18);
   String _value = " ";
   Database db = Database();
 
@@ -41,8 +41,8 @@ class ClassesState extends State<PageTwo> {
     double deviceWidth = data.size.width;
     double deviceHeight = data.size.height;
 
-    const Key centerKey = ValueKey<String>('bottom-sliver-list');
-    final double split = 25;
+    // const Key centerKey = ValueKey<String>('bottom-sliver-list');
+    // final double split = 25;
 
     return Scaffold(
         appBar: AppBar(
@@ -50,20 +50,20 @@ class ClassesState extends State<PageTwo> {
               value: "Classes",
               items: const <DropdownMenuItem<String>>[
                 DropdownMenuItem(
-                  child: Text('Home'),
                   value: 'Home',
+                  child: Text('Home'),
                 ),
-                DropdownMenuItem(child: Text('Classes'), value: 'Classes'),
-                DropdownMenuItem(child: Text('Calendar'), value: 'Calendar'),
+                DropdownMenuItem(value: 'Classes', child: Text('Classes')),
+                DropdownMenuItem(value: 'Calendar', child: Text('Calendar')),
               ],
               onChanged: (String? value) {
                 setState(() => _value = value!);
                 if (_value == "Home") {
-                  //TODO - jump to class page; fix the next few lines
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomeScreen(credential: "98765")),
+                        builder: (context) =>
+                            const HomeScreen(credential: "98765")),
                   );
                 }
                 if (_value == "Calendar") {
@@ -71,7 +71,7 @@ class ClassesState extends State<PageTwo> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            CalendarPage(credential: "98765")),
+                            const CalendarPage(credential: "98765")),
                   );
                 }
               },
@@ -84,7 +84,7 @@ class ClassesState extends State<PageTwo> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            CoursePage(credential: "My Calendar")),
+                            const CoursePage(credential: "My Calendar")),
                   ).then((value) {
                     getCourses();
                   });
@@ -101,7 +101,7 @@ class ClassesState extends State<PageTwo> {
                       color: Colors.pink,
                       child: Container(
                         height: deviceHeight * 0.25,
-                        margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                        margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                         width: deviceWidth,
                         color: Colors.pink,
                         child: Padding(
@@ -120,7 +120,7 @@ class ClassesState extends State<PageTwo> {
                       ));
                 },
               )
-            : Center(
+            : const Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -136,6 +136,7 @@ class ClassesState extends State<PageTwo> {
 
 class PageTwo extends StatefulWidget {
   const PageTwo({Key? key, required this.credential}) : super(key: key);
+  // ignore: prefer_typing_uninitialized_variables
   final credential;
 
   @override

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:jeson_flutter_app/size_config.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:jeson_flutter_app/size_config.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'authentication.dart';
 import 'initialization.dart';
 
 class Signup extends StatelessWidget {
+  const Signup({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +25,8 @@ class Signup extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
 
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: SignupForm(),
             ),
 
@@ -32,14 +34,14 @@ class Signup extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  Text('Already here?',
+                  const Text('Already here?',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Text(' Get Logged in Now!',
+                    child: const Text(' Get Logged in Now!',
                         style: TextStyle(fontSize: 16, color: Colors.blue)),
                   )
                 ],
@@ -53,9 +55,10 @@ class Signup extends StatelessWidget {
 }
 
 class SignupForm extends StatefulWidget {
-  SignupForm({Key? key}) : super(key: key);
+  const SignupForm({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignupFormState createState() => _SignupFormState();
 }
 
@@ -80,10 +83,8 @@ class _SignupFormState extends State<SignupForm> {
   @override
   void initState() {
     AuthenticationHelper().instructorCheck().then((value) => {
-      if (value != null) {
-        instructorTruePasscode = value.toString()
-      }
-    });
+          if (value != null) {instructorTruePasscode = value.toString()}
+        });
     super.initState();
   }
 
@@ -170,12 +171,12 @@ class _SignupFormState extends State<SignupForm> {
           Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                  color: Color.fromARGB(0, 255, 255, 255),
+                  color: const Color.fromARGB(0, 255, 255, 255),
                   borderRadius: BorderRadius.circular(10)),
               child: DropdownButton(
                   // elevation: 0,
                   value: dropdownValue,
-                  dropdownColor: Color.fromARGB(255, 255, 255, 255),
+                  dropdownColor: const Color.fromARGB(255, 255, 255, 255),
                   icon: const Icon(Icons.keyboard_arrow_down),
                   items: items.map((String items) {
                     return DropdownMenuItem(
@@ -191,23 +192,25 @@ class _SignupFormState extends State<SignupForm> {
                       dropdownValue = newValue;
                     });
                   })),
-          (dropdownValue == "Instructor") ? TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Instructor Password',
-              border: border,
-            ),
-            onChanged: (value) {
-              setState(() {
-                instructorPasscode = value;
-              });
-            },
-            validator: (value) {
-              if (instructorPasscode != instructorTruePasscode) {
-                return "Invalid instructor passcode";
-              }
-              return null;
-            },
-          ) : Container(),
+          (dropdownValue == "Instructor")
+              ? TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Instructor Password',
+                    border: border,
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      instructorPasscode = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (instructorPasscode != instructorTruePasscode) {
+                      return "Invalid instructor passcode";
+                    }
+                    return null;
+                  },
+                )
+              : Container(),
 
           Row(
             children: <Widget>[
@@ -230,12 +233,12 @@ class _SignupFormState extends State<SignupForm> {
               Expanded(
                   flex: 4,
                   child: Text.rich(TextSpan(children: [
-                    TextSpan(text: "By creating account, I agree to "),
+                    const TextSpan(text: "By creating account, I agree to "),
                     TextSpan(
                         // style: TextStyle(fontSize: 27,),
                         children: [
                           TextSpan(
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.blue,
                                   decoration: TextDecoration.underline),
                               //make link blue and underline
@@ -261,12 +264,12 @@ class _SignupFormState extends State<SignupForm> {
 
                           //more text paragraph, sentences here.
                         ]),
-                    TextSpan(text: " and "),
+                    const TextSpan(text: " and "),
                     TextSpan(
                         // style: TextStyle(fontSize: 27,),
                         children: [
                           TextSpan(
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.blue,
                                   decoration: TextDecoration.underline),
                               //make link blue and underline
