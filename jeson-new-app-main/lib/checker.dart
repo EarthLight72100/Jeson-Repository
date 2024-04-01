@@ -15,7 +15,7 @@ class Checker extends StatelessWidget {
 
     User? user = AuthenticationHelper().user;
     if (user == null) {
-      return Login();
+      return const Login();
     } else {
       return const HomeScreen(credential: null);
     }

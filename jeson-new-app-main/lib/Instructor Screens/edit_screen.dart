@@ -16,7 +16,7 @@ import 'dart:async';
  */
 
 class EditScreen extends StatefulWidget {
-  EditScreen({super.key});
+  const EditScreen({super.key});
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -522,7 +522,8 @@ class EventEntry extends StatelessWidget {
                               child: SmartText(
                                 text: description,
                                 maxLines: 3,
-                                textStyle: const TextStyle(fontSize: 18),
+                                textStyle: const TextStyle(
+                                    fontSize: 18, color: Colors.black),
                                 linkStyle: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.blue,

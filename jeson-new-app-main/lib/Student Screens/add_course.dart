@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 // import 'authentication.dart';
 // import 'database.dart';
-import 'package:jeson_flutter_app/database.dart';
+// import 'package:jeson_flutter_app/database.dart';
 // import 'main.dart';
 // import 'classes.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:jeson_flutter_app/authentication.dart';
 import 'package:jeson_flutter_app/size_config.dart';
@@ -18,9 +18,9 @@ class AddCoursePage extends StatefulWidget {
 }
 
 class AddCourseState extends State<AddCoursePage> {
-  Singleton _singleton = Singleton();
+  final Singleton _singleton = Singleton();
 
-  final _biggerFont = const TextStyle(fontSize: 18);
+  // final _biggerFont = const TextStyle(fontSize: 18);
 
   final myController = TextEditingController();
   final _formKey = GlobalKey<FormState>();

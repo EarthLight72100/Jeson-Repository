@@ -17,7 +17,7 @@ var routeHolder = {
   '/homescreen': (context) => const HomeScreen(credential: null),
   '/initScreen': (context) => InitializationScreen(),
   '/settings': (context) => const SettingsScreen(),
-  '/editScreen': (context) => EditScreen(),
+  '/editScreen': (context) => const EditScreen(),
   '/eventScreen': (context) => const EventScreen(),
   '/viewCourseScreen': (context) => ViewCoursePage(),
 };

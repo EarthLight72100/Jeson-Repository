@@ -82,6 +82,7 @@ class ViewCoursePage extends StatelessWidget {
       }
     }
 
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         _singleton.courseEvents.clear();

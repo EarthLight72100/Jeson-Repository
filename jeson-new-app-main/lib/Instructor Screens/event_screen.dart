@@ -95,7 +95,6 @@ class _EventScreenState extends State<EventScreen> {
         });
       }
     }
-    ;
   }
 
   @override
@@ -348,23 +347,29 @@ class _EventScreenState extends State<EventScreen> {
                 height: 54,
                 width: SizeConfig.blockSizeHorizontal! * 85,
                 child: ElevatedButton(
-                  onPressed: (startDate.isBefore(endDate) || (startDate.isAtSameMomentAs(endDate) && startTime.hour < endTime.hour) || (startTime.hour == endTime.hour && startTime.minute < endTime.minute)) ? () {
-                    // Navigator.pushNamed(context, '/eventScreen');
-                    EventEntry event = EventEntry(
-                      name: nameController.text,
-                      description: descController.text,
-                      frequency: frequency,
-                      startDate: startDate,
-                      startTime: startTime,
-                      endDate: endDate,
-                      endTime: endTime,
-                    );
-                    print(event.frequency);
-                    _singleton.selectedEvent = null;
-                    _singleton.addEvent(event);
-                    _singleton.status = "editting";
-                    Navigator.pop(context);
-                  } : null,
+                  onPressed: (startDate.isBefore(endDate) ||
+                          (startDate.isAtSameMomentAs(endDate) &&
+                              startTime.hour < endTime.hour) ||
+                          (startTime.hour == endTime.hour &&
+                              startTime.minute < endTime.minute))
+                      ? () {
+                          // Navigator.pushNamed(context, '/eventScreen');
+                          EventEntry event = EventEntry(
+                            name: nameController.text,
+                            description: descController.text,
+                            frequency: frequency,
+                            startDate: startDate,
+                            startTime: startTime,
+                            endDate: endDate,
+                            endTime: endTime,
+                          );
+                          print(event.frequency);
+                          _singleton.selectedEvent = null;
+                          _singleton.addEvent(event);
+                          _singleton.status = "editting";
+                          Navigator.pop(context);
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFAB63E7),
                       shape: const RoundedRectangleBorder(

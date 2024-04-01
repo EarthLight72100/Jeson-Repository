@@ -343,27 +343,32 @@ class AnnouncementEntry extends StatelessWidget {
           color: const Color.fromARGB(239, 255, 255, 255),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {},
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("$title, $date"),
-                  SmartText(
-                    text: description,
-                    maxLines: 4,
-                    textStyle: const TextStyle(color: Colors.black),
-                    linkStyle: const TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
+            child: SingleChildScrollView(
+              child: InkWell(
+                onTap: () {},
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "$title, $date",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  // Text(
-                  //   description,
-                  //   maxLines: 3,
-                  // )
-                ],
+                    SmartText(
+                      text: description,
+                      maxLines: 4,
+                      textStyle: const TextStyle(color: Colors.black),
+                      linkStyle: const TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    // Text(
+                    //   description,
+                    //   maxLines: 3,
+                    // )
+                  ],
+                ),
               ),
             ),
           ),
@@ -411,7 +416,8 @@ class ClassEntry extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("$name, $date"),
+                  Text("$name, $date",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
                   SmartText(
                     text: description,
                     maxLines: 4,
@@ -523,7 +529,7 @@ class CourseEntry extends StatelessWidget {
 
     return SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 75,
-        height: SizeConfig.blockSizeVertical! * 10,
+        height: SizeConfig.blockSizeVertical! * 12,
         child: InkWell(
           onTap: () {
             _singleton.course = course;
